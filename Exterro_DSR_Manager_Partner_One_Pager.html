@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exterro Data Subject Rights Manager | Partner One-Pager</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --orange: #F26C38;
+    --orange-light: rgba(242,108,56,0.12);
+    --orange-mid: rgba(242,108,56,0.22);
+    --purple-dark: #2A2148;
+    --purple: #352C5A;
+    --purple-mid: #4A3F72;
+    --charcoal: #2B2733;   /* body ink */
+    --silver: #6D6E70;
+    --light-gray: #F1F1F2;
+    --white: #ffffff;
+    --green: #64BD63;
+    --red: #D64545;        /* functional only, not a brand color */
+    --blue: #64ADC6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', Arial, Calibri, sans-serif;
+    background: #fff;
+    color: var(--charcoal);
+    width: 1020px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 55%, var(--purple-mid) 100%);
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    min-height: 210px;
+  }
+  .header::before {
+    content: ''; position: absolute; right: -60px; top: -60px;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(242,108,56,0.18) 0%, transparent 65%);
+    border-radius: 50%; pointer-events: none;
+  }
+  .header::after {
+    content: ''; position: absolute; left: 30%; bottom: -80px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(100,173,198,0.1) 0%, transparent 70%);
+    border-radius: 50%; pointer-events: none;
+  }
+  .header-left { padding: 36px 44px; position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; }
+  .wordmark { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: -0.5px; margin-bottom: 4px; line-height: 1; }
+  .wordmark .x { color: var(--orange); }
+  .wordmark sup { font-size: 11px; vertical-align: super; }
+  .product-label { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 20px; }
+  .partner-badge { background: var(--orange-mid); border: 1px solid rgba(242,108,56,0.35); border-radius: 4px; font-size: 10px; font-weight: 700; color: var(--orange); letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; width: fit-content; margin-bottom: 6px; }
+  .header-eyebrow { display: inline-block; background: var(--orange); color: #fff; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; margin-bottom: 12px; width: fit-content; }
+  .header-h1 { font-size: 30px; font-weight: 900; color: #fff; line-height: 1.18; margin-bottom: 10px; }
+  .header-h1 .accent { color: var(--orange); }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.72); line-height: 1.65; max-width: 480px; }
+
+  .header-right { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 32px 36px 32px 24px; border-left: 1px solid rgba(255,255,255,0.1); }
+  .stat-block { display: flex; flex-direction: column; gap: 16px; }
+  .stat { display: flex; align-items: center; gap: 14px; }
+  .stat-num { font-size: 30px; font-weight: 900; color: var(--orange); line-height: 1; min-width: 64px; text-align: right; flex-shrink: 0; }
+  .stat-text { font-size: 11.5px; color: rgba(255,255,255,0.75); line-height: 1.5; }
+  .stat-text strong { color: #fff; font-weight: 700; display: block; margin-bottom: 1px; }
+  .stat-divider { height: 1px; background: rgba(255,255,255,0.1); }
+
+  /* BODY */
+  .body { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .sec { padding: 28px 30px; border-right: 1px solid var(--light-gray); border-bottom: 1px solid var(--light-gray); }
+  .sec:last-child { border-right: none; }
+  .sec-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: rgba(242,108,56,0.25); }
+  .sec h2 { font-size: 15px; font-weight: 900; color: var(--charcoal); margin-bottom: 12px; line-height: 1.3; }
+  .sec p { font-size: 12.5px; color: var(--silver); line-height: 1.7; margin-bottom: 10px; }
+
+  /* PROBLEM */
+  .problem-grid { display: flex; flex-direction: column; gap: 8px; }
+  .problem-item { display: flex; align-items: flex-start; gap: 9px; font-size: 12px; color: var(--charcoal); line-height: 1.5; padding: 7px 10px; background: var(--light-gray); border-radius: 5px; border-left: 3px solid rgba(214,69,69,0.4); }
+  .problem-item .pi { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+
+  /* HOW IT WORKS */
+  .steps { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--light-gray); position: relative; }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--purple); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-content strong { font-size: 12.5px; font-weight: 700; color: var(--charcoal); display: block; margin-bottom: 1px; }
+  .step-content span { font-size: 11.5px; color: var(--silver); line-height: 1.45; }
+
+  /* WIDE MIDDLE ROW */
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--light-gray); }
+
+  /* AUDIENCE */
+  .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .audience-card { background: var(--light-gray); border-radius: 6px; padding: 10px 12px; border-top: 2px solid var(--purple); }
+  .audience-card .role { font-size: 11px; font-weight: 700; color: var(--purple); margin-bottom: 3px; line-height: 1.2; }
+  .audience-card .value-msg { font-size: 11px; color: var(--charcoal); line-height: 1.45; }
+
+  /* WIN ANGLES */
+  .win-list { display: flex; flex-direction: column; gap: 7px; }
+  .win-item { display: flex; gap: 9px; align-items: flex-start; font-size: 12px; color: var(--charcoal); line-height: 1.5; }
+  .win-item .wcheck { width: 18px; height: 18px; border-radius: 50%; background: rgba(100,189,99,0.15); border: 1.5px solid var(--green); color: var(--green); font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-weight: 700; }
+
+  /* DISCOVERY QUESTIONS */
+  .dq-list { display: flex; flex-direction: column; gap: 7px; }
+  .dq-item { font-size: 12px; color: var(--charcoal); line-height: 1.5; padding-left: 12px; border-left: 2px solid var(--orange); font-style: italic; }
+
+  /* BOUNDARY */
+  .boundary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .boundary-col .bc-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 7px; padding-bottom: 5px; border-bottom: 2px solid; }
+  .bc-does .bc-label { color: var(--green); border-color: var(--green); }
+  .bc-doesnt .bc-label { color: var(--purple); border-color: var(--purple); }
+  .boundary-col ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .boundary-col li { font-size: 11.5px; color: var(--charcoal); line-height: 1.45; padding-left: 14px; position: relative; }
+  .bc-does li::before { content: '\2713'; position: absolute; left: 0; color: var(--green); font-weight: 700; font-size: 10px; }
+  .bc-doesnt li::before { content: '\25CF'; position: absolute; left: 0; color: var(--purple); font-weight: 700; font-size: 8px; top: 3px; }
+
+  /* QUOTE BLOCK */
+  .quote-block { background: rgba(242,108,56,0.07); border-left: 3px solid var(--orange); border-radius: 0 5px 5px 0; padding: 12px 14px; margin-top: 2px; }
+  .quote-block p { font-size: 12px; color: var(--charcoal); line-height: 1.6; font-style: italic; margin: 0; }
+  .quote-block .qsource { font-size: 10px; font-weight: 700; color: var(--orange); font-style: normal; margin-top: 6px; }
+
+  /* STRATEGIC BRIDGE */
+  .bridge-pill { display: flex; align-items: center; gap: 10px; background: rgba(53,44,90,0.08); border: 1px solid rgba(53,44,90,0.2); border-radius: 6px; padding: 10px 14px; margin-top: 14px; }
+  .bridge-pill .bp-icon { font-size: 18px; flex-shrink: 0; }
+  .bridge-pill .bp-text { font-size: 11.5px; color: var(--charcoal); line-height: 1.5; }
+  .bridge-pill .bp-text strong { color: var(--purple); }
+
+  /* BOTTOM STRIP */
+  .bottom-strip { background: linear-gradient(135deg, var(--purple-dark), var(--purple)); padding: 20px 44px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px; }
+  .bottom-message .bm-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+  .bottom-message p { font-size: 12.5px; color: rgba(255,255,255,0.8); line-height: 1.6; max-width: 600px; }
+  .bottom-message p strong { color: #fff; }
+  .bottom-cta { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+  .cta-btn { background: var(--orange); color: #fff; font-size: 12px; font-weight: 700; padding: 10px 24px; border-radius: 4px; text-decoration: none; letter-spacing: 0.5px; white-space: nowrap; }
+  .cta-sub { font-size: 10px; color: rgba(255,255,255,0.45); text-align: center; }
+
+  /* FOOTER */
+  .conf-footer { background: var(--charcoal); padding: 8px 44px; display: flex; justify-content: space-between; align-items: center; }
+  .conf-footer span { font-size: 9.5px; color: rgba(255,255,255,0.35); letter-spacing: 0.5px; }
+  .conf-footer .dot { color: rgba(255,255,255,0.15); }
+
+  @media print { body { width: 100%; } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="wordmark">e<span class="x">x</span>terro<sup>&reg;</sup></div>
+    <div class="product-label">Data Subject Rights Manager</div>
+    <div class="partner-badge">Partner Overview</div>
+    <div class="header-eyebrow">Data Privacy &middot; Legal &amp; Compliance Teams</div>
+    <h1 class="header-h1">Built for the hard ones:<br>complex and <span class="accent">employee data requests</span></h1>
+    <p class="header-sub">Exterro Data Subject Rights Manager runs the full data subject rights lifecycle in one platform: multi-brand intake, automated record creation, native review and redaction, secure delivery, deletion, and an immutable audit trail.</p>
+  </div>
+  <div class="header-right">
+    <div class="stat-block">
+      <div class="stat">
+        <div class="stat-num">19+</div>
+        <div class="stat-text"><strong>US state privacy laws</strong>Covered alongside GDPR, CCPA/CPRA, LGPD, PIPEDA, POPIA, and HIPAA, from one console.</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">6</div>
+        <div class="stat-text"><strong>Request types, one portal</strong>Access, deletion, correction, opt-out, right-to-know, and appeals across every brand.</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">1</div>
+        <div class="stat-text"><strong>Platform, end to end</strong>Intake through review, redaction, production, deletion, and audit. No export to an outside review tool.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 1: PROBLEM, HOW IT WORKS, AUDIENCE -->
+<div class="body">
+
+  <!-- Problem -->
+  <div class="sec">
+    <div class="sec-label">The Problem</div>
+    <h2>Requests arrive faster than teams can answer them</h2>
+    <p>Access, deletion, correction, and opt-out demands carry strict regulatory deadlines. For most enterprises, fulfilling them is a manual scramble.</p>
+    <div class="problem-grid">
+      <div class="problem-item"><span class="pi">&#128229;</span>Personal data scattered across dozens of systems, collected by hand for every request.</div>
+      <div class="problem-item"><span class="pi">&#9201;</span>Hard regulatory deadlines across GDPR, CCPA/CPRA, and a growing patchwork of US state laws.</div>
+      <div class="problem-item"><span class="pi">&#128256;</span>Documents reviewed and redacted in email and PDFs, where sensitive data leaks through.</div>
+      <div class="problem-item"><span class="pi">&#128269;</span>No single audit trail to show a regulator exactly how a request was handled.</div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="sec">
+    <div class="sec-label">How It Works</div>
+    <h2>One governed lifecycle, intake to deletion</h2>
+    <p>Exterro Data Subject Rights Manager keeps every step in one platform, with review and redaction native, not exported.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Intake</strong><span>Branded self-service portals take in every request type across every brand and jurisdiction.</span></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Verify &amp; create</strong><span>Automated identity verification, with records and tasks created automatically.</span></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Collect</strong><span>Connector-based search and collection from Google Workspace, Microsoft 365, Slack, and Salesforce.</span></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Review &amp; redact</strong><span>Native e-discovery review and redaction inside Exterro Vault, before anything is released.</span></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-content"><strong>Deliver &amp; delete</strong><span>Secure delivery to the data subject, then documented deletion across systems.</span></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-content"><strong>Audit</strong><span>Every action captured in an immutable, cryptographically chained audit trail.</span></div></div>
+    </div>
+  </div>
+
+  <!-- Audience -->
+  <div class="sec" style="border-right:none;">
+    <div class="sec-label">Who Buys This</div>
+    <h2>Privacy and legal teams at multi-brand enterprises</h2>
+    <p>ICP: mid-market and enterprise organizations handling data subject requests across multiple brands or jurisdictions, often in regulated industries.</p>
+    <div class="audience-grid">
+      <div class="audience-card"><div class="role">Legal &amp; Compliance</div><div class="value-msg">Native review and redaction with privilege handling and chain-of-custody, defensible under examination.</div></div>
+      <div class="audience-card"><div class="role">Chief Privacy Officer / DPO</div><div class="value-msg">One defensible, audit-ready program, not just intake automation.</div></div>
+      <div class="audience-card"><div class="role">Privacy / Request Manager</div><div class="value-msg">Every task in one session, records created automatically, reminders that prevent misses.</div></div>
+      <div class="audience-card"><div class="role">GC / CFO</div><div class="value-msg">Lower regulatory and litigation risk, controlled cost, fewer vendors.</div></div>
+    </div>
+    <div class="bridge-pill">
+      <span class="bp-icon">&#128279;</span>
+      <div class="bp-text"><strong>Strategic Bridge:</strong> Exterro Data Subject Rights Manager runs on the Exterro platform and reuses the same Vault review, collection, and audit used for e-discovery and legal hold. For customers already on Exterro, it adds privacy without a new vendor.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ROW 2: BOUNDARY, WIN ANGLES / DISCOVERY QS -->
+<div class="row-2">
+
+  <!-- Boundary -->
+  <div class="sec" style="border-bottom:none; border-right:1px solid var(--light-gray);">
+    <div class="sec-label">The Boundary</div>
+    <h2>Automated where it is safe, human-led where it counts</h2>
+    <p>The platform automates the heavy lifting and keeps a person in the loop on every decision that carries risk.</p>
+    <div class="boundary-grid">
+      <div class="boundary-col bc-does">
+        <div class="bc-label">What It Automates</div>
+        <ul>
+          <li>Multi-brand intake and identity verification</li>
+          <li>Record creation and task orchestration</li>
+          <li>SLA tracking, reminders, and escalation</li>
+          <li>Connector-based search and collection</li>
+          <li>Rule-based redaction in Vault</li>
+          <li>Immutable audit logging of every action</li>
+        </ul>
+      </div>
+      <div class="boundary-col bc-doesnt">
+        <div class="bc-label">What Stays Human-Led</div>
+        <ul>
+          <li>Final review of every document before release</li>
+          <li>Redaction approval prior to production</li>
+          <li>Privilege and third-party data calls</li>
+          <li>Exemption decisions per jurisdiction</li>
+          <li>Deletion confirmation and exceptions</li>
+          <li>What gets released to the data subject</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quote-block" style="margin-top:14px;">
+      <p>"The only DSAR platform with native e-discovery review and redaction built in. Defensible, audit-ready privacy operations at enterprise scale."</p>
+      <div class="qsource">Exterro Data Subject Rights Manager positioning</div>
+    </div>
+  </div>
+
+  <!-- Right: Win Angles + Discovery Qs -->
+  <div style="display:grid; grid-template-rows: auto auto; border-bottom:none;">
+    <div class="sec" style="border-right:none; border-bottom:1px solid var(--light-gray);">
+      <div class="sec-label">Partner Win Angles</div>
+      <h2>Where Exterro Wins</h2>
+      <div class="win-list">
+        <div class="win-item"><span class="wcheck">&#10003;</span><span><strong>vs. Manual processes:</strong> Replaces email, spreadsheets, and PDF redaction with one orchestrated program, with review and redaction native and logged.</span></div>
+        <div class="win-item"><span class="wcheck">&#10003;</span><span><strong>vs. OneTrust:</strong> A compliance-workflow layer that exports documents for review elsewhere and builds records by hand. Exterro keeps review, redaction, and chain-of-custody native.</span></div>
+        <div class="win-item"><span class="wcheck">&#10003;</span><span><strong>vs. DataGrail:</strong> Connectors find data at request time and miss legacy, unconnected, and M&amp;A systems, with no native review or redaction and weak employee-DSR support.</span></div>
+        <div class="win-item"><span class="wcheck">&#10003;</span><span><strong>vs. EU review tools (Nuix, Phaselaw):</strong> Strong on review and redaction, but neither runs the full lifecycle: no multi-brand intake, identity verification, record creation, collection, or deletion orchestration.</span></div>
+        <div class="win-item"><span class="wcheck">&#10003;</span><span><strong>Exterro platform customers:</strong> Reuses Vault review and custodian-based collection for employee DSRs and adds privacy without a new vendor.</span></div>
+      </div>
+    </div>
+    <div class="sec" style="border-right:none; border-bottom:none;">
+      <div class="sec-label">Discovery Questions</div>
+      <h2>Qualify the Opportunity</h2>
+      <div class="dq-list">
+        <div class="dq-item">"How are you handling data subject requests across your different brands and regions today?"</div>
+        <div class="dq-item">"When an employee files an access request, how do you handle privileged or third-party data?"</div>
+        <div class="dq-item">"If a regulator asked you to prove how a request was handled, what could you hand them?"</div>
+        <div class="dq-item">"What does a single complex or employee request cost you to fulfill today?"</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM STRIP -->
+<div class="bottom-strip">
+  <div class="bottom-message">
+    <div class="bm-label">Partner Positioning</div>
+    <p><strong>Other privacy platforms automate intake and discovery. Exterro governs the entire data subject rights lifecycle in one platform.</strong> Lead with the hard cases, complex and employee DSRs, where review, privilege, and defensibility matter most. For accounts already running Exterro e-discovery or legal hold, position Exterro Data Subject Rights Manager as the privacy module of the platform they already trust.</p>
+  </div>
+  <div class="bottom-cta">
+    <a class="cta-btn" href="#">Request a Demo</a>
+    <div class="cta-sub">Partner portal: partners.exterro.com</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="conf-footer">
+  <span>&copy; 2026 Exterro, Inc. All rights reserved.</span>
+  <span class="dot">&middot;</span>
+  <span>Partner Confidential &middot; Not for Distribution</span>
+  <span class="dot">&middot;</span>
+  <span>exterro.com</span>
+</div>
+
+</body>
+</html>

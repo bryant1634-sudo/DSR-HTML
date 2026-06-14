@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exterro Data Subject Rights Manager | Sales Learning Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ═══ TOKENS & RESET ═══ */
+:root {
+  --orange:      #F26C38;
+  --orange-dk:   #C8541E;
+  --orange-lt:   rgba(242,108,56,0.12);
+  --orange-xl:   rgba(242,108,56,0.06);
+  --purple:      #352C5A;   /* dark purple: structural / headers */
+  --purple-dk:   #2A2148;   /* deepest surfaces: sidebar, dark cards */
+  --purple-md:   #4A3F72;   /* mid stop */
+  --purple-lt:   rgba(53,44,90,0.10);
+  --purple-xl:   rgba(53,44,90,0.05);
+  --charcoal:    #2B2733;   /* body ink (name kept; value changed) */
+  --silver:      #6D6E70;
+  --mid:         #E2E3E5;
+  --lt:          #F1F1F2;
+  --off:         #F6F5F8;
+  --white:       #FFFFFF;
+  --green:       #64BD63;
+  --green-lt:    rgba(100,189,99,0.12);
+  --red:         #D64545;
+  --red-lt:      rgba(214,69,69,0.09);
+  --blue:        #64ADC6;
+  --blue-dk:     #2F6F86;
+  --blue-lt:     rgba(100,173,198,0.12);
+  --r:           10px;
+  --r-sm:        7px;
+  --sh:          0 2px 10px rgba(53,44,90,0.08);
+  --sh-md:       0 6px 24px rgba(53,44,90,0.12);
+  --sh-lg:       0 16px 48px rgba(53,44,90,0.16);
+  --t:           0.22s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Lato',Arial,Calibri,sans-serif;background:var(--off);color:var(--charcoal);line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font-family:'Lato',sans-serif;cursor:pointer;border:none;outline:none}
+a{color:inherit;text-decoration:none}
+input,textarea{font-family:'Lato',sans-serif}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--purple-dk);overflow-y:auto;z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(53,44,90,0.2)}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px}
+.sb-brand{padding:24px 22px 20px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sb-logo{font-size:20px;font-weight:900;color:var(--white);letter-spacing:-.3px;margin-bottom:4px}
+.sb-logo .x{color:var(--orange)}
+.sb-tag{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38)}
+.sb-progress-wrap{padding:14px 22px 12px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sp-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:8px;display:flex;justify-content:space-between}
+.sp-label span{color:var(--orange)}
+.sp-track{height:5px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden}
+.sp-fill{height:100%;background:linear-gradient(90deg,var(--orange),#FF8A5C);border-radius:10px;transition:width .4s ease}
+.sb-nav{flex:1;padding:16px 0}
+.sb-section-hdr{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:10px 22px 6px;margin-top:6px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 22px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,0.55);cursor:pointer;border-left:3px solid transparent;transition:all var(--t);position:relative}
+.sb-item:hover{color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.05)}
+.sb-item.active{color:var(--white);border-left-color:var(--orange);background:rgba(242,108,56,0.12)}
+.sb-item .sb-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;transition:all var(--t)}
+.sb-item.active .sb-num{background:var(--orange);color:var(--white)}
+.sb-item.done .sb-num{background:var(--green);color:var(--white)}
+.sb-item.done{color:rgba(255,255,255,0.45)}
+.sb-item .sb-check{position:absolute;right:14px;color:var(--green);font-size:11px;display:none}
+.sb-item.done .sb-check{display:block}
+.sb-footer{padding:16px 22px;border-top:1px solid rgba(255,255,255,0.08)}
+.sb-footer-txt{font-size:10px;color:rgba(255,255,255,0.3);line-height:1.5}
+.sb-footer-txt strong{color:rgba(255,255,255,0.55)}
+
+/* ═══ MAIN ═══ */
+.main{margin-left:260px;min-height:100vh}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(246,245,248,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--mid);padding:0 48px;height:54px;display:flex;align-items:center;justify-content:space-between}
+.tb-path{font-size:12px;color:var(--silver);display:flex;align-items:center;gap:6px}
+.tb-path .cur{color:var(--orange);font-weight:700}
+.tb-path .sep{color:var(--mid)}
+.tb-actions{display:flex;gap:8px;align-items:center}
+.tb-btn{padding:6px 14px;border-radius:20px;font-size:11.5px;font-weight:700;background:var(--white);border:1.5px solid var(--mid);color:var(--silver);transition:all var(--t);display:flex;align-items:center;gap:5px}
+.tb-btn:hover{border-color:var(--orange);color:var(--orange)}
+.tb-btn.primary{background:var(--orange);border-color:var(--orange);color:var(--white)}
+.tb-btn.primary:hover{background:var(--orange-dk)}
+
+.module{display:none;padding:48px 48px 80px;max-width:1020px}
+.module.active{display:block}
+@keyframes modIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.module.active{animation:modIn .35s ease both}
+
+.mod-eyebrow{font-size:9.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.mod-eyebrow::after{content:'';flex:1;height:1px;background:var(--mid);max-width:60px}
+.mod-title{font-size:clamp(28px,3.5vw,40px);font-weight:900;color:var(--purple);line-height:1.15;margin-bottom:12px}
+.mod-title em{font-style:italic;color:var(--orange)}
+.mod-lead{font-size:16px;color:var(--silver);line-height:1.7;max-width:720px;margin-bottom:36px;padding-bottom:28px;border-bottom:2px solid var(--mid)}
+.mod-lead strong{color:var(--charcoal);font-weight:700}
+
+.sec-hdr{margin:36px 0 18px}
+.sec-hdr h2{font-size:20px;font-weight:900;color:var(--purple);margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.sec-hdr h2::before{content:'';width:4px;height:20px;background:var(--orange);border-radius:2px;flex-shrink:0}
+.sec-hdr p{font-size:13.5px;color:var(--silver);margin-left:14px}
+
+.body-p{font-size:14.5px;color:var(--charcoal);line-height:1.8;margin-bottom:14px;max-width:760px}
+.body-p strong{color:var(--purple);font-weight:700}
+
+.info-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);padding:24px 28px;margin-bottom:20px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.info-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--orange)}
+.info-card.purple::before{background:var(--purple)}
+.info-card.green::before{background:var(--green)}
+.info-card.blue::before{background:var(--blue)}
+.info-card h3{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:8px;padding-left:4px}
+.info-card p{font-size:13.5px;color:var(--silver);line-height:1.7;padding-left:4px}
+.info-card ul{padding-left:20px;margin-top:8px}
+.info-card ul li{font-size:13.5px;color:var(--silver);line-height:1.65;margin-bottom:4px}
+
+.callout{background:var(--purple-dk);color:var(--white);border-radius:var(--r);padding:22px 26px;margin:24px 0;position:relative;overflow:hidden}
+.callout::after{content:'\201C';position:absolute;right:20px;bottom:-20px;font-size:140px;color:rgba(255,255,255,0.06);line-height:1;font-weight:900}
+.callout .co-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.callout p{font-size:16px;font-style:italic;line-height:1.55;position:relative;z-index:1}
+.callout.orange{background:linear-gradient(135deg,var(--orange),var(--orange-dk))}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+
+.stat-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);padding:22px 20px;box-shadow:var(--sh);text-align:center;border-top:3px solid var(--orange);transition:transform var(--t),box-shadow var(--t)}
+.stat-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.stat-card:nth-child(2){border-top-color:var(--purple)}
+.stat-card:nth-child(3){border-top-color:var(--green)}
+.stat-card:nth-child(4){border-top-color:var(--blue)}
+.sc-val{font-size:32px;font-weight:900;color:var(--orange);line-height:1;margin-bottom:5px}
+.stat-card:nth-child(2) .sc-val{color:var(--purple)}
+.stat-card:nth-child(3) .sc-val{color:var(--green)}
+.stat-card:nth-child(4) .sc-val{color:var(--blue)}
+.sc-lbl{font-size:12px;font-weight:700;color:var(--charcoal);margin-bottom:3px}
+.sc-sub{font-size:11px;color:var(--silver);line-height:1.4}
+
+.pain-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:16px}
+.pain-hdr{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;transition:background var(--t)}
+.pain-hdr:hover{background:var(--orange-xl)}
+.pain-hdr.open{background:var(--orange-lt)}
+.pain-icon{width:38px;height:38px;border-radius:9px;background:var(--orange-lt);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.pain-hdr.open .pain-icon{background:var(--orange);color:var(--white)}
+.pain-title{flex:1}
+.pain-title h3{font-size:15px;font-weight:700;color:var(--charcoal)}
+.pain-title p{font-size:11.5px;color:var(--silver);margin-top:2px}
+.pain-chevron{font-size:12px;color:var(--silver);transition:transform .22s}
+.pain-hdr.open .pain-chevron{transform:rotate(180deg);color:var(--orange)}
+.pain-body{display:none;padding:0 20px 20px}
+.pain-body.open{display:block}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+.pain-sub-card{border-radius:var(--r-sm);padding:14px 16px}
+.pain-sub-card h4{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.pain-sub-card.feel{background:var(--red-lt);border:1px solid rgba(214,69,69,0.15)}
+.pain-sub-card.feel h4{color:var(--red)}
+.pain-sub-card.disc{background:var(--blue-lt);border:1px solid rgba(100,173,198,0.2)}
+.pain-sub-card.disc h4{color:var(--blue-dk)}
+.pain-sub-card.msg{background:var(--green-lt);border:1px solid rgba(100,189,99,0.2)}
+.pain-sub-card.msg h4{color:var(--green)}
+.pain-sub-card ul{list-style:none;padding:0}
+.pain-sub-card ul li{font-size:12px;color:var(--silver);line-height:1.55;padding-left:14px;position:relative;margin-bottom:4px}
+.pain-sub-card ul li::before{content:'\203A';position:absolute;left:0;color:currentColor;font-weight:700}
+.pain-sub-card.feel ul li::before{color:var(--red)}
+.pain-sub-card.disc ul li::before{color:var(--blue-dk)}
+.pain-sub-card.msg ul li::before{color:var(--green)}
+
+.track-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:16px}
+.track-hdr{display:flex;align-items:center;gap:14px;padding:16px 22px;cursor:pointer;transition:background var(--t)}
+.track-hdr:hover{background:var(--purple-xl)}
+.track-hdr.open{background:var(--purple-lt)}
+.tt-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 12px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--purple-lt);color:var(--purple)}
+.track-hdr.open .tt-badge{background:var(--purple);color:var(--white)}
+.track-title{font-size:15px;font-weight:700;color:var(--charcoal);flex:1}
+.tt-chevron{font-size:12px;color:var(--silver);transition:transform .22s}
+.track-hdr.open .tt-chevron{transform:rotate(180deg);color:var(--purple)}
+.track-body{display:none;padding:20px 22px;border-top:1px solid var(--lt)}
+.track-body.open{display:block}
+.track-text{font-size:14px;color:var(--charcoal);line-height:1.85;border-left:3px solid var(--purple);padding-left:18px;font-style:italic}
+
+.persona-tabs{display:flex;gap:0;border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;margin-bottom:20px;background:var(--white)}
+.ptab{flex:1;padding:12px 10px;font-size:12px;font-weight:700;color:var(--silver);cursor:pointer;border-right:1px solid var(--mid);transition:all var(--t);text-align:center;background:var(--white)}
+.ptab:last-child{border-right:none}
+.ptab:hover{background:var(--purple-xl);color:var(--purple)}
+.ptab.active{background:var(--purple);color:var(--white)}
+.persona-panel{display:none}
+.persona-panel.active{display:block}
+.persona-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-md)}
+.persona-top{background:var(--purple-dk);padding:22px 28px;color:var(--white)}
+.pt-role{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:6px}
+.pt-title{font-size:20px;font-weight:700;margin-bottom:10px}
+.pt-cares{display:flex;flex-wrap:wrap;gap:6px}
+.pt-tag{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:3px 11px;font-size:10.5px;color:rgba(255,255,255,0.75);font-weight:600}
+.persona-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pb-col{padding:22px 26px}
+.pb-col:first-child{border-right:1px solid var(--lt)}
+.pb-col h4{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.pb-col .msg-text{font-size:13.5px;color:var(--charcoal);line-height:1.75;font-style:italic;border-left:3px solid var(--orange);padding-left:14px;margin-bottom:14px}
+.pb-col ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px}
+.pb-col ul li{font-size:12.5px;color:var(--silver);padding-left:18px;position:relative;line-height:1.55}
+.pb-col ul li::before{content:'?';position:absolute;left:0;font-weight:900;color:var(--orange);font-size:11px}
+
+.obj-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:14px}
+.obj-hdr{display:flex;align-items:flex-start;gap:14px;padding:16px 20px;cursor:pointer;transition:background var(--t)}
+.obj-hdr:hover{background:var(--orange-xl)}
+.obj-hdr.open{background:var(--orange-lt)}
+.obj-badge{background:var(--red-lt);border:1px solid rgba(214,69,69,0.2);border-radius:var(--r-sm);padding:5px 12px;font-size:10px;font-weight:700;color:var(--red);white-space:nowrap;margin-top:1px;flex-shrink:0}
+.obj-hdr.open .obj-badge{background:var(--red);color:var(--white)}
+.obj-q{font-size:14px;font-weight:700;color:var(--charcoal);line-height:1.4;flex:1}
+.obj-chevron{font-size:12px;color:var(--silver);transition:transform .22s;margin-top:3px}
+.obj-hdr.open .obj-chevron{transform:rotate(180deg)}
+.obj-body{display:none;padding:0 20px 20px}
+.obj-body.open{display:block}
+.obj-response{background:var(--green-lt);border:1px solid rgba(100,189,99,0.2);border-radius:var(--r-sm);padding:14px 18px;margin-top:12px}
+.obj-response .or-label{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.obj-response p{font-size:13.5px;color:var(--charcoal);line-height:1.7}
+.obj-followup{background:var(--blue-lt);border:1px solid rgba(100,173,198,0.2);border-radius:var(--r-sm);padding:12px 16px;margin-top:8px}
+.obj-followup .ofu-label{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue-dk);margin-bottom:6px}
+.obj-followup p{font-size:13px;color:var(--charcoal);font-style:italic;line-height:1.65}
+
+.play-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-md);margin-bottom:20px;transition:transform var(--t),box-shadow var(--t)}
+.play-card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.play-top{background:var(--purple-dk);padding:18px 24px;display:flex;align-items:center;gap:16px}
+.play-num{width:44px;height:44px;border-radius:50%;background:var(--orange);color:var(--white);font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.play-title{font-size:17px;font-weight:700;color:var(--white);flex:1}
+.play-trigger-badge{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;color:rgba(255,255,255,0.65);white-space:nowrap}
+.play-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.pb-section{padding:18px 22px;border-right:1px solid var(--lt)}
+.pb-section:last-child{border-right:none}
+.pb-section h4{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.pb-section.pain h4{color:var(--red)}
+.pb-section.message h4{color:var(--green)}
+.pb-section.question h4{color:var(--blue-dk)}
+.pb-section p{font-size:13px;color:var(--silver);line-height:1.65}
+.pb-section.question p{font-style:italic;color:var(--charcoal)}
+
+.exercise-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-md);margin-bottom:20px}
+.ex-hdr{background:var(--purple-dk);padding:18px 24px;display:flex;align-items:center;gap:14px}
+.ex-badge{background:var(--orange);color:var(--white);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+.ex-title{font-size:16px;font-weight:700;color:var(--white);flex:1}
+.ex-body{padding:24px}
+.ex-question{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:8px;line-height:1.5}
+.ex-context{font-size:13px;color:var(--silver);font-style:italic;margin-bottom:20px;padding:12px 16px;background:var(--lt);border-radius:var(--r-sm);line-height:1.65}
+.ex-textarea{width:100%;border:1.5px solid var(--mid);border-radius:var(--r-sm);padding:12px 16px;font-size:13.5px;color:var(--charcoal);resize:vertical;min-height:100px;background:var(--off);outline:none;transition:border-color var(--t);font-family:'Lato',sans-serif;line-height:1.7}
+.ex-textarea:focus{border-color:var(--orange);background:var(--white)}
+.ex-actions{display:flex;gap:10px;margin-top:12px;align-items:center}
+.ex-btn{padding:8px 20px;border-radius:20px;font-size:12.5px;font-weight:700;transition:all var(--t)}
+.ex-btn.reveal{background:var(--orange);color:var(--white);box-shadow:0 4px 14px rgba(242,108,56,0.3)}
+.ex-btn.reveal:hover{background:var(--orange-dk)}
+.ex-btn.clear{background:var(--lt);color:var(--silver)}
+.ex-btn.clear:hover{background:var(--mid)}
+.ex-answer{display:none;margin-top:16px;background:var(--green-lt);border:1px solid rgba(100,189,99,0.2);border-radius:var(--r-sm);padding:16px 18px}
+.ex-answer.show{display:block}
+.ex-answer .ea-label{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.ex-answer ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:6px}
+.ex-answer ul li{font-size:13px;color:var(--charcoal);padding-left:20px;position:relative;line-height:1.55}
+.ex-answer ul li::before{content:'\2713';position:absolute;left:0;color:var(--green);font-weight:700}
+
+.dos-donts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.dd-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.dd-hdr{padding:13px 20px;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--mid)}
+.dd-hdr.do{color:var(--green);background:var(--green-lt)}
+.dd-hdr.dont{color:var(--red);background:var(--red-lt)}
+.dd-body{padding:16px 20px}
+.dd-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:9px}
+.dd-list li{font-size:13px;color:var(--silver);line-height:1.55;padding-left:20px;position:relative}
+.dd-list.do li::before{content:'\2713';position:absolute;left:0;color:var(--green);font-weight:900;font-size:12px}
+.dd-list.dont li::before{content:'\2717';position:absolute;left:0;color:var(--red);font-weight:900;font-size:12px}
+
+.quote-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.quote-item{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);padding:18px 22px 18px 60px;position:relative;box-shadow:var(--sh);cursor:pointer;transition:all var(--t)}
+.quote-item:hover{border-color:var(--orange);background:var(--orange-xl);transform:translateX(4px)}
+.quote-item::before{content:'\201C';position:absolute;left:18px;top:10px;font-size:44px;color:var(--orange);opacity:.3;line-height:1;font-weight:900}
+.quote-item p{font-size:14px;font-style:italic;color:var(--charcoal);line-height:1.6}
+.copy-confirm{font-size:10px;color:var(--green);font-weight:700;font-style:normal;margin-top:5px;display:none}
+
+.lifecycle{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding:20px 0;margin-bottom:24px;position:relative}
+.lifecycle::after{content:'';position:absolute;top:28px;left:24px;right:24px;height:2px;background:linear-gradient(90deg,var(--orange),var(--purple));z-index:0;pointer-events:none}
+.lc-step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:90px;position:relative;z-index:1}
+.lc-node{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;border:3px solid var(--white);margin-bottom:12px;box-shadow:0 3px 12px rgba(53,44,90,0.12)}
+.lc-step.orange .lc-node{background:var(--orange)}
+.lc-step.purple .lc-node{background:var(--purple)}
+.lc-step.green .lc-node{background:var(--green)}
+.lc-label{font-size:10.5px;font-weight:700;text-align:center;color:var(--charcoal);line-height:1.3}
+.lc-sublabel{font-size:9.5px;color:var(--silver);text-align:center;margin-top:3px;line-height:1.4}
+
+.cheat-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.ch-card{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.ch-hdr{padding:12px 18px;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--lt)}
+.ch-hdr.orange{color:var(--orange-dk);background:var(--orange-lt)}
+.ch-hdr.purple{color:var(--purple);background:var(--purple-lt)}
+.ch-hdr.green{color:var(--green);background:var(--green-lt)}
+.ch-hdr.blue{color:var(--blue-dk);background:var(--blue-lt)}
+.ch-body{padding:14px 18px}
+.ch-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px}
+.ch-body ul li{font-size:12.5px;color:var(--silver);padding-left:16px;position:relative;line-height:1.5}
+.ch-body ul li::before{content:'\00B7';position:absolute;left:4px;color:var(--orange);font-weight:900;font-size:16px;line-height:1.1}
+.ch-closing{background:var(--purple-dk);color:var(--white);border-radius:var(--r);padding:22px 26px;margin-top:4px}
+.ch-closing .cl-label{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.ch-closing p{font-size:15px;font-style:italic;line-height:1.55}
+
+.qbank-section{margin-bottom:22px}
+.qb-hdr{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.qb-badge{background:var(--purple);color:var(--white);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+.qb-list{display:flex;flex-direction:column;gap:8px}
+.qb-item{background:var(--white);border:1px solid var(--mid);border-radius:var(--r-sm);padding:12px 16px 12px 42px;position:relative;font-size:13.5px;color:var(--charcoal);line-height:1.55;box-shadow:var(--sh);transition:all var(--t);cursor:pointer}
+.qb-item:hover{border-color:var(--purple);transform:translateX(4px)}
+.qb-item::before{content:'?';position:absolute;left:14px;top:11px;color:var(--orange);font-weight:900;font-size:14px}
+
+.mod-complete{background:var(--green-lt);border:1px solid rgba(100,189,99,0.25);border-radius:var(--r);padding:18px 22px;display:flex;align-items:center;gap:14px;margin-top:32px}
+.mc-check{width:40px;height:40px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:18px;flex-shrink:0}
+.mc-text h4{font-size:14px;font-weight:700;color:var(--green);margin-bottom:2px}
+.mc-text p{font-size:12.5px;color:var(--silver)}
+.mc-btn{margin-left:auto;background:var(--green);color:var(--white);border:none;padding:8px 20px;border-radius:20px;font-size:12.5px;font-weight:700;cursor:pointer;transition:all var(--t);font-family:'Lato',sans-serif}
+.mc-btn:hover{background:#4F9A4E}
+.mc-btn.done-btn{background:rgba(100,189,99,0.2);color:var(--green)}
+
+.welcome{padding:60px 48px;max-width:860px;text-align:center;margin:0 auto}
+.welcome-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+.welcome-title{font-size:clamp(34px,4vw,52px);font-weight:900;color:var(--purple);line-height:1.1;margin-bottom:18px}
+.welcome-title em{font-style:italic;color:var(--orange)}
+.welcome-sub{font-size:16px;color:var(--silver);line-height:1.7;max-width:640px;margin:0 auto 40px}
+.welcome-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 auto 40px;max-width:700px}
+.ws-box{background:var(--white);border:1px solid var(--mid);border-radius:var(--r);padding:18px 14px;box-shadow:var(--sh)}
+.ws-num{font-size:28px;font-weight:900;color:var(--orange);margin-bottom:4px}
+.ws-lbl{font-size:11px;color:var(--silver);font-weight:700;line-height:1.3}
+.welcome-cta{background:var(--orange);color:var(--white);border:none;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;transition:all var(--t);box-shadow:0 8px 24px rgba(242,108,56,0.3);font-family:'Lato',sans-serif}
+.welcome-cta:hover{background:var(--orange-dk);transform:translateY(-2px)}
+.welcome-modules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:700px;margin:32px auto 0;text-align:left}
+.wm-item{background:var(--white);border:1px solid var(--mid);border-radius:var(--r-sm);padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all var(--t);box-shadow:var(--sh)}
+.wm-item:hover{border-color:var(--orange);background:var(--orange-xl)}
+.wm-icon{font-size:20px;flex-shrink:0}
+.wm-info{flex:1}
+.wm-name{font-size:13px;font-weight:700;color:var(--charcoal);margin-bottom:2px}
+.wm-meta{font-size:11px;color:var(--silver)}
+.wm-arrow{color:var(--silver);font-size:12px}
+.wm-item:hover .wm-arrow{color:var(--orange)}
+
+@media(max-width:960px){.sidebar{width:220px}.main{margin-left:220px}.topbar,.module,.welcome{padding-left:28px;padding-right:28px}}
+@media(max-width:700px){.sidebar{transform:translateX(-100%);transition:transform .28s}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.grid-2,.grid-3,.grid-4,.dos-donts,.cheat-grid,.pain-grid,.persona-body,.play-body{grid-template-columns:1fr}.pb-col:first-child,.pb-section{border-right:none;border-bottom:1px solid var(--lt)}.welcome-stats{grid-template-columns:repeat(2,1fr)}.welcome-modules{grid-template-columns:1fr}}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--purple-dk);color:var(--white);padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;opacity:0;transition:all .25s;pointer-events:none;z-index:200;box-shadow:var(--sh-md)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.verify{display:inline-block;background:rgba(214,69,69,0.1);color:var(--red);font-size:10px;font-weight:700;letter-spacing:0.5px;padding:2px 7px;border-radius:4px;margin-left:6px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">e<span class="x">x</span>terro<sup style="font-size:8px;vertical-align:super">&reg;</sup></div>
+    <div class="sb-tag">Sales Learning Guide &middot; Exterro DSR Manager</div>
+  </div>
+
+  <div class="sb-progress-wrap">
+    <div class="sp-label">Progress <span id="progress-pct">0%</span></div>
+    <div class="sp-track"><div class="sp-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="sb-nav">
+    <div class="sb-section-hdr">Start Here</div>
+    <div class="sb-item active" onclick="showModule('welcome',this)" data-mod="welcome"><div class="sb-num">&#9673;</div>Overview<div class="sb-check">&#10003;</div></div>
+
+    <div class="sb-section-hdr">Foundation</div>
+    <div class="sb-item" onclick="showModule('m1',this)" data-mod="m1"><div class="sb-num">1</div>Market Context<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m2',this)" data-mod="m2"><div class="sb-num">2</div>What Exterro DSR Manager Is<div class="sb-check">&#10003;</div></div>
+
+    <div class="sb-section-hdr">The Lifecycle</div>
+    <div class="sb-item" onclick="showModule('m3',this)" data-mod="m3"><div class="sb-num">3</div>How It Works<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m4',this)" data-mod="m4"><div class="sb-num">4</div>The Wedge<div class="sb-check">&#10003;</div></div>
+
+    <div class="sb-section-hdr">Buyers</div>
+    <div class="sb-item" onclick="showModule('m5',this)" data-mod="m5"><div class="sb-num">5</div>Buyer Pain Points<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m6',this)" data-mod="m6"><div class="sb-num">6</div>Persona Messaging<div class="sb-check">&#10003;</div></div>
+
+    <div class="sb-section-hdr">Selling It</div>
+    <div class="sb-item" onclick="showModule('m7',this)" data-mod="m7"><div class="sb-num">7</div>Discovery Questions<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m8',this)" data-mod="m8"><div class="sb-num">8</div>Talk Tracks<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m9',this)" data-mod="m9"><div class="sb-num">9</div>Objection Handling<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m10',this)" data-mod="m10"><div class="sb-num">10</div>Sales Plays<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m11',this)" data-mod="m11"><div class="sb-num">11</div>Competitive Intel<div class="sb-check">&#10003;</div></div>
+
+    <div class="sb-section-hdr">Guardrails &amp; Practice</div>
+    <div class="sb-item" onclick="showModule('m12',this)" data-mod="m12"><div class="sb-num">12</div>What You Can &amp; Can't Say<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m13',this)" data-mod="m13"><div class="sb-num">13</div>Training Exercises<div class="sb-check">&#10003;</div></div>
+    <div class="sb-item" onclick="showModule('m14',this)" data-mod="m14"><div class="sb-num">14</div>Quick Reference<div class="sb-check">&#10003;</div></div>
+  </div>
+
+  <div class="sb-footer">
+    <div class="sb-footer-txt"><strong>Exterro DSR Manager Launch Training</strong><br>Exterro Revenue Enablement<br>Internal use only.</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="topbar">
+    <div class="tb-path"><span>Exterro DSR Manager</span><span class="sep">&#8250;</span><span class="cur" id="tb-current">Overview</span></div>
+    <div class="tb-actions">
+      <button class="tb-btn" onclick="prevModule()">&larr; Prev</button>
+      <button class="tb-btn primary" onclick="nextModule()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- WELCOME -->
+  <div class="module active" id="mod-welcome">
+    <div class="welcome">
+      <div class="welcome-eyebrow">Sales Learning Guide</div>
+      <h1 class="welcome-title">Exterro Data Subject Rights Manager<br><em>Built for the Hard Ones</em></h1>
+      <p class="welcome-sub">Everything you need to sell Exterro Data Subject Rights Manager: what it is, how it works, who buys it, and how to win the conversation. Built for GTM reps across the cycle, from first outreach to expansion inside our existing base.</p>
+
+      <div class="welcome-stats">
+        <div class="ws-box"><div class="ws-num">14</div><div class="ws-lbl">Learning modules</div></div>
+        <div class="ws-box"><div class="ws-num">7</div><div class="ws-lbl">Lifecycle stages</div></div>
+        <div class="ws-box"><div class="ws-num">5</div><div class="ws-lbl">Buyer personas</div></div>
+        <div class="ws-box"><div class="ws-num">9</div><div class="ws-lbl">Competitors covered</div></div>
+      </div>
+
+      <button class="welcome-cta" onclick="showModule('m1',document.querySelector('[data-mod=&quot;m1&quot;]'))">Start Module 1 &rarr;</button>
+
+      <div class="welcome-modules">
+        <div class="wm-item" onclick="showModule('m4',document.querySelector('[data-mod=&quot;m4&quot;]'))"><div class="wm-icon">&#9889;</div><div class="wm-info"><div class="wm-name">The Wedge</div><div class="wm-meta">Why we win the hard cases</div></div><div class="wm-arrow">&rarr;</div></div>
+        <div class="wm-item" onclick="showModule('m6',document.querySelector('[data-mod=&quot;m6&quot;]'))"><div class="wm-icon">&#128100;</div><div class="wm-info"><div class="wm-name">Persona Messaging</div><div class="wm-meta">The message for each buyer</div></div><div class="wm-arrow">&rarr;</div></div>
+        <div class="wm-item" onclick="showModule('m9',document.querySelector('[data-mod=&quot;m9&quot;]'))"><div class="wm-icon">&#128172;</div><div class="wm-info"><div class="wm-name">Objection Handling</div><div class="wm-meta">The pushback you will hear</div></div><div class="wm-arrow">&rarr;</div></div>
+        <div class="wm-item" onclick="showModule('m12',document.querySelector('[data-mod=&quot;m12&quot;]'))"><div class="wm-icon">&#128737;</div><div class="wm-info"><div class="wm-name">What You Can &amp; Can't Say</div><div class="wm-meta">Stay accurate and defensible</div></div><div class="wm-arrow">&rarr;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- M1 MARKET CONTEXT -->
+  <div class="module" id="mod-m1">
+    <div class="mod-eyebrow">Foundation &middot; Module 1</div>
+    <h1 class="mod-title">Market <em>Context</em></h1>
+    <p class="mod-lead">Why DSR fulfillment has become a manual scramble, and who our own closed-won data says you should lead with.</p>
+
+    <div class="sec-hdr"><h2>The Pressure</h2></div>
+    <div class="grid-4">
+      <div class="stat-card"><div class="sc-val">19+</div><div class="sc-lbl">US state privacy laws</div><div class="sc-sub">On top of GDPR, CCPA/CPRA, LGPD, PIPEDA, POPIA, and HIPAA</div></div>
+      <div class="stat-card"><div class="sc-val">&euro;20M</div><div class="sc-lbl">or 4% of global revenue</div><div class="sc-sub">GDPR maximum penalty exposure</div></div>
+      <div class="stat-card"><div class="sc-val">$2.5K&ndash;7.5K</div><div class="sc-lbl">per violation</div><div class="sc-sub">CCPA/CPRA penalty range</div></div>
+      <div class="stat-card"><div class="sc-val">30&ndash;45</div><div class="sc-lbl">days to respond</div><div class="sc-sub">GDPR 30 days, CCPA 45 days</div></div>
+    </div>
+
+    <p class="body-p">Access, deletion, correction, and opt-out requests arrive constantly and carry hard regulatory deadlines. The root problem is that personal data sits scattered across dozens of systems: Salesforce, Google Workspace, Microsoft 365, Slack, and HR platforms. When a request lands, teams spend hours manually finding, gathering, and connecting that data from every one of those places.</p>
+
+    <p class="body-p">Existing approaches break down in predictable ways. <strong>Intake</strong> is fragmented across mailboxes, forms, and brands. <strong>Backend records</strong> are built by hand for every request. <strong>Review and redaction</strong> happen in PDFs and email, risking the release of privileged, third-party, or sensitive data. <strong>Tasks</strong> live across 10+ systems, so deadlines slip. And without a defensible, end-to-end audit trail, organizations cannot show a regulator how a request was identified, reviewed, redacted, and delivered.</p>
+
+    <div class="info-card purple"><h3>The root problem</h3><p>Personal data is scattered, and the manual processes most teams use cannot keep up with the volume, complexity, and regulatory stakes of today's requests.</p></div>
+
+    <div class="sec-hdr"><h2>Who to Lead With</h2><p>From 87 closed-won DSR deals across 47 accounts, verified in Salesforce.</p></div>
+    <p class="body-p"><strong>Legal is the dominant champion.</strong> Legal (counsel, legal ops, paralegals) was the primary contact in 29% of wins, more than any other function. Measured by per-account presence, Legal shows up in 83% of won accounts. Lead with Legal and Compliance. Privacy is a real buyer, but it is the least-logged in our data.</p>
+
+    <div class="grid-4">
+      <div class="stat-card"><div class="sc-val">83%</div><div class="sc-lbl">Legal</div><div class="sc-sub">Present in won accounts</div></div>
+      <div class="stat-card"><div class="sc-val">64%</div><div class="sc-lbl">IT Security</div><div class="sc-sub">Present in won accounts</div></div>
+      <div class="stat-card"><div class="sc-val">60%</div><div class="sc-lbl">Compliance</div><div class="sc-sub">Present in won accounts</div></div>
+      <div class="stat-card"><div class="sc-val">38%</div><div class="sc-lbl">Privacy</div><div class="sc-sub">Present in won accounts</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="info-card"><h3>No dominant vertical</h3><p>About 70% of won accounts were the only customer in their industry, and the largest single sector (Insurance) was just 13%. Treat industry as an angle, not a gate.</p></div>
+      <div class="info-card blue"><h3>The trigger is cost, not volume</h3><p>One customer bought at only 5 to 6 DSARs per year because a single outsourced request cost roughly $20K. Anecdotal, not a scored signal, but useful for messaging the hard ones.</p></div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m1')">Mark Complete</button></div>
+  </div>
+
+  <!-- M2 WHAT DSR MANAGER IS -->
+  <div class="module" id="mod-m2">
+    <div class="mod-eyebrow">Foundation &middot; Module 2</div>
+    <h1 class="mod-title">What Exterro Data Subject Rights Manager <em>Is</em></h1>
+    <p class="mod-lead">Position it in one breath, and know the boundary that keeps you accurate.</p>
+
+    <div class="callout orange"><div class="co-label">Positioning Statement</div><p>The only DSAR platform with native e-discovery review and redaction built in. Defensible, automated, multi-brand privacy operations that hold up to regulators.</p></div>
+
+    <p class="body-p"><strong>The category:</strong> enterprise Data Subject Rights management and defensible privacy-operations orchestration. Exterro Data Subject Rights Manager is an end-to-end DSAR orchestration platform. It unifies multi-brand intake, identity verification, automated backend record creation, task and workflow orchestration, native e-discovery review and redaction, secure delivery, and deletion, all on an immutable audit trail. Unlike compliance-workflow tools that stop at intake and ticketing, it carries a request through review and production without exporting documents to a separate tool.</p>
+
+    <div class="grid-2">
+      <div class="info-card"><h3>What it is</h3><p>One platform that takes a request from intake all the way through review, redaction, production, deletion, and audit. Collected data routes straight into Exterro Vault for review before anything is released, and every action lands on an immutable audit trail.</p></div>
+      <div class="info-card purple"><h3>What it is not</h3><ul><li>Not a consent or cookie-management tool</li><li>Not an intake-and-ticketing layer that hands documents to a separate tool for review and redaction</li><li>Not a generic workflow or BPM platform</li><li>Not a scan-at-request-time discovery point tool</li><li>Not an autonomous AI front door; the wedge is integrated review, redaction, and defensibility, not the AI deciding what to release</li><li>Not a mailbox-and-spreadsheet manual process</li></ul></div>
+    </div>
+
+    <div class="info-card blue"><h3>Name it right</h3><p>The product is Exterro Data Subject Rights Manager (short: DSR Manager, internal: DSRM). "DSAR" is a request type, not the product name.</p></div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m2')">Mark Complete</button></div>
+  </div>
+
+  <!-- M3 HOW IT WORKS -->
+  <div class="module" id="mod-m3">
+    <div class="mod-eyebrow">The Lifecycle &middot; Module 3</div>
+    <h1 class="mod-title">How It <em>Works</em></h1>
+    <p class="mod-lead">Exterro Data Subject Rights Manager runs the full request lifecycle in one platform. Here are the seven stages, and the talk track for each. Click any stage to expand.</p>
+
+    <div class="lifecycle">
+      <div class="lc-step orange"><div class="lc-node">&#128229;</div><div class="lc-label">Intake</div><div class="lc-sublabel">Multi-brand portal</div></div>
+      <div class="lc-step purple"><div class="lc-node">&#128272;</div><div class="lc-label">Verify</div><div class="lc-sublabel">Identity check</div></div>
+      <div class="lc-step orange"><div class="lc-node">&#9881;</div><div class="lc-label">Scope</div><div class="lc-sublabel">Auto NCDS</div></div>
+      <div class="lc-step purple"><div class="lc-node">&#128194;</div><div class="lc-label">Collect</div><div class="lc-sublabel">In-task upload</div></div>
+      <div class="lc-step orange"><div class="lc-node">&#9999;</div><div class="lc-label">Review</div><div class="lc-sublabel">Redact in Vault</div></div>
+      <div class="lc-step purple"><div class="lc-node">&#128228;</div><div class="lc-label">Deliver</div><div class="lc-sublabel">Secure release</div></div>
+      <div class="lc-step green"><div class="lc-node">&#10003;</div><div class="lc-label">Delete &amp; Close</div><div class="lc-sublabel">Audit log</div></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">Stage 1</span><span class="track-title">Intake &amp; Multi-Brand Submission</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="body-p">A single branded portal takes in every request type for every brand, with conditional form logic and accessibility built in. No more a different form and inbox per brand.</p><p class="track-text">"Instead of a different form and inbox per brand, every request type for every brand comes through one portal, branded for each, managed from one console."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">Stage 2</span><span class="track-title">Identity Verification</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="body-p">Email verification fires automatically on submission. OAuth, SAML, and document-upload options cover higher-sensitivity requests. Legitimate requests move; the rest are caught early.</p><p class="track-text">"Verification happens automatically the moment a request is submitted, so legitimate requests move and the rest are caught early."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">Stage 3</span><span class="track-title">Scoping &amp; Automated NCDS Creation</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="body-p">As soon as data assets are scoped, the system creates and links backend (NCDS) records automatically and assigns collection tasks. Hours of manual setup per request, removed.</p><p class="track-text">"The moment you scope the data assets, the backend records build themselves and the collection tasks go out, no manual setup."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">Stage 4</span><span class="track-title">Data Collection</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="body-p">Task assignees upload files inside their assigned task, with progress tracking. The platform also collects from connected systems like Google Workspace, Microsoft 365, Slack, and Salesforce. Completion triggers collection into Vault.</p><p class="track-text">"Your data stewards upload inside the task they're assigned; when they mark it complete, collection kicks off automatically."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">Stage 5</span><span class="track-title">Review &amp; Redaction (Exterro Vault)</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="body-p">Collected files open directly in Exterro Vault for automated and manual redaction, privilege review, and AI-assisted review tools. Nothing is exported to a separate tool, and nothing is released until a reviewer approves it.</p><p class="track-text">"Everything is reviewed and redacted inside our e-discovery engine, nothing is exported to a separate tool, and nothing is released until a reviewer approves it."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">Stage 6</span><span class="track-title">Production, Release &amp; Secure Delivery</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="body-p">Completing review triggers production. A release step gates publication, and documents are delivered securely to the requester through secure download links. The whole release is logged.</p><p class="track-text">"Approved files are produced and delivered securely, and the whole release is logged, so months later you can show exactly what went out."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">Stage 7</span><span class="track-title">Deletion Orchestration &amp; Audit Close</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="body-p">Deletion tasks are created and assigned per data asset, with an optional requester-confirmation step. Exemptions are documented, and the entire request seals into the immutable audit log. Customers who also run Exterro Legal Hold can cross-reference active holds before deletion within one platform.</p><p class="track-text">"Deletion tasks go out per system with documented confirmation, exemptions are recorded, and the entire request seals into an audit log you can hand a regulator."</p></div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m3')">Mark Complete</button></div>
+  </div>
+
+  <!-- M4 THE WEDGE -->
+  <div class="module" id="mod-m4">
+    <div class="mod-eyebrow">The Lifecycle &middot; Module 4</div>
+    <h1 class="mod-title">The <em>Wedge</em></h1>
+    <p class="mod-lead">What we win on, in priority order. Lead with the top of this list and scope every claim carefully.</p>
+
+    <div class="callout"><div class="co-label">The Frame</div><p>Other privacy platforms automate intake and discovery. Exterro governs the entire data subject rights lifecycle, discovery through defensible review, redaction, production, and audit, in one platform.</p></div>
+
+    <div class="info-card"><h3>1. Native, integrated e-discovery review &amp; redaction (Exterro Vault)</h3><p>The headline differentiator. Review and redaction run in the same platform that handles collection, production, deletion, and audit, with no export to a separate review tool. Most DSAR platforms export documents for review elsewhere.</p></div>
+
+    <div class="info-card blue"><h3>Scope this claim carefully</h3><p>Review and redaction in isolation are not unique. EU specialists Nuix and Phaselaw both offer them. Our edge is the connected, full-lifecycle environment plus e-discovery-grade collection, not review or redaction on their own. Verify competitor capabilities per deal.<span class="verify">VERIFY</span></p></div>
+
+    <div class="info-card purple"><h3>2. Defensibility architecture</h3><p>An immutable, cryptographically chained audit trail plus chain-of-custody, built for regulatory examination. Lead with the cryptographically chained design, not just the existence of a log.</p></div>
+
+    <div class="info-card"><h3>3. Employee-DSAR strength</h3><p>Custodian-based collection and privilege review from our e-discovery heritage. This is the direct cross-sell bridge for existing e-discovery and FTK customers. Nuix and Phaselaw also target employee requests, so anchor on e-discovery-grade collection and privilege defensibility.</p></div>
+
+    <div class="info-card green"><h3>4. Automated NCDS record creation</h3><p>Backend records build automatically the moment data assets are scoped, removing hours of manual setup per request. Competitors create these by hand.</p></div>
+
+    <div class="info-card"><h3>5. Native multi-brand architecture</h3><p>Separate branded portals, forms, and workflows from one console. Competitors typically need separate instances.</p></div>
+
+    <div class="info-card purple"><h3>6. Persistent data-inventory linkage</h3><p>Bidirectional linkage, versus scan-at-request-time discovery that misses legacy, unconnected, and M&amp;A systems.</p></div>
+
+    <div class="info-card"><h3>7. Legal-hold cross-reference in one platform</h3><p>Customers running both Exterro Legal Hold and Exterro Data Subject Rights Manager can check deletion requests against active holds without leaving the platform. State this as a within-platform capability only. Do not say the platform automatically checks or blocks deletion when a hold exists.</p></div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m4')">Mark Complete</button></div>
+  </div>
+
+  <!-- M5 BUYER PAIN POINTS -->
+  <div class="module" id="mod-m5">
+    <div class="mod-eyebrow">Buyers &middot; Module 5</div>
+    <h1 class="mod-title">Buyer <em>Pain Points</em></h1>
+    <p class="mod-lead">The pains buyers feel. Expand each to see how it shows up, how to surface it, and the message that lands.</p>
+
+    <div class="pain-card">
+      <div class="pain-hdr" onclick="togglePanel(this)"><div class="pain-icon">&#128220;</div><div class="pain-title"><h3>No defensible audit trail</h3><p>Cannot prove to a regulator how a request was handled</p></div><div class="pain-chevron">&#9662;</div></div>
+      <div class="pain-body"><div class="pain-grid">
+        <div class="pain-sub-card feel"><h4>How It Feels</h4><ul><li>Approvals scattered across email and spreadsheets</li><li>No single record to package for an examiner</li></ul></div>
+        <div class="pain-sub-card disc"><h4>How to Surface It</h4><ul><li>"If a regulator asked you to show exactly how a request was handled, what could you produce?"</li></ul></div>
+        <div class="pain-sub-card msg"><h4>Message That Lands</h4><ul><li>Every action, redaction, and release is captured on an immutable, cryptographically chained log built for examination</li></ul></div>
+      </div></div>
+    </div>
+
+    <div class="pain-card">
+      <div class="pain-hdr" onclick="togglePanel(this)"><div class="pain-icon">&#128231;</div><div class="pain-title"><h3>Fragmented, multi-brand intake</h3><p>A different form and inbox per brand</p></div><div class="pain-chevron">&#9662;</div></div>
+      <div class="pain-body"><div class="pain-grid">
+        <div class="pain-sub-card feel"><h4>How It Feels</h4><ul><li>Inconsistent experience across brands</li><li>Requests lost or misrouted</li></ul></div>
+        <div class="pain-sub-card disc"><h4>How to Surface It</h4><ul><li>"Do you operate multiple brands or regions on one team? How do you keep them separate?"</li></ul></div>
+        <div class="pain-sub-card msg"><h4>Message That Lands</h4><ul><li>One console runs separate branded portals, forms, and workflows, no separate instances</li></ul></div>
+      </div></div>
+    </div>
+
+    <div class="pain-card">
+      <div class="pain-hdr" onclick="togglePanel(this)"><div class="pain-icon">&#9881;</div><div class="pain-title"><h3>Manual backend setup on every request</h3><p>Hours of error-prone NCDS creation</p></div><div class="pain-chevron">&#9662;</div></div>
+      <div class="pain-body"><div class="pain-grid">
+        <div class="pain-sub-card feel"><h4>How It Feels</h4><ul><li>The privacy team is buried in setup and triage</li><li>Configuration errors slip in</li></ul></div>
+        <div class="pain-sub-card disc"><h4>How to Surface It</h4><ul><li>"How long does it take to set up the backend records and data-source mappings for a single request?"</li></ul></div>
+        <div class="pain-sub-card msg"><h4>Message That Lands</h4><ul><li>Scope the data assets and the backend records build themselves; collection tasks go out automatically</li></ul></div>
+      </div></div>
+    </div>
+
+    <div class="pain-card">
+      <div class="pain-hdr" onclick="togglePanel(this)"><div class="pain-icon">&#9888;</div><div class="pain-title"><h3>Risky review and redaction in PDFs and email</h3><p>Privileged or third-party data can leak</p></div><div class="pain-chevron">&#9662;</div></div>
+      <div class="pain-body"><div class="pain-grid">
+        <div class="pain-sub-card feel"><h4>How It Feels</h4><ul><li>Fear of releasing privileged or co-mingled data</li><li>Manual review is slow and inconsistent</li></ul></div>
+        <div class="pain-sub-card disc"><h4>How to Surface It</h4><ul><li>"How and where do you review and redact responsive documents today?"</li></ul></div>
+        <div class="pain-sub-card msg"><h4>Message That Lands</h4><ul><li>Review and redaction stay native in Vault, with a human in the loop before any release</li></ul></div>
+      </div></div>
+    </div>
+
+    <div class="pain-card">
+      <div class="pain-hdr" onclick="togglePanel(this)"><div class="pain-icon">&#128101;</div><div class="pain-title"><h3>Employee DSRs that mirror e-discovery</h3><p>Privileged, sprawled, and high-risk</p></div><div class="pain-chevron">&#9662;</div></div>
+      <div class="pain-body"><div class="pain-grid">
+        <div class="pain-sub-card feel"><h4>How It Feels</h4><ul><li>Responsive data sprawls across Teams, Slack, SharePoint, Drive, and file shares</li><li>Consumer-grade privacy tools were not built for this</li></ul></div>
+        <div class="pain-sub-card disc"><h4>How to Surface It</h4><ul><li>"How do you handle employee DSRs, which often involve privileged or third-party data?"</li></ul></div>
+        <div class="pain-sub-card msg"><h4>Message That Lands</h4><ul><li>Employee DSRs mirror e-discovery, where Exterro is strongest: custodian-based collection, native review, privilege handling</li></ul></div>
+      </div></div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m5')">Mark Complete</button></div>
+  </div>
+
+  <!-- M6 PERSONA MESSAGING -->
+  <div class="module" id="mod-m6">
+    <div class="mod-eyebrow">Buyers &middot; Module 6</div>
+    <h1 class="mod-title">Persona <em>Messaging</em></h1>
+    <p class="mod-lead">The same product, framed for each buyer. Switch tabs to see the message that lands and the questions to ask.</p>
+
+    <div class="persona-tabs">
+      <div class="ptab active" onclick="showPersona('p1',this)">CPO / DPO</div>
+      <div class="ptab" onclick="showPersona('p2',this)">CCO / Legal</div>
+      <div class="ptab" onclick="showPersona('p3',this)">Privacy Team</div>
+      <div class="ptab" onclick="showPersona('p4',this)">IT / Data Steward</div>
+      <div class="ptab" onclick="showPersona('p5',this)">GC / CFO</div>
+    </div>
+
+    <div class="persona-panel active" id="persona-p1">
+      <div class="persona-card">
+        <div class="persona-top"><div class="pt-role">Primary Buyer</div><div class="pt-title">Chief Privacy Officer / DPO</div><div class="pt-cares"><span class="pt-tag">Defensibility</span><span class="pt-tag">Cycle time</span><span class="pt-tag">Program risk</span></div></div>
+        <div class="persona-body">
+          <div class="pb-col"><h4>Message That Lands</h4><div class="msg-text">"One defensible, audit-ready program, not just intake automation. Prove exactly how every request was handled, across every jurisdiction."</div></div>
+          <div class="pb-col"><h4>Questions to Ask</h4><ul><li>If a regulator asked you to demonstrate how a request was handled, what could you produce?</li><li>Have you missed a response deadline in the last year?</li><li>How do you keep multiple brands and jurisdictions consistent?</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="persona-panel" id="persona-p2">
+      <div class="persona-card">
+        <div class="persona-top"><div class="pt-role">Primary Buyer</div><div class="pt-title">Chief Compliance Officer / Legal Counsel</div><div class="pt-cares"><span class="pt-tag">Privilege</span><span class="pt-tag">Chain-of-custody</span><span class="pt-tag">Avoid over-disclosure</span></div></div>
+        <div class="persona-body">
+          <div class="pb-col"><h4>Message That Lands</h4><div class="msg-text">"Review and redaction stay native in Vault, with a human in the loop before any release. Protect privilege and third-party data, and document defensible exemptions."</div></div>
+          <div class="pb-col"><h4>Questions to Ask</h4><ul><li>How do you handle employee DSRs that involve privileged or third-party data?</li><li>How do you protect against releasing privileged material in a manual review?</li><li>How do Legal, Privacy, and IT coordinate on collection and deletion?</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="persona-panel" id="persona-p3">
+      <div class="persona-card">
+        <div class="persona-top"><div class="pt-role">Key User</div><div class="pt-title">Privacy Team / Request Manager</div><div class="pt-cares"><span class="pt-tag">On-time SLAs</span><span class="pt-tag">Fewer manual steps</span><span class="pt-tag">One view</span></div></div>
+        <div class="persona-body">
+          <div class="pb-col"><h4>Message That Lands</h4><div class="msg-text">"Every task in one session, NCDS records created automatically, and reminders that prevent misses. Not one more system to babysit."</div></div>
+          <div class="pb-col"><h4>Questions to Ask</h4><ul><li>How many systems do you touch to process one request?</li><li>How long does backend setup take per request?</li><li>How do you track SLAs and escalate before a deadline slips?</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="persona-panel" id="persona-p4">
+      <div class="persona-card">
+        <div class="persona-top"><div class="pt-role">Influencer</div><div class="pt-title">IT / Data Steward</div><div class="pt-cares"><span class="pt-tag">Clear tasks</span><span class="pt-tag">Minimal burden</span><span class="pt-tag">No legal jargon</span></div></div>
+        <div class="persona-body">
+          <div class="pb-col"><h4>Message That Lands</h4><div class="msg-text">"Tasks arrive with clear scope, you upload inside the task, and there is no legal jargon to decode. Minimal disruption to your day."</div></div>
+          <div class="pb-col"><h4>Questions to Ask</h4><ul><li>How are collection requests handed to you today?</li><li>How much back-and-forth does a single request create?</li><li>Which data sources do you pull from most often?</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="persona-panel" id="persona-p5">
+      <div class="persona-card">
+        <div class="persona-top"><div class="pt-role">Economic Buyer</div><div class="pt-title">GC / Deputy GC or CFO</div><div class="pt-cares"><span class="pt-tag">Lower risk</span><span class="pt-tag">Cost control</span><span class="pt-tag">Vendor consolidation</span></div></div>
+        <div class="persona-body">
+          <div class="pb-col"><h4>Message That Lands</h4><div class="msg-text">"One platform that lowers risk and cost and consolidates vendors. Turn privacy from a scramble into a defensible capability."</div></div>
+          <div class="pb-col"><h4>Questions to Ask</h4><ul><li>What visibility do you have into program health today?</li><li>What are you spending on outside counsel and tooling for DSRs?</li><li>Where does DSR risk sit on the board's radar?</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m6')">Mark Complete</button></div>
+  </div>
+
+  <!-- M7 DISCOVERY QUESTIONS -->
+  <div class="module" id="mod-m7">
+    <div class="mod-eyebrow">Selling It &middot; Module 7</div>
+    <h1 class="mod-title">Discovery <em>Questions</em></h1>
+    <p class="mod-lead">Questions grouped by goal. Click any question to copy it.</p>
+
+    <div class="qbank-section">
+      <div class="qb-hdr"><span class="qb-badge">Current Process</span></div>
+      <div class="qb-list">
+        <div class="qb-item" onclick="copyQ(this)">What is your current intake process for access, deletion, correction, and opt-out requests across your brands and regions?</div>
+        <div class="qb-item" onclick="copyQ(this)">How long does it take to set up the backend records and data-source mappings for a single request?</div>
+        <div class="qb-item" onclick="copyQ(this)">When it is an access request, how do you search for and collect potentially responsive records?</div>
+        <div class="qb-item" onclick="copyQ(this)">How and where do you review and redact responsive documents today?</div>
+      </div>
+    </div>
+    <div class="qbank-section">
+      <div class="qb-hdr"><span class="qb-badge">Risk &amp; Defensibility</span></div>
+      <div class="qb-list">
+        <div class="qb-item" onclick="copyQ(this)">Have you missed a regulatory response deadline (GDPR 30 days, CCPA 45 days) in the last year?</div>
+        <div class="qb-item" onclick="copyQ(this)">If a regulator asked you to demonstrate exactly how a request was handled, what could you produce?</div>
+        <div class="qb-item" onclick="copyQ(this)">How do you handle employee DSRs, which often involve privileged or third-party data?</div>
+      </div>
+    </div>
+    <div class="qbank-section">
+      <div class="qb-hdr"><span class="qb-badge">Fit &amp; Triggers</span></div>
+      <div class="qb-list">
+        <div class="qb-item" onclick="copyQ(this)">Are you re-evaluating an incumbent privacy tool at renewal? What is prompting that?</div>
+        <div class="qb-item" onclick="copyQ(this)">How do Legal, Privacy, and IT coordinate on collection and deletion today?</div>
+        <div class="qb-item" onclick="copyQ(this)">Do you operate multiple brands or jurisdictions on one team? How do you keep them separate?</div>
+        <div class="qb-item" onclick="copyQ(this)">What would it be worth to cut your DSR processing time significantly?</div>
+      </div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m7')">Mark Complete</button></div>
+  </div>
+
+  <!-- M8 TALK TRACKS -->
+  <div class="module" id="mod-m8">
+    <div class="mod-eyebrow">Selling It &middot; Module 8</div>
+    <h1 class="mod-title">Talk <em>Tracks</em></h1>
+    <p class="mod-lead">Ready-to-use language for key moments. Expand each to see the track.</p>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">30 Seconds</span><span class="track-title">Elevator Pitch</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="track-text">"Privacy and legal teams are drowning in data subject requests: access, deletion, and opt-out demands with hard regulatory deadlines, while personal data sits scattered across dozens of systems. Exterro Data Subject Rights Manager turns that into one defensible program: multi-brand intake, automated record creation and task orchestration, and uniquely native e-discovery review and redaction inside Exterro Vault before anything is released, all on an immutable audit trail. You move faster, cut manual errors, and can prove exactly how every request was handled."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">2 Minutes</span><span class="track-title">Overview Pitch</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="track-text">"When a data subject request comes in, the clock starts and the risk begins. Most teams handle it with fragmented intake forms, hours of manual backend setup per request, document review in email and PDFs, and no clean record to show a regulator. Exterro Data Subject Rights Manager changes that. A single multi-brand portal takes in every request type and verifies identity automatically. The moment data assets are scoped, the system creates the backend records for you and assigns collection tasks, all visible in one session, with SLA reminders so nothing slips. Collected data flows straight into Exterro Vault, our e-discovery engine, where your team applies automated and manual redaction and privilege review, with no exporting to a separate tool. Reviewers mark files for release, production runs, and documents are delivered securely. For deletion requests, the platform orchestrates and documents deletion across systems. And every step is captured in an immutable, cryptographically chained audit log built for regulatory examination. For teams that already run Exterro for e-discovery or legal hold, it is the natural next step: the same platform, extended to privacy."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">The Wedge</span><span class="track-title">In One Breath</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="track-text">"Other privacy platforms find and route the data. Exterro finds it, reviews it, redacts it, produces it, and proves it: one defensible lifecycle, built for the hard ones."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">Expansion</span><span class="track-title">For an Existing Exterro Customer</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="track-text">"Since you already run Exterro for e-discovery or legal hold, Exterro Data Subject Rights Manager is not another platform. It is the privacy module of the one you already trust: the same Vault review, the same custodian-based collection, the same defensibility, now applied to access, deletion, and employee DSRs. No new vendor, no new review surface."</p></div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-hdr" onclick="togglePanel(this)"><span class="tt-badge">The Hard Ones</span><span class="track-title">Why Complexity Beats Volume</span><span class="tt-chevron">&#9662;</span></div>
+      <div class="track-body"><p class="track-text">"The cost of a DSR is driven by complexity, not count. A single complex or employee request reviewed by hand carries real legal exposure and outside-counsel cost. Exterro Data Subject Rights Manager pays off on the hard ones, the requests that mirror e-discovery, where review, privilege, and defensibility matter most."</p></div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m8')">Mark Complete</button></div>
+  </div>
+
+  <!-- M9 OBJECTION HANDLING -->
+  <div class="module" id="mod-m9">
+    <div class="mod-eyebrow">Selling It &middot; Module 9</div>
+    <h1 class="mod-title">Objection <em>Handling</em></h1>
+    <p class="mod-lead">The pushback you will hear, with a response and a follow-up for each. Click to expand.</p>
+
+    <div class="obj-card">
+      <div class="obj-hdr" onclick="togglePanel(this)"><span class="obj-badge">Objection</span><span class="obj-q">"We already have OneTrust / a privacy tool."</span><span class="obj-chevron">&#9662;</span></div>
+      <div class="obj-body">
+        <div class="obj-response"><div class="or-label">Response</div><p>OneTrust is a compliance-workflow layer that exports documents to external tools for review and creates backend records by hand. Exterro Data Subject Rights Manager keeps review, redaction, and chain-of-custody native in Vault and auto-creates those records. That is the defensibility and the labor savings the workflow tools leave on the table. Validate specifics per deal.</p></div>
+        <div class="obj-followup"><div class="ofu-label">Follow-Up Question</div><p>"Where do your documents go for review and redaction today, and who signs off before anything is released?"</p></div>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-hdr" onclick="togglePanel(this)"><span class="obj-badge">Objection</span><span class="obj-q">"DataGrail already auto-connects to our systems."</span><span class="obj-chevron">&#9662;</span></div>
+      <div class="obj-body">
+        <div class="obj-response"><div class="or-label">Response</div><p>Connectors find data at request time and miss legacy, unconnected, and M&amp;A systems. DataGrail also has no native review or redaction and is consumer-focused. For employee DSRs and defensible production, that is where it falls short, and where we are strongest.</p></div>
+        <div class="obj-followup"><div class="ofu-label">Follow-Up Question</div><p>"When an employee request touches HR, email, and collaboration data, how do you review and redact what comes back?"</p></div>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-hdr" onclick="togglePanel(this)"><span class="obj-badge">Objection</span><span class="obj-q">"We don't get enough DSRs to justify a platform."</span><span class="obj-chevron">&#9662;</span></div>
+      <div class="obj-body">
+        <div class="obj-response"><div class="or-label">Response</div><p>Cost is driven by complexity per request, not volume. A single complex or employee DSR reviewed by hand carries real legal exposure and outside-counsel cost. Exterro Data Subject Rights Manager pays off on the hard ones, not just the count.</p></div>
+        <div class="obj-followup"><div class="ofu-label">Follow-Up Question</div><p>"What does it cost you, in time and outside counsel, to handle one complex request end to end?"</p></div>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-hdr" onclick="togglePanel(this)"><span class="obj-badge">Objection</span><span class="obj-q">"Can we trust automated redaction?"</span><span class="obj-chevron">&#9662;</span></div>
+      <div class="obj-body">
+        <div class="obj-response"><div class="or-label">Response</div><p>Auto-redaction is rule-based and always followed by human review in Vault. Nothing is produced until a reviewer marks it for release. The automation does the heavy lifting; a person owns the final call.</p></div>
+        <div class="obj-followup"><div class="ofu-label">Follow-Up Question</div><p>"Would it help to see the review-and-approve step in Vault, where the reviewer signs off before release?"</p></div>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-hdr" onclick="togglePanel(this)"><span class="obj-badge">Objection</span><span class="obj-q">"Isn't this just intake automation?"</span><span class="obj-chevron">&#9662;</span></div>
+      <div class="obj-body">
+        <div class="obj-response"><div class="or-label">Response</div><p>No. It is complete lifecycle orchestration through review, redaction, production, deletion, and audit, not a form-and-ticket front end. The intake is the easy part; the value is everything that happens after.</p></div>
+        <div class="obj-followup"><div class="ofu-label">Follow-Up Question</div><p>"After a request comes in, what happens to the documents before they go out the door?"</p></div>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-hdr" onclick="togglePanel(this)"><span class="obj-badge">Objection</span><span class="obj-q">"Consolidating sensitive data in a new system is a risk."</span><span class="obj-chevron">&#9662;</span></div>
+      <div class="obj-body">
+        <div class="obj-response"><div class="or-label">Response</div><p>Brand-level isolation, role- and status-based permissions, AES-256 at rest, TLS 1.3 in transit, and an immutable audit log reduce risk versus PII sitting in shared mailboxes and spreadsheets. Confirm current certifications per deal.<span class="verify">VERIFY</span></p></div>
+        <div class="obj-followup"><div class="ofu-label">Follow-Up Question</div><p>"Where does responsive PII live during a request today, and who can see it?"</p></div>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-hdr" onclick="togglePanel(this)"><span class="obj-badge">Objection</span><span class="obj-q">"We already own Exterro for e-discovery / legal hold."</span><span class="obj-chevron">&#9662;</span></div>
+      <div class="obj-body">
+        <div class="obj-response"><div class="or-label">Response</div><p>That is the strongest fit. Exterro Data Subject Rights Manager extends the platform you already trust and reuses your Vault review and custodian-based collection for employee DSRs, adding privacy without a new vendor. If you also run Exterro Legal Hold, you can cross-reference active holds before deletion within one platform.</p></div>
+        <div class="obj-followup"><div class="ofu-label">Follow-Up Question</div><p>"Would it be useful to handle privacy requests in the same place your team already reviews and collects?"</p></div>
+      </div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m9')">Mark Complete</button></div>
+  </div>
+
+  <!-- M10 SALES PLAYS -->
+  <div class="module" id="mod-m10">
+    <div class="mod-eyebrow">Selling It &middot; Module 10</div>
+    <h1 class="mod-title">Sales <em>Plays</em></h1>
+    <p class="mod-lead">Five repeatable plays tied to a trigger. Each shows the pain, the message, and the question that advances it.</p>
+
+    <div class="play-card">
+      <div class="play-top"><div class="play-num">1</div><div class="play-title">Multi-Brand Consumer DSRs</div><span class="play-trigger-badge">Holding company / multiple brands</span></div>
+      <div class="play-body">
+        <div class="pb-section pain"><h4>The Pain</h4><p>A steady stream of access, deletion, and opt-out requests across several consumer brands. Separate intake per brand buries the privacy team in setup and triage.</p></div>
+        <div class="pb-section message"><h4>The Message</h4><p>One console runs separate branded portals, forms, and workflows, with backend records and SLA tracking automated. No separate instances.</p></div>
+        <div class="pb-section question"><h4>The Question</h4><p>"How do you keep intake consistent and nothing lost across all your brands today?"</p></div>
+      </div>
+    </div>
+
+    <div class="play-card">
+      <div class="play-top"><div class="play-num">2</div><div class="play-title">Employee DSRs (The Wedge)</div><span class="play-trigger-badge">Cross-industry employer</span></div>
+      <div class="play-body">
+        <div class="pb-section pain"><h4>The Pain</h4><p>Employee access and deletion requests touch HR, email, and collaboration data, often privileged or co-mingled. The data sprawls and manual review is high-risk.</p></div>
+        <div class="pb-section message"><h4>The Message</h4><p>Exterro Data Subject Rights Manager reuses Exterro's e-discovery heritage, custodian-based collection, native review, and privilege handling, for defensible employee DSRs.</p></div>
+        <div class="pb-section question"><h4>The Question</h4><p>"When an employee request involves privileged or third-party data, how do you make sure none of it goes out by mistake?"</p></div>
+      </div>
+    </div>
+
+    <div class="play-card">
+      <div class="play-top"><div class="play-num">3</div><div class="play-title">Defensible, Audit-Ready Process</div><span class="play-trigger-badge">Regulated industry</span></div>
+      <div class="play-body">
+        <div class="pb-section pain"><h4>The Pain</h4><p>A financial or healthcare organization must respond fast and prove exactly how every request was handled. Email approvals and spreadsheets are not examination-ready.</p></div>
+        <div class="pb-section message"><h4>The Message</h4><p>Every action, redaction, and release is captured on an immutable, cryptographically chained audit log; exemptions are documented per jurisdiction.</p></div>
+        <div class="pb-section question"><h4>The Question</h4><p>"If an examiner asked for the full handling history of one request, how long would it take to assemble?"</p></div>
+      </div>
+    </div>
+
+    <div class="play-card">
+      <div class="play-top"><div class="play-num">4</div><div class="play-title">Expand the Exterro Platform</div><span class="play-trigger-badge">Existing e-discovery / legal-hold customer</span></div>
+      <div class="play-body">
+        <div class="pb-section pain"><h4>The Pain</h4><p>The customer already runs Exterro and now faces growing DSR volume. A separate privacy tool means a new vendor, a new review surface, and duplicated effort.</p></div>
+        <div class="pb-section message"><h4>The Message</h4><p>It is not another platform; it is the privacy module of the one you already run, same Vault review, same defensibility.</p></div>
+        <div class="pb-section question"><h4>The Question</h4><p>"Would it help to handle privacy requests in the same place your team already collects and reviews?"</p></div>
+      </div>
+    </div>
+
+    <div class="play-card">
+      <div class="play-top"><div class="play-num">5</div><div class="play-title">Displace an Incumbent at Renewal</div><span class="play-trigger-badge">Renewal / re-evaluation</span></div>
+      <div class="play-body">
+        <div class="pb-section pain"><h4>The Pain</h4><p>A team is unhappy with their incumbent at renewal: cost, manual review, weak employee-DSR support. They are paying for a workflow layer that still exports documents elsewhere for review.</p></div>
+        <div class="pb-section message"><h4>The Message</h4><p>Consolidate intake, review, redaction, and audit in one defensible platform and drop the external review handoff. Phase the migration, starting with the highest-risk request types.</p></div>
+        <div class="pb-section question"><h4>The Question</h4><p>"What is prompting the re-evaluation, and which request types cause the most pain today?"</p></div>
+      </div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m10')">Mark Complete</button></div>
+  </div>
+
+  <!-- M11 COMPETITIVE INTEL -->
+  <div class="module" id="mod-m11">
+    <div class="mod-eyebrow">Selling It &middot; Module 11</div>
+    <h1 class="mod-title">Competitive <em>Intel</em></h1>
+    <p class="mod-lead">How to frame the field and where we hold the edge. Competitive facts move fast, so verify current vendor capabilities and certifications per deal.</p>
+
+    <div class="callout orange"><div class="co-label">The Frame</div><p>Other privacy platforms find and route the data. Exterro finds it, reviews it, redacts it, produces it, and proves it: one defensible lifecycle, built for the hard ones.</p></div>
+
+    <div class="sec-hdr"><h2>The Field</h2><p>Nine competitors, grouped by where they sit. The category is consolidating, so refresh before any deal.</p></div>
+
+    <div class="grid-2">
+      <div class="info-card"><h3>OneTrust</h3><p>Broad privacy program management. Now offers PII redaction, so do not claim it cannot redact. Differentiate on the integrated e-discovery review environment and a connected legal and e-discovery lifecycle.<span class="verify">VERIFY</span></p></div>
+      <div class="info-card"><h3>DataGrail</h3><p>Connector-heavy DSR automation (2,000+ connectors). Do not compete on connector count. Win on native review and redaction, persistent data-inventory linkage, and employee DSRs. Consumer-focused, no e-discovery review.<span class="verify">VERIFY</span></p></div>
+      <div class="info-card"><h3>Securiti (a Veeam company)</h3><p>Data command center, strong on discovery and correlation at scale. Win on e-discovery-grade review, privilege, and chain-of-custody for defensible production, and on employee DSRs.<span class="verify">VERIFY</span></p></div>
+      <div class="info-card"><h3>Transcend</h3><p>Developer-centric, data-layer DSR execution with deep integrations. Win on e-discovery-grade review, privilege review, and a privacy-and-legal-operations platform versus an engineering-led one.<span class="verify">VERIFY</span></p></div>
+      <div class="info-card"><h3>BigID</h3><p>Industry-leading discovery and identity correlation. They may out-discover; we out-govern the review-to-production-to-audit path. Note possible co-opetition (BigID integrates with privacy front-ends).<span class="verify">VERIFY</span></p></div>
+      <div class="info-card"><h3>WireWheel (now part of Osano)</h3><p>Privacy program management, DSAR, and consent, now consolidated into Osano. Flag the acquisition and evaluate the combined platform. Win on native review and redaction, defensibility, and employee DSRs.<span class="verify">VERIFY</span></p></div>
+      <div class="info-card blue"><h3>Mimecast</h3><p>Email and communications data, not a full DSR platform. Do not over-frame as a direct competitor. Win on full-lifecycle orchestration, multi-source coverage, review and redaction, and audit.<span class="verify">VERIFY</span></p></div>
+      <div class="info-card purple"><h3>Nuix &middot; EU review/redaction specialist</h3><p>Genuine review-and-redaction strength and a real EU contender, but investigations and e-discovery led, not a multi-brand DSR orchestrator. Do not claim it lacks review or redaction. Win on the governed end-to-end lifecycle and one connected platform.<span class="verify">VERIFY</span></p></div>
+    </div>
+
+    <div class="info-card purple"><h3>Phaselaw &middot; EU review/redaction specialist</h3><p>Purpose-built AI document review, redaction, and disclosure for DSARs and FOIs, and it targets employee requests. But it starts at document upload: no multi-brand intake, no identity verification, no automated record creation, no connector-based collection, no deletion orchestration. Win on the full governed lifecycle and e-discovery-grade, custodian-based collection. Do not position Exterro as the only platform that can review or redact.<span class="verify">VERIFY</span></p></div>
+
+    <div class="sec-hdr"><h2>Where We Hold the Edge</h2></div>
+    <div class="grid-2">
+      <div class="info-card green"><h3>Stronger</h3><ul><li>Defensibility: cryptographically chained, append-only audit log</li><li>Employee DSRs: custodian-based collection and privilege review</li><li>Consolidation for existing Exterro customers</li><li>Native e-discovery review against the privacy-platform field (narrowing in the EU)</li></ul></div>
+      <div class="info-card"><h3>Parity or possible gap</h3><ul><li>Automated PII redaction: parity, do not claim sole ownership</li><li>Connector breadth: possible gap, position on inventory linkage and review depth, not raw count</li><li>AI-assisted review: parity, lead with defensibility, not AI</li></ul></div>
+    </div>
+
+    <div class="dos-donts">
+      <div class="dd-card"><div class="dd-hdr do">Do</div><div class="dd-body"><ul class="dd-list do"><li>Anchor on the governed end-to-end lifecycle and defensible collection</li><li>Lead with employee-DSR strength and platform consolidation</li><li>Verify competitor capabilities and certifications per deal</li></ul></div></div>
+      <div class="dd-card"><div class="dd-hdr dont">Don't</div><div class="dd-body"><ul class="dd-list dont"><li>Claim sole ownership of automated redaction</li><li>Claim OneTrust cannot redact, or that Nuix or Phaselaw lack review and redaction</li><li>Compete on connector count, where DataGrail, Securiti, Transcend, and BigID are strong</li><li>Rely on a stale claim; the category is consolidating fast</li></ul></div></div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m11')">Mark Complete</button></div>
+  </div>
+
+  <!-- M12 WHAT YOU CAN AND CAN'T SAY -->
+  <div class="module" id="mod-m12">
+    <div class="mod-eyebrow">Guardrails &amp; Practice &middot; Module 12</div>
+    <h1 class="mod-title">What You Can &amp; <em>Can't Say</em></h1>
+    <p class="mod-lead">Stay accurate and defensible. These guardrails protect the deal and the customer relationship.</p>
+
+    <div class="sec-hdr"><h2>Approved Lines</h2><p>Click any line to copy it.</p></div>
+    <div class="quote-list">
+      <div class="quote-item" onclick="copyLine(this)"><p>The only DSAR platform with native e-discovery review and redaction built in.</p><div class="copy-confirm">Copied</div></div>
+      <div class="quote-item" onclick="copyLine(this)"><p>Built for the hard ones: complex and employee DSRs.</p><div class="copy-confirm">Copied</div></div>
+      <div class="quote-item" onclick="copyLine(this)"><p>Defensible, audit-ready privacy operations at enterprise scale.</p><div class="copy-confirm">Copied</div></div>
+      <div class="quote-item" onclick="copyLine(this)"><p>Automate record creation and centralize every task in one session.</p><div class="copy-confirm">Copied</div></div>
+      <div class="quote-item" onclick="copyLine(this)"><p>One console for every brand and jurisdiction.</p><div class="copy-confirm">Copied</div></div>
+      <div class="quote-item" onclick="copyLine(this)"><p>Stop firefighting DSRs; start running a defensible program.</p><div class="copy-confirm">Copied</div></div>
+    </div>
+
+    <div class="sec-hdr"><h2>Say This, Not That</h2></div>
+    <div class="dos-donts">
+      <div class="dd-card"><div class="dd-hdr do">Say</div><div class="dd-body"><ul class="dd-list do"><li>"Automates intake, record creation, and orchestration"</li><li>"Rule-based auto-redaction with human review"</li><li>"AI-assisted review tools in Vault: summaries, OCR, transcription, translation"</li><li>"Provides the defensible audit trail and process controls regulators expect"</li><li>"Customers running both Exterro Legal Hold and Exterro Data Subject Rights Manager can cross-reference active holds before deletion within one platform"</li></ul></div></div>
+      <div class="dd-card"><div class="dd-hdr dont">Don't Say</div><div class="dd-body"><ul class="dd-list dont"><li>"Agentic AI" or "the AI decides what to release"</li><li>"Fully automated DSR resolution" or "no human needed"</li><li>"Guarantees compliance" or "eliminates regulatory risk"</li><li>"The platform automatically checks or blocks deletion when a legal hold exists"</li><li>Any performance metric stated as a proven, customer-validated result</li></ul></div></div>
+    </div>
+
+    <div class="sec-hdr"><h2>Three Boundaries to Hold</h2></div>
+    <div class="info-card purple"><h3>Human in the loop on every release</h3><p>Review and redaction always require a human before anything goes out. Auto-redaction is rule-based and is followed by human review in Vault. Never frame the product as autonomous AI.</p></div>
+    <div class="info-card"><h3>Legal hold is a within-platform cross-reference</h3><p>Customers can check deletion requests against active holds inside the platform. Do not claim the platform automatically checks or blocks deletion when a hold exists.</p></div>
+    <div class="info-card blue"><h3>Internal targets are not proof</h3><p>You may hear internal performance targets such as roughly 50% time reduction, over 98% on-time SLA completion, and over 99% redaction accuracy. These are internal targets, not customer-validated results. Do not present them to a customer as proven outcomes. No approved pricing exists, so do not quote price or build an ROI figure on these numbers.</p></div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m12')">Mark Complete</button></div>
+  </div>
+
+  <!-- M13 TRAINING EXERCISES -->
+  <div class="module" id="mod-m13">
+    <div class="mod-eyebrow">Guardrails &amp; Practice &middot; Module 13</div>
+    <h1 class="mod-title">Training <em>Exercises</em></h1>
+    <p class="mod-lead">Practice the moments that matter. Draft your answer, then reveal a strong sample.</p>
+
+    <div class="exercise-card">
+      <div class="ex-hdr"><span class="ex-badge">Exercise 1</span><span class="ex-title">Position it in 30 seconds</span></div>
+      <div class="ex-body">
+        <div class="ex-question">A prospect asks, "What does Exterro Data Subject Rights Manager actually do?" Give your 30-second answer.</div>
+        <div class="ex-context">They run privacy and legal and have a manual process today. Keep it tight and lead with the wedge.</div>
+        <textarea class="ex-textarea" placeholder="Type your answer here..."></textarea>
+        <div class="ex-actions">
+          <button class="ex-btn reveal" onclick="revealAnswer('ex-ans-1')">Reveal Sample Answer</button>
+          <button class="ex-btn clear" onclick="clearExercise(this)">Clear</button>
+        </div>
+        <div class="ex-answer" id="ex-ans-1">
+          <div class="ea-label">Strong Answer Includes</div>
+          <ul><li>One platform that runs the full DSR lifecycle: intake, verification, record creation, collection, review, delivery, deletion, audit</li><li>The wedge: native e-discovery review and redaction in Vault, no export to a separate tool</li><li>Defensibility: an immutable audit trail you can hand a regulator</li><li>No overclaim on AI or unvalidated metrics</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="ex-hdr"><span class="ex-badge">Exercise 2</span><span class="ex-title">Handle "We already have OneTrust"</span></div>
+      <div class="ex-body">
+        <div class="ex-question">The buyer says they already own OneTrust. Respond without claiming OneTrust cannot redact.</div>
+        <div class="ex-context">OneTrust added PII redaction in 2024. Differentiate on the integrated environment, not on a false gap.</div>
+        <textarea class="ex-textarea" placeholder="Type your answer here..."></textarea>
+        <div class="ex-actions">
+          <button class="ex-btn reveal" onclick="revealAnswer('ex-ans-2')">Reveal Sample Answer</button>
+          <button class="ex-btn clear" onclick="clearExercise(this)">Clear</button>
+        </div>
+        <div class="ex-answer" id="ex-ans-2">
+          <div class="ea-label">Strong Answer Includes</div>
+          <ul><li>Acknowledge OneTrust is a capable workflow tool, including redaction</li><li>Differentiate on the integrated e-discovery review environment and connected lifecycle</li><li>Highlight native review, privilege handling, chain-of-custody, and auto-created backend records</li><li>End with a follow-up question about where their documents go for review today</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="ex-hdr"><span class="ex-badge">Exercise 3</span><span class="ex-title">Scope the wedge against an EU specialist</span></div>
+      <div class="ex-body">
+        <div class="ex-question">A prospect is also evaluating Phaselaw for review and redaction. How do you position Exterro without overclaiming?</div>
+        <div class="ex-context">Phaselaw genuinely does review and redaction and targets employee requests. Do not claim we are the only one who can.</div>
+        <textarea class="ex-textarea" placeholder="Type your answer here..."></textarea>
+        <div class="ex-actions">
+          <button class="ex-btn reveal" onclick="revealAnswer('ex-ans-3')">Reveal Sample Answer</button>
+          <button class="ex-btn clear" onclick="clearExercise(this)">Clear</button>
+        </div>
+        <div class="ex-answer" id="ex-ans-3">
+          <div class="ea-label">Strong Answer Includes</div>
+          <ul><li>Credit Phaselaw's review and redaction; do not claim a false gap</li><li>Shift the wedge to the full governed lifecycle: intake, verification, automated record creation, collection, production, deletion, audit</li><li>Emphasize e-discovery-grade, custodian-based collection that starts before document upload</li><li>Note Phaselaw begins at upload, with no multi-brand intake or deletion orchestration</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="ex-hdr"><span class="ex-badge">Exercise 4</span><span class="ex-title">Pick the right play</span></div>
+      <div class="ex-body">
+        <div class="ex-question">An account already runs Exterro for e-discovery and just hired a new privacy leader. Which play, and what is your opener?</div>
+        <div class="ex-context">Match the trigger to one of the five sales plays and lead with the highest-probability motion.</div>
+        <textarea class="ex-textarea" placeholder="Type your answer here..."></textarea>
+        <div class="ex-actions">
+          <button class="ex-btn reveal" onclick="revealAnswer('ex-ans-4')">Reveal Sample Answer</button>
+          <button class="ex-btn clear" onclick="clearExercise(this)">Clear</button>
+        </div>
+        <div class="ex-answer" id="ex-ans-4">
+          <div class="ea-label">Strong Answer Includes</div>
+          <ul><li>Play 4: Expand the Exterro Platform, the highest-probability motion</li><li>Frame it as the privacy module of the platform they already trust, not a new vendor</li><li>Reuse Vault review and custodian-based collection for employee DSRs</li><li>Lead with Legal as the likely champion, per closed-won data</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished this module?</h4><p>Mark it complete to track your progress.</p></div><button class="mc-btn" onclick="completeModule('m13')">Mark Complete</button></div>
+  </div>
+
+  <!-- M14 QUICK REFERENCE -->
+  <div class="module" id="mod-m14">
+    <div class="mod-eyebrow">Guardrails &amp; Practice &middot; Module 14</div>
+    <h1 class="mod-title">Quick <em>Reference</em></h1>
+    <p class="mod-lead">The one-page cheat sheet. Positioning, the wedge, who to lead with, and the lines to avoid.</p>
+
+    <div class="sec-hdr"><h2>Cheat Sheet</h2></div>
+    <div class="cheat-grid">
+      <div class="ch-card"><div class="ch-hdr orange">Positioning</div><div class="ch-body"><ul><li>End-to-end DSAR orchestration platform</li><li>Native e-discovery review and redaction built in</li><li>Defensible, multi-brand, audit-ready</li></ul></div></div>
+      <div class="ch-card"><div class="ch-hdr purple">The Wedge</div><div class="ch-body"><ul><li>Integrated review and redaction in Vault</li><li>Cryptographically chained audit trail</li><li>Employee-DSR strength from e-discovery heritage</li><li>Automated backend record creation</li></ul></div></div>
+      <div class="ch-card"><div class="ch-hdr green">Lead With</div><div class="ch-body"><ul><li>Legal and Compliance (Legal in 83% of won accounts)</li><li>Existing Exterro e-discovery and legal-hold customers</li><li>The hard ones: complex and employee DSRs</li></ul></div></div>
+      <div class="ch-card"><div class="ch-hdr blue">Don't Say</div><div class="ch-body"><ul><li>"Agentic AI" or "no human needed"</li><li>"Guarantees compliance"</li><li>Auto check or block on legal hold</li><li>Internal targets as proven results, or any price</li></ul></div></div>
+    </div>
+
+    <div class="sec-hdr"><h2>Approved Lines</h2><p>Click any line to copy it.</p></div>
+    <div class="quote-list">
+      <div class="quote-item" onclick="copyLine(this)"><p>The only DSAR platform with native e-discovery review and redaction built in.</p><div class="copy-confirm">Copied</div></div>
+      <div class="quote-item" onclick="copyLine(this)"><p>Other privacy platforms find and route the data. Exterro finds it, reviews it, redacts it, produces it, and proves it.</p><div class="copy-confirm">Copied</div></div>
+      <div class="quote-item" onclick="copyLine(this)"><p>It is not another platform; it is the privacy module of the one you already run.</p><div class="copy-confirm">Copied</div></div>
+    </div>
+
+    <div class="ch-closing"><div class="cl-label">The Close</div><p>"If we could take your hardest requests, the complex and employee DSRs, and run them end to end in one defensible platform you can prove to a regulator, what would it take to get a working session on the calendar?"</p></div>
+
+    <div class="mod-complete"><div class="mc-check">&#10003;</div><div class="mc-text"><h4>Finished the guide?</h4><p>Mark this final module complete.</p></div><button class="mc-btn" onclick="completeModule('m14')">Mark Complete</button></div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+<script>
+const moduleOrder = ['welcome','m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
+const moduleNames = {
+  welcome:'Overview', m1:'Market Context', m2:'What Exterro DSR Manager Is', m3:'How It Works',
+  m4:'The Wedge', m5:'Buyer Pain Points', m6:'Persona Messaging', m7:'Discovery Questions',
+  m8:'Talk Tracks', m9:'Objection Handling', m10:'Sales Plays', m11:'Competitive Intel',
+  m12:"What You Can & Can't Say", m13:'Training Exercises', m14:'Quick Reference'
+};
+let currentMod = 'welcome';
+let completed = new Set();
+
+function showModule(id, el) {
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  const target = document.getElementById('mod-' + id);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(s => s.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else { const navEl = document.querySelector(`[data-mod="${id}"]`); if (navEl) navEl.classList.add('active'); }
+  currentMod = id;
+  document.getElementById('tb-current').textContent = moduleNames[id] || id;
+  window.scrollTo(0,0);
+}
+
+function nextModule() {
+  const idx = moduleOrder.indexOf(currentMod);
+  if (idx < moduleOrder.length - 1) { const next = moduleOrder[idx + 1]; showModule(next, document.querySelector(`[data-mod="${next}"]`)); }
+}
+function prevModule() {
+  const idx = moduleOrder.indexOf(currentMod);
+  if (idx > 0) { const prev = moduleOrder[idx - 1]; showModule(prev, document.querySelector(`[data-mod="${prev}"]`)); }
+}
+
+function completeModule(id) {
+  completed.add(id);
+  const navEl = document.querySelector(`[data-mod="${id}"]`);
+  if (navEl) navEl.classList.add('done');
+  const btn = document.querySelector(`#mod-${id} .mc-btn`);
+  if (btn) { btn.textContent = '\u2713 Completed'; btn.classList.add('done-btn'); }
+  updateProgress();
+  showToast('Module marked complete');
+  setTimeout(() => nextModule(), 600);
+}
+function updateProgress() {
+  const total = moduleOrder.filter(m => m !== 'welcome').length;
+  const pct = Math.round((completed.size / total) * 100);
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function togglePanel(hdr) {
+  const body = hdr.nextElementSibling;
+  const isOpen = hdr.classList.contains('open');
+  hdr.classList.toggle('open', !isOpen);
+  if (body) body.classList.toggle('open', !isOpen);
+}
+
+function showPersona(id, el) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.persona-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const panel = document.getElementById('persona-' + id);
+  if (panel) panel.classList.add('active');
+}
+
+function revealAnswer(id) {
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('show'); el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+}
+function clearExercise(btn) {
+  const card = btn.closest('.ex-body');
+  if (!card) return;
+  const ta = card.querySelector('.ex-textarea'); if (ta) ta.value = '';
+  const ans = card.querySelector('.ex-answer'); if (ans) ans.classList.remove('show');
+}
+
+function copyLine(el) {
+  const text = el.querySelector('p').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const c = el.querySelector('.copy-confirm');
+    if (c) { c.style.display = 'block'; setTimeout(() => c.style.display = 'none', 2000); }
+    showToast('Line copied to clipboard');
+  });
+}
+function copyQ(el) {
+  navigator.clipboard.writeText(el.textContent.trim()).then(() => showToast('Question copied to clipboard'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextModule();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevModule();
+});
+</script>
+</body>
+</html>

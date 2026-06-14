@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exterro Data Subject Rights Manager | Competitive Battlecard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+:root {
+  --orange: #F26C38;
+  --purple: #352C5A;
+  --purple-deep: #2A2148;
+  --purple-mid: #4a3f72;
+  --ink: #2B2733;
+  --light-gray: #F1F1F2;
+  --silver: #6D6E70;
+  --blue: #64ADC6;
+  --lavender: #8F88C1;
+  --green: #64BD63;
+  --yellow: #FEDB4D;
+  --red: #D64545;
+  --white: #ffffff;
+  --nav-w: 258px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Lato', Arial, Calibri, sans-serif;
+  background: var(--light-gray);
+  color: var(--ink);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* NAV */
+nav {
+  width: var(--nav-w);
+  min-height: 100vh;
+  background: var(--purple);
+  position: fixed;
+  left:0; top:0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 3px 0 20px rgba(53,44,90,0.35);
+  overflow-y: auto;
+}
+.nav-brand { padding: 26px 22px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.nav-wordmark { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: -0.5px; line-height: 1; }
+.nav-wordmark .x { color: var(--orange); }
+.nav-product { font-size: 10px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 5px; line-height: 1.4; }
+.nav-type-label { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.28); padding: 16px 22px 5px; }
+.nav-link { display: flex; align-items: center; gap: 10px; padding: 9px 22px; cursor: pointer; color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 400; border-left: 3px solid transparent; transition: all 0.18s ease; position: relative; user-select: none; }
+.nav-link:hover { background: rgba(255,255,255,0.07); color: #fff; border-left-color: rgba(242,108,56,0.4); }
+.nav-link.active { background: rgba(242,108,56,0.16); color: #fff; font-weight: 700; border-left-color: var(--orange); }
+.nav-link .icon { font-size: 13px; width: 18px; flex-shrink: 0; text-align: center; }
+.nav-badge { margin-left: auto; background: var(--orange); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px; letter-spacing: 0.3px; }
+.nav-badge.red-badge { background: var(--red); }
+.nav-badge.t-high { background: var(--red); }
+.nav-badge.t-med { background: var(--yellow); color: #6b5300; }
+.nav-badge.t-low { background: var(--green); }
+.nav-footer { margin-top: auto; padding: 16px 22px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 10px; color: rgba(255,255,255,0.3); line-height: 1.6; }
+.audience-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.audience-chip { background: rgba(242,108,56,0.18); color: var(--orange); border: 1px solid rgba(242,108,56,0.28); border-radius: 20px; font-size: 9px; font-weight: 700; padding: 2px 7px; }
+
+/* MAIN */
+main { margin-left: var(--nav-w); flex: 1; min-height: 100vh; overflow-x: hidden; }
+.page { display: none; }
+.page.active { display: block; }
+
+/* HERO */
+.hero { background: linear-gradient(135deg, var(--purple) 0%, var(--purple-mid) 55%, var(--lavender) 100%); padding: 44px 52px 38px; color: #fff; position: relative; overflow: hidden; }
+.hero::before { content:''; position:absolute; right:-80px; top:-80px; width:320px; height:320px; background: radial-gradient(circle, rgba(242,108,56,0.16) 0%, transparent 68%); border-radius:50%; }
+.hero::after { content:''; position:absolute; left:38%; bottom:-90px; width:240px; height:240px; background: radial-gradient(circle, rgba(100,173,198,0.1) 0%, transparent 70%); border-radius:50%; }
+.hero-eyebrow { display:inline-block; background: var(--orange); color:#fff; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:3px 12px; border-radius:2px; margin-bottom:14px; }
+.hero h1 { font-size:33px; font-weight:900; line-height:1.15; margin-bottom:10px; position:relative; }
+.hero h1 .accent { color:var(--orange); }
+.hero p { font-size:14px; color:rgba(255,255,255,0.82); max-width:640px; line-height:1.65; position:relative; }
+
+/* BODY */
+.body { padding: 36px 52px; }
+
+/* SECTION HDR */
+.sec-hdr { margin-bottom:22px; }
+.sec-hdr h2 { font-size:21px; font-weight:900; color:var(--purple); margin-bottom:5px; }
+.sec-hdr .bar { width:36px; height:3px; background:var(--orange); border-radius:2px; margin-top:7px; }
+.sec-hdr .note { font-size:13px; color:var(--silver); margin-top:6px; line-height:1.5; }
+
+/* GRIDS */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:26px; }
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:26px; }
+
+/* CARDS */
+.card { background:#fff; border-radius:8px; padding:22px; box-shadow:0 2px 14px rgba(53,44,90,0.08); transition:transform 0.18s, box-shadow 0.18s; }
+.card:hover { transform:translateY(-2px); box-shadow:0 7px 22px rgba(53,44,90,0.13); }
+.card.orange-top { border-top:3px solid var(--orange); }
+.card.blue-top   { border-top:3px solid var(--blue); }
+.card.purple-top { border-top:3px solid var(--purple); }
+.card.green-top  { border-top:3px solid var(--green); }
+.card.red-top    { border-top:3px solid var(--red); }
+.card-icon { font-size:25px; margin-bottom:11px; }
+.card h3 { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+.card p, .card li { font-size:13px; color:var(--silver); line-height:1.65; }
+.card p strong { color:var(--ink); }
+.card ul { padding-left:15px; }
+.card li { margin-bottom:3px; }
+
+/* FULL CARD */
+.full-card { background:#fff; border-radius:8px; padding:24px; box-shadow:0 2px 14px rgba(53,44,90,0.08); margin-bottom:22px; }
+.full-card h3 { font-size:16px; font-weight:700; color:var(--ink); margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--light-gray); }
+.full-card h3 .accent { color:var(--orange); }
+.full-card p, .full-card li { font-size:13px; color:var(--silver); line-height:1.7; }
+.full-card ul { padding-left:16px; }
+.full-card li { margin-bottom:6px; }
+.full-card li strong { color:var(--ink); }
+.full-card em { color:var(--purple); font-weight:600; font-style:italic; }
+
+/* ALERTS */
+.alert { border-radius:7px; padding:15px 20px; margin-bottom:20px; border-left:4px solid; font-size:13px; line-height:1.65; color:var(--ink); }
+.alert-orange { background:rgba(242,108,56,0.08); border-color:var(--orange); }
+.alert-red    { background:rgba(214,69,69,0.07); border-color:var(--red); }
+.alert-blue   { background:rgba(100,173,198,0.09); border-color:var(--blue); }
+.alert-purple { background:rgba(53,44,90,0.07); border-color:var(--purple); }
+.alert-green  { background:rgba(100,189,99,0.1); border-color:var(--green); }
+.alert strong { font-weight:700; color:var(--ink); }
+
+/* TABLES */
+.tbl-wrap { background:#fff; border-radius:8px; box-shadow:0 2px 14px rgba(53,44,90,0.08); overflow:hidden; margin-bottom:14px; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:13px; min-width:660px; }
+thead { background:var(--purple); color:#fff; }
+th { padding:13px 16px; text-align:left; font-size:10px; letter-spacing:1.2px; text-transform:uppercase; font-weight:700; }
+td { padding:12px 16px; border-bottom:1px solid var(--light-gray); color:var(--ink); vertical-align:top; line-height:1.55; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:#faf9fc; }
+td:first-child { font-weight:700; color:var(--purple); }
+.cat-row td { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--purple); padding:8px 16px; border-bottom:2px solid var(--light-gray); background:rgba(53,44,90,0.04); }
+.pill { padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; border:1px solid; white-space:nowrap; }
+.pill-high { background:rgba(214,69,69,0.12); color:var(--red); border-color:rgba(214,69,69,0.3); }
+.pill-med  { background:rgba(254,219,77,0.18); color:#8a6d00; border-color:rgba(254,219,77,0.5); }
+.pill-low  { background:rgba(100,189,99,0.14); color:#3f8f3e; border-color:rgba(100,189,99,0.35); }
+
+/* COMPETITOR CARD */
+.comp-card { background:#fff; border-radius:8px; box-shadow:0 2px 14px rgba(53,44,90,0.08); overflow:hidden; margin-bottom:22px; }
+.comp-header { display:flex; align-items:center; gap:14px; padding:18px 24px; background: linear-gradient(135deg, var(--purple), var(--purple-mid)); color:#fff; }
+.comp-initial { width:44px; height:44px; border-radius:50%; background:rgba(242,108,56,0.25); border:2px solid var(--orange); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:900; color:var(--orange); flex-shrink:0; }
+.comp-header h2 { font-size:18px; font-weight:900; margin-bottom:3px; }
+.comp-header .comp-sub { font-size:11px; color:rgba(255,255,255,0.6); letter-spacing:0.3px; }
+.threat-pill { margin-left:auto; padding:4px 14px; border-radius:20px; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; flex-shrink:0; }
+.threat-high   { background:rgba(214,69,69,0.25);  color:#f3a09a; border:1px solid rgba(214,69,69,0.4); }
+.threat-medium { background:rgba(254,219,77,0.25); color:#ffe08a; border:1px solid rgba(254,219,77,0.45); }
+.threat-low    { background:rgba(100,189,99,0.25); color:#a3e0a2; border:1px solid rgba(100,189,99,0.4); }
+.comp-body { padding:24px; }
+.comp-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:18px; }
+.comp-col h4 { font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:10px; padding-bottom:6px; border-bottom:2px solid; }
+.col-us   h4 { color:var(--green);  border-color:var(--green); }
+.col-them h4 { color:var(--red);    border-color:var(--red); }
+.col-trap h4 { color:var(--orange); border-color:var(--orange); }
+.comp-col ul { list-style:none; padding:0; }
+.comp-col li { font-size:12.5px; color:var(--ink); line-height:1.55; padding:5px 0 5px 16px; position:relative; border-bottom:1px solid var(--light-gray); }
+.comp-col li:last-child { border-bottom:none; }
+.col-us   li::before { content:'\2713'; position:absolute; left:0; color:var(--green);  font-weight:700; }
+.col-them li::before { content:'!'; position:absolute; left:0; color:var(--red); font-weight:700; }
+.col-trap li::before { content:'\203A'; position:absolute; left:0; color:var(--orange); font-weight:700; }
+.killer-q { background:linear-gradient(135deg, rgba(242,108,56,0.09), rgba(53,44,90,0.07)); border-radius:7px; padding:16px 20px; border-left:4px solid var(--orange); margin-top:6px; }
+.killer-q .kq-label { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--orange); margin-bottom:8px; }
+.killer-q p { font-size:13px; color:var(--ink); line-height:1.6; font-style:italic; }
+
+/* COST OF INACTION */
+.coi-hero { background:linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-mid) 100%); border-radius:10px; padding:32px; margin-bottom:24px; position:relative; overflow:hidden; }
+.coi-hero::before { content:''; position:absolute; right:-40px; top:-40px; width:200px; height:200px; background:radial-gradient(circle, rgba(242,108,56,0.18) 0%, transparent 70%); border-radius:50%; }
+.coi-hero h2 { font-size:24px; font-weight:900; color:#fff; margin-bottom:8px; position:relative; }
+.coi-hero h2 span { color:var(--orange); }
+.coi-hero p { font-size:14px; color:rgba(255,255,255,0.74); line-height:1.65; max-width:640px; position:relative; }
+.coi-stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+.coi-stat { background:#fff; border-radius:8px; padding:20px 16px; text-align:center; box-shadow:0 2px 14px rgba(53,44,90,0.08); border-top:3px solid var(--red); }
+.coi-stat .big { font-size:30px; font-weight:900; color:var(--red); line-height:1; margin-bottom:7px; }
+.coi-stat .lbl { font-size:12px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+.coi-stat .sub { font-size:11px; color:var(--silver); line-height:1.4; }
+.coi-scenario { background:#fff; border-radius:8px; box-shadow:0 2px 14px rgba(53,44,90,0.08); overflow:hidden; margin-bottom:16px; }
+.coi-scenario-header { background:linear-gradient(135deg, var(--purple-deep), var(--purple)); color:#fff; padding:14px 22px; display:flex; align-items:center; gap:12px; }
+.coi-scenario-header .emoji { font-size:18px; }
+.coi-scenario-header h3 { font-size:14px; font-weight:700; }
+.coi-scenario-header .risk { margin-left:auto; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--orange); background:rgba(242,108,56,0.18); border:1px solid rgba(242,108,56,0.3); padding:2px 10px; border-radius:20px; }
+.coi-scenario-body { padding:18px 22px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+.coi-col h4 { font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:8px; }
+.coi-inaction h4 { color:var(--red); }
+.coi-action h4 { color:var(--green); }
+.coi-cost h4 { color:var(--orange); }
+.coi-col p, .coi-col li { font-size:12.5px; color:var(--ink); line-height:1.55; }
+.coi-col ul { padding-left:15px; }
+.coi-col li { margin-bottom:3px; }
+.cost-number { font-size:22px; font-weight:900; color:var(--orange); margin-bottom:4px; line-height:1.1; }
+.cost-sub { font-size:11px; color:var(--silver); line-height:1.4; }
+
+/* ACCORDION */
+.acc-item { background:#fff; border-radius:8px; box-shadow:0 2px 14px rgba(53,44,90,0.08); margin-bottom:10px; overflow:hidden; }
+.acc-trigger { padding:15px 20px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; font-weight:700; font-size:13.5px; color:var(--ink); border-left:4px solid var(--orange); transition:background 0.18s; user-select:none; gap:14px; }
+.acc-trigger:hover { background:var(--light-gray); }
+.acc-chevron { color:var(--orange); font-size:16px; transition:transform 0.22s; flex-shrink:0; }
+.acc-item.open .acc-chevron { transform:rotate(180deg); }
+.acc-body { display:none; padding:16px 20px 18px; font-size:13px; color:var(--silver); line-height:1.7; border-top:1px solid var(--light-gray); background:#faf9fc; }
+.acc-item.open .acc-body { display:block; }
+.acc-body strong { color:var(--ink); }
+
+/* PROOF POINTS */
+.proof-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
+.proof-card { background:#fff; border-radius:8px; padding:20px; box-shadow:0 2px 14px rgba(53,44,90,0.08); text-align:center; }
+.proof-big { font-size:36px; font-weight:900; color:var(--orange); line-height:1; margin-bottom:6px; }
+.proof-lbl { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+.proof-sub { font-size:11px; color:var(--silver); line-height:1.5; }
+
+/* TALK TRACK */
+.track-step { display:flex; gap:16px; align-items:flex-start; margin-bottom:18px; }
+.track-num { width:34px; height:34px; border-radius:50%; background:var(--orange); color:#fff; font-size:14px; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.track-content h4 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:5px; }
+.track-content p { font-size:13px; color:var(--silver); line-height:1.6; }
+.track-content em { color:var(--purple); font-style:italic; font-weight:600; }
+
+/* TABS */
+.tab-row { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+.tab-btn { padding:8px 18px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; border:2px solid var(--light-gray); background:#fff; color:var(--silver); transition:all 0.18s; user-select:none; }
+.tab-btn:hover, .tab-btn.active { background:var(--purple); color:#fff; border-color:var(--purple); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* VERIFY FLAG */
+.verify { display:inline-block; background:rgba(214,69,69,0.1); color:var(--red); font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 7px; border-radius:4px; margin-left:6px; vertical-align:middle; }
+.target-flag { display:inline-block; background:rgba(254,219,77,0.22); color:#8a6d00; font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 7px; border-radius:4px; margin-left:6px; vertical-align:middle; }
+
+.page-footer { padding:18px 52px 40px; font-size:11px; color:var(--silver); line-height:1.6; border-top:1px solid #e3e3e6; margin-top:8px; }
+.page-footer strong { color:var(--purple); }
+
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:var(--light-gray); }
+::-webkit-scrollbar-thumb { background:var(--silver); border-radius:3px; }
+
+@media(max-width:900px){
+  nav { display:none; }
+  main { margin-left:0; }
+  .comp-grid, .grid-3, .proof-grid, .coi-stat-grid, .coi-scenario-body { grid-template-columns:1fr; }
+  .grid-2 { grid-template-columns:1fr; }
+  .body { padding:24px 20px; }
+  .hero { padding:28px 20px; }
+  .page-footer { padding:18px 20px 36px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LEFT NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-wordmark">e<span class="x">x</span>terro<sup style="font-size:11px;vertical-align:super">&reg;</sup></div>
+    <div class="nav-product">Data Subject Rights Manager<br>Competitive Battlecard</div>
+  </div>
+
+  <div class="nav-type-label">Overview</div>
+  <div class="nav-link active" onclick="go('overview', this)"><span class="icon">&#127919;</span> Win Strategy</div>
+  <div class="nav-link" onclick="go('inaction', this)"><span class="icon">&#9888;</span> Cost of Inaction <span class="nav-badge red-badge">KEY</span></div>
+
+  <div class="nav-type-label">Direct Privacy Platforms</div>
+  <div class="nav-link" onclick="go('onetrust', this)"><span class="icon">&#9876;</span> OneTrust <span class="nav-badge t-high">HIGH</span></div>
+  <div class="nav-link" onclick="go('securiti', this)"><span class="icon">&#9876;</span> Securiti <span class="nav-badge t-high">HIGH</span></div>
+  <div class="nav-link" onclick="go('bigid', this)"><span class="icon">&#9876;</span> BigID <span class="nav-badge t-high">HIGH</span></div>
+  <div class="nav-link" onclick="go('transcend', this)"><span class="icon">&#9876;</span> Transcend <span class="nav-badge t-high">HIGH</span></div>
+  <div class="nav-link" onclick="go('datagrail', this)"><span class="icon">&#9876;</span> DataGrail <span class="nav-badge t-med">MED</span></div>
+
+  <div class="nav-type-label">EU Review &amp; Redaction</div>
+  <div class="nav-link" onclick="go('nuix', this)"><span class="icon">&#9876;</span> Nuix <span class="nav-badge t-med">MED</span></div>
+  <div class="nav-link" onclick="go('phaselaw', this)"><span class="icon">&#9876;</span> Phaselaw <span class="nav-badge t-med">MED</span></div>
+
+  <div class="nav-type-label">Consolidating / Adjacent</div>
+  <div class="nav-link" onclick="go('wirewheel', this)"><span class="icon">&#9876;</span> WireWheel / Osano <span class="nav-badge t-med">MED</span></div>
+  <div class="nav-link" onclick="go('mimecast', this)"><span class="icon">&#9876;</span> Mimecast <span class="nav-badge t-low">LOW</span></div>
+
+  <div class="nav-type-label">In the Field</div>
+  <div class="nav-link" onclick="go('proof', this)"><span class="icon">&#128202;</span> Proof Points</div>
+  <div class="nav-link" onclick="go('talktrack', this)"><span class="icon">&#128172;</span> Talk Track &amp; Demo</div>
+  <div class="nav-link" onclick="go('landmines', this)"><span class="icon">&#128163;</span> Landmines &amp; Traps <span class="nav-badge">!</span></div>
+
+  <div class="nav-footer">
+    Confidential &middot; Internal Use Only
+    <div class="audience-row">
+      <span class="audience-chip">BDR</span>
+      <span class="audience-chip">AE</span>
+      <span class="audience-chip">SE</span>
+      <span class="audience-chip">CSM</span>
+      <span class="audience-chip">PS</span>
+      <span class="audience-chip">PARTNER</span>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- WIN STRATEGY -->
+<div class="page active" id="page-overview">
+  <div class="hero">
+    <div class="hero-eyebrow">Competitive Intelligence</div>
+    <h1>Exterro Data Subject Rights Manager <span class="accent">Win Strategy</span></h1>
+    <p>Other privacy platforms automate intake and discovery. Exterro governs the entire data subject rights lifecycle, from discovery through defensible review, redaction, production, deletion, and audit, in one platform. Lead with the lifecycle and defensibility, not a feature-by-feature intake comparison.</p>
+  </div>
+  <div class="body">
+
+    <div class="sec-hdr"><h2>Our Core Competitive Position</h2><div class="bar"></div></div>
+
+    <div class="alert alert-purple">
+      <strong>The frame that wins:</strong> Other privacy platforms find and route the data. Exterro finds it, reviews it, redacts it, produces it, and proves it: one defensible lifecycle, built for the hard ones. The sharpest edge is the hard cases, complex and employee DSRs, where review, privilege, and defensibility matter most.
+    </div>
+
+    <div class="grid-3">
+      <div class="card orange-top"><div class="card-icon">&#128269;</div><h3>Native integrated e-discovery review &amp; redaction</h3><p>Collected data routes straight into Exterro Vault for automated and manual redaction and privilege review, with no export to a separate tool. Most DSAR platforms hand documents off for review elsewhere.</p></div>
+      <div class="card blue-top"><div class="card-icon">&#128274;</div><h3>Defensibility architecture</h3><p>Every action, transition, redaction, and release is captured in an immutable, cryptographically chained audit log built for regulatory examination, with privilege and chain-of-custody handling.</p></div>
+      <div class="card purple-top"><div class="card-icon">&#128100;</div><h3>Built for the hard ones</h3><p>Employee and complex DSRs mirror e-discovery. Exterro Data Subject Rights Manager reuses its custodian-based collection and privilege review, where most privacy tools, built for consumer requests, fall short.</p></div>
+    </div>
+
+    <div class="sec-hdr" style="margin-top:8px"><h2>Competitive Landscape at a Glance</h2><div class="bar"></div><div class="note">Read the field by category, then go to a competitor page for the full play. Threat levels are internal GTM judgment for prioritizing prep, not stated in the source intel.</div></div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Competitor</th><th>Core Focus</th><th>Key Vulnerability</th><th>Threat</th><th>Win Frame</th></tr>
+        </thead>
+        <tbody>
+          <tr class="cat-row"><td colspan="5">Direct privacy platforms</td></tr>
+          <tr>
+            <td>OneTrust</td>
+            <td>Broad privacy program management: DSAR, consent, data mapping, assessments.</td>
+            <td>Compliance-workflow tool; no native e-discovery review environment; manual record creation; buyers call it a multi-module patchwork.</td>
+            <td><span class="pill pill-high">HIGH</span></td>
+            <td>Integrated review environment and one connected lifecycle vs. a patchwork that exports for review.</td>
+          </tr>
+          <tr>
+            <td>Securiti</td>
+            <td>Data command center: DSPM, DSR, governance, AI trust. Now a Veeam company. <span class="verify">VERIFY</span></td>
+            <td>Strong at discovery and correlation, but not an e-discovery-grade review, redaction, and privilege environment.</td>
+            <td><span class="pill pill-high">HIGH</span></td>
+            <td>Legal defensibility and the connected e-discovery lifecycle, not discovery breadth.</td>
+          </tr>
+          <tr>
+            <td>BigID</td>
+            <td>Data discovery and identity-aware data intelligence; DSR/privacy suite.</td>
+            <td>May out-discover us, but lacks the governed review-to-production-to-audit path.</td>
+            <td><span class="pill pill-high">HIGH</span></td>
+            <td>They discover; we govern the review, production, and audit of what they find.</td>
+          </tr>
+          <tr>
+            <td>Transcend</td>
+            <td>Developer-centric privacy automation; DSR, consent, data mapping. IDC MarketScape Leader 2025. <span class="verify">VERIFY</span></td>
+            <td>Engineering-led; strong data-layer automation but not an e-discovery-grade privilege-review environment.</td>
+            <td><span class="pill pill-high">HIGH</span></td>
+            <td>Privacy and legal-operations-led platform with defensible review for complex and employee DSRs.</td>
+          </tr>
+          <tr>
+            <td>DataGrail</td>
+            <td>Connector-heavy DSR automation, data mapping, consent.</td>
+            <td>Discovery at request time misses legacy, unconnected, and M&amp;A systems; no native review/redaction; consumer-focused.</td>
+            <td><span class="pill pill-med">MEDIUM</span></td>
+            <td>Persistent inventory linkage, native review, and employee-DSR strength. Do not fight on connector count.</td>
+          </tr>
+          <tr class="cat-row"><td colspan="5">EU review &amp; redaction specialists</td></tr>
+          <tr>
+            <td>Nuix</td>
+            <td>E-discovery, forensics, and investigations; dedicated Data Privacy solution for DSAR/FOI. EU and public-sector strength. <span class="verify">VERIFY</span></td>
+            <td>Investigations-led; its privacy solution is a discovery-and-redaction engine, not a multi-brand intake-to-deletion orchestrator.</td>
+            <td><span class="pill pill-med">MEDIUM</span></td>
+            <td>Full governed lifecycle. Do not claim Nuix lacks review or redaction.</td>
+          </tr>
+          <tr>
+            <td>Phaselaw</td>
+            <td>Purpose-built AI document review, redaction, and disclosure for DSARs and FOIs. UK/EU, privacy-team buyer. <span class="verify">VERIFY</span></td>
+            <td>Starts at document upload: no multi-brand intake, identity verification, automated record creation, connector collection, or deletion orchestration.</td>
+            <td><span class="pill pill-med">MEDIUM</span></td>
+            <td>Governed end-to-end lifecycle and defensible custodian-based collection, not redaction alone.</td>
+          </tr>
+          <tr class="cat-row"><td colspan="5">Consolidating / adjacent</td></tr>
+          <tr>
+            <td>WireWheel / Osano</td>
+            <td>Privacy program management, DSAR, consent. Now part of the Osano platform. <span class="verify">VERIFY</span></td>
+            <td>Mid-consolidation; strength in assessments, consent, and DSAR verification, not native review/redaction or e-discovery.</td>
+            <td><span class="pill pill-med">MEDIUM</span></td>
+            <td>Lifecycle governance and review depth; flag the acquisition and what they are actually buying.</td>
+          </tr>
+          <tr>
+            <td>Mimecast</td>
+            <td>Email and communications security and archiving.</td>
+            <td>Comms-data centric; not a full DSR platform; no multi-brand intake or legal-hold integration.</td>
+            <td><span class="pill pill-low">LOW</span></td>
+            <td>Full-lifecycle orchestration across all sources. Do not over-frame as a direct DSR competitor.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-blue" style="margin-top:14px">
+      <strong>EU note:</strong> With review and redaction specialists now active in the EU (Nuix, Phaselaw), do not position Exterro as the only platform that can review or redact. Anchor on the full governed lifecycle and e-discovery-grade, custodian-based collection.
+    </div>
+
+    <div class="sec-hdr" style="margin-top:8px"><h2>Top Winning Differentiators</h2><div class="bar"></div><div class="note">The wedge in priority order. Lead with the top two.</div></div>
+
+    <div class="grid-2">
+      <div>
+        <div class="acc-item open">
+          <div class="acc-trigger" onclick="toggleAcc(this)"><span>1. Native integrated e-discovery review &amp; redaction (Vault)</span><span class="acc-chevron">&#8964;</span></div>
+          <div class="acc-body">The headline differentiator. Review and redaction run in the same platform that handles collection, production, deletion, and audit, with no export to a separate review tool. <strong>Scope the claim to this integrated environment</strong>, not to review or redaction in isolation, because EU specialists do offer both. Differentiate on the connected lifecycle and e-discovery-grade collection.</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-trigger" onclick="toggleAcc(this)"><span>2. Defensibility architecture</span><span class="acc-chevron">&#8964;</span></div>
+          <div class="acc-body">Immutable, cryptographically chained audit trail plus chain-of-custody, built for regulatory examination. Several competitors offer audit logs, so <strong>lead with the cryptographically chained design</strong> (SHA-256 hash chain), not the existence of a log.</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-trigger" onclick="toggleAcc(this)"><span>3. Employee-DSR strength</span><span class="acc-chevron">&#8964;</span></div>
+          <div class="acc-body">Custodian-based collection and privilege review from e-discovery heritage. Most privacy tools are consumer-focused. This is the direct cross-sell bridge for existing Exterro e-discovery and FTK customers. Note Nuix and Phaselaw also target employee requests, so anchor on e-discovery-grade collection and privilege defensibility.</div>
+        </div>
+      </div>
+      <div>
+        <div class="acc-item">
+          <div class="acc-trigger" onclick="toggleAcc(this)"><span>4. Automated NCDS record creation</span><span class="acc-chevron">&#8964;</span></div>
+          <div class="acc-body">Eliminates hours of manual backend setup per request; the moment data assets are scoped, records build and collection tasks go out automatically. Competitors create these records by hand.</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-trigger" onclick="toggleAcc(this)"><span>5. Native multi-brand architecture</span><span class="acc-chevron">&#8964;</span></div>
+          <div class="acc-body">Separate branded portals, forms, and workflows from one console. Competitors typically need separate instances. One console, centrally administered.</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-trigger" onclick="toggleAcc(this)"><span>6. Persistent data-inventory linkage</span><span class="acc-chevron">&#8964;</span></div>
+          <div class="acc-body">Bidirectional linkage versus scan-at-request-time discovery that misses legacy and unconnected systems. Position this instead of competing on raw connector count.</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-trigger" onclick="toggleAcc(this)"><span>7. Legal-hold cross-reference in one platform</span><span class="acc-chevron">&#8964;</span></div>
+          <div class="acc-body">Customers running both Exterro Legal Hold and Exterro Data Subject Rights Manager can cross-reference active legal holds before deletion within one platform, which standalone privacy tools cannot do. <strong>Do not claim the platform automatically checks or blocks deletion when a hold exists.</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Confidential. Competitive facts are point-in-time. Verify competitor capabilities and certifications before any external use; the category is consolidating and competitors are adding AI and redaction.</div>
+</div>
+
+<!-- COST OF INACTION -->
+<div class="page" id="page-inaction">
+  <div class="hero">
+    <div class="hero-eyebrow">Cost of Inaction</div>
+    <h1>The Real Cost of <span class="accent">the Manual Scramble</span></h1>
+    <p>What it costs a buyer to keep fulfilling DSRs by hand: data scattered across dozens of systems, backend records built by hand, review in PDFs and email, and no single audit trail to show a regulator. Use these to quantify the current state in discovery.</p>
+  </div>
+  <div class="body">
+
+    <div class="coi-hero">
+      <h2>Every Manual Request Carries <span>Risk That Compounds</span></h2>
+      <p>The trigger is cost-per-request, not volume. A single complex or employee DSR reviewed manually carries real legal exposure and outside-counsel cost. The exposure stacks across missed deadlines, over-disclosure of privileged or third-party data, and the inability to prove process to a regulator.</p>
+    </div>
+
+    <div class="coi-stat-grid">
+      <div class="coi-stat"><div class="big">&euro;20M</div><div class="lbl">GDPR maximum fine</div><div class="sub">Or 4% of global annual revenue, whichever is higher.</div></div>
+      <div class="coi-stat"><div class="big">$7,500</div><div class="lbl">Per CCPA/CPRA violation</div><div class="sub">$2,500 per unintentional violation; $7,500 per intentional.</div></div>
+      <div class="coi-stat"><div class="big">19+</div><div class="lbl">US state privacy laws</div><div class="sub">A growing patchwork on top of GDPR, CCPA/CPRA, and more.</div></div>
+      <div class="coi-stat" style="border-top-color:var(--orange);"><div class="big" style="color:var(--orange);">~50%</div><div class="lbl">Faster processing</div><div class="sub">Internal target vs. legacy DSAR process.<span class="target-flag">TARGET</span></div></div>
+    </div>
+
+    <div class="sec-hdr"><h2>Inaction Scenarios</h2><div class="bar"></div><div class="note">Use these in discovery to surface and quantify the cost of the current state.</div></div>
+
+    <div class="coi-scenario">
+      <div class="coi-scenario-header"><span class="emoji">&#128100;</span><h3>Scenario 1: Employee DSR reviewed by hand</h3><span class="risk">Privilege / disclosure risk</span></div>
+      <div class="coi-scenario-body">
+        <div class="coi-col coi-inaction"><h4>Without Exterro DSR Manager</h4><ul><li>Responsive data sprawls across HR, email, Slack, SharePoint, Drive, and file shares.</li><li>Review and redaction happen in PDFs and email.</li><li>High risk of releasing privileged or co-mingled third-party data.</li></ul></div>
+        <div class="coi-col coi-action"><h4>With Exterro DSR Manager</h4><ul><li>Custodian-based collection from e-discovery heritage.</li><li>Native review and redaction in Vault, with privilege handling.</li><li>Human review before any release; every step logged.</li></ul></div>
+        <div class="coi-col coi-cost"><h4>Cost of Inaction</h4><div class="cost-number">~$20K</div><div class="cost-sub">Anecdotal cost of a single outsourced request reported by a customer, plus privilege-waiver exposure.<span class="verify">VERIFY</span></div></div>
+      </div>
+    </div>
+
+    <div class="coi-scenario">
+      <div class="coi-scenario-header"><span class="emoji">&#9201;</span><h3>Scenario 2: Missed regulatory deadline</h3><span class="risk">Compliance exposure</span></div>
+      <div class="coi-scenario-body">
+        <div class="coi-col coi-inaction"><h4>Without Exterro DSR Manager</h4><ul><li>Tasks live in separate libraries across 10+ systems.</li><li>No consolidated view; deadlines slip.</li><li>GDPR 30-day and CCPA 45-day clocks run unmanaged.</li></ul></div>
+        <div class="coi-col coi-action"><h4>With Exterro DSR Manager</h4><ul><li>Every task in one session with SLA tracking.</li><li>Automated reminders and escalation.</li><li>Targeting greater than 98% on-time completion.<span class="target-flag">TARGET</span></li></ul></div>
+        <div class="coi-col coi-cost"><h4>Cost of Inaction</h4><div class="cost-number">&euro;20M / $7,500</div><div class="cost-sub">GDPR max fine or 4% of revenue; CCPA penalty per violation, plus eroded trust.</div></div>
+      </div>
+    </div>
+
+    <div class="coi-scenario">
+      <div class="coi-scenario-header"><span class="emoji">&#128203;</span><h3>Scenario 3: Regulator asks "show me how this request was handled"</h3><span class="risk">Defensibility gap</span></div>
+      <div class="coi-scenario-body">
+        <div class="coi-col coi-inaction"><h4>Without Exterro DSR Manager</h4><ul><li>Approvals scattered across email and spreadsheets.</li><li>Nothing can be packaged for an examiner.</li><li>Cannot prove what was reviewed, redacted, or released.</li></ul></div>
+        <div class="coi-col coi-action"><h4>With Exterro DSR Manager</h4><ul><li>Immutable, cryptographically chained audit log.</li><li>Every action, actor, and timestamp captured.</li><li>Examination-ready record, months later.</li></ul></div>
+        <div class="coi-col coi-cost"><h4>Cost of Inaction</h4><div class="cost-number">Enforcement</div><div class="cost-sub">A defensibility failure under examination drives penalties and remediation cost.</div></div>
+      </div>
+    </div>
+
+    <div class="alert alert-orange"><strong>Discovery math a rep can run live:</strong> (complex or employee DSRs per year) x (hours of manual setup, collection, and review per request) x (loaded legal/privacy rate), plus the exposure of one over-disclosure or one missed deadline. The platform pays off on the hard ones, not the count.</div>
+
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Statutory figures (GDPR, CCPA/CPRA) are regulatory facts. Items marked TARGET are internal targets, not customer-validated; do not present as proven. Items marked VERIFY are point-in-time or anecdotal.</div>
+</div>
+
+<!-- ONETRUST -->
+<div class="page" id="page-onetrust">
+  <div class="hero">
+    <div class="hero-eyebrow">Direct Privacy Platform</div>
+    <h1>OneTrust <span class="accent">the entrenched incumbent</span></h1>
+    <p>The privacy brand you will meet most often. Reach parity on intake, verification, and PII redaction; win on the integrated e-discovery review environment, automated record creation, and one connected lifecycle.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">OT</div>
+        <div><h2>OneTrust</h2><div class="comp-sub">Broad privacy program management: DSAR, consent, data mapping, assessments.</div></div>
+        <span class="threat-pill threat-high">HIGH THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>The request needs native review and redaction in the same platform that collects, produces, deletes, and audits.</li><li>It is an employee or complex DSR with privileged or third-party material.</li><li>The buyer wants automated NCDS record creation instead of manual setup.</li><li>The buyer wants one connected legal, e-discovery, and privacy lifecycle.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Primarily a compliance-workflow tool; no native e-discovery review environment.</li><li>Backend records created manually.</li><li>Limited multi-brand.</li><li>Buyers often describe it as a multi-module patchwork.</li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Do not claim OneTrust "can't redact." It added automated PII redaction in 2024.</li><li>Differentiate on the integrated e-discovery review environment, privilege, and chain-of-custody.</li><li>Position a single connected workflow against the patchwork.</li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"When a request includes privileged or third-party material, where does your team review and redact it today, and how do you prove later exactly what was held back and why?"</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-blue"><strong>Parity, then pivot:</strong> Concede parity on intake, verification, and PII redaction. Win on the e-discovery review environment and the connected lifecycle, not redaction alone. <span class="verify">VERIFY current capabilities per deal</span></div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Verify competitor capabilities and certifications before external use.</div>
+</div>
+
+<!-- SECURITI -->
+<div class="page" id="page-securiti">
+  <div class="hero">
+    <div class="hero-eyebrow">Direct Privacy Platform</div>
+    <h1>Securiti <span class="accent">discovery at scale, now Veeam-backed</span></h1>
+    <p>Strong on data discovery, correlation, and DSR automation at scale. Win on legal defensibility and the connected e-discovery lifecycle, not on discovery breadth.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">SE</div>
+        <div><h2>Securiti (a Veeam company)</h2><div class="comp-sub">Data command center: DSPM, DSR, governance, AI trust.</div></div>
+        <span class="threat-pill threat-high">HIGH THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>The buyer needs e-discovery-grade review, redaction, privilege, and chain-of-custody for defensible production.</li><li>It is an employee or complex DSR.</li><li>The buyer is legal-defensibility-led, not data-platform-led.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Strong at finding and correlating data, but not built as an e-discovery-grade review and privilege environment.</li><li>Direction is DSPM and broad data platform.</li><li>Now part of Veeam (Dec 2025); evaluate the combined direction. <span class="verify">VERIFY</span></li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Acknowledge the discovery and correlation strength and the scale story.</li><li>Differentiate on legal defensibility and the connected e-discovery lifecycle.</li><li>Note the Veeam ownership and the data-platform direction.</li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"Securiti is strong at finding and correlating the data. Once it is found, where does privileged review and defensible redaction happen, and can you hand a regulator a chain-of-custody record for it?"</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-orange"><strong>Do not fight on discovery breadth or connector count.</strong> Shift the conversation to the review, redaction, privilege, and audit path.</div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Verify competitor capabilities, ownership, and certifications before external use.</div>
+</div>
+
+<!-- BIGID -->
+<div class="page" id="page-bigid">
+  <div class="hero">
+    <div class="hero-eyebrow">Direct Privacy Platform</div>
+    <h1>BigID <span class="accent">they out-discover, we out-govern</span></h1>
+    <p>Industry-leading discovery and identity correlation. Concede they may out-discover us; win on the governed review-to-production-to-audit path.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">BI</div>
+        <div><h2>BigID</h2><div class="comp-sub">Data discovery and identity-aware data intelligence; DSR / privacy suite.</div></div>
+        <span class="threat-pill threat-high">HIGH THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>The buyer needs e-discovery-grade review, redaction, privilege, and chain-of-custody for defensible production.</li><li>It is an employee or complex DSR.</li><li>The deciding factor is the review-to-production-to-audit path, not discovery alone.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Strongest on deep discovery and identity correlation, but not an e-discovery-grade review, production, and privilege environment.</li><li>Possible co-opetition: integrates with privacy front-ends, including OneTrust. <span class="verify">VERIFY</span></li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Concede discovery depth openly: BigID may out-discover; Exterro out-governs.</li><li>Win on the governed review-to-audit path.</li><li>Note the co-opetition where BigID sits behind a privacy front-end.</li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"BigID is excellent at discovering and classifying the data. After it is found, where do review, redaction, privilege, and the defensible production record live?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Verify competitor capabilities and integrations before external use.</div>
+</div>
+
+<!-- TRANSCEND -->
+<div class="page" id="page-transcend">
+  <div class="hero">
+    <div class="hero-eyebrow">Direct Privacy Platform</div>
+    <h1>Transcend <span class="accent">engineering-led automation</span></h1>
+    <p>Credible automation at the data layer and an IDC MarketScape Leader. Concede parity-or-advantage on data-layer execution; win on defensible review and a privacy and legal-operations-led platform.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">TR</div>
+        <div><h2>Transcend</h2><div class="comp-sub">Developer-centric privacy automation: DSR, consent, data mapping.</div></div>
+        <span class="threat-pill threat-high">HIGH THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>The buyer needs e-discovery-grade review and privilege review for complex or employee DSRs.</li><li>The buyer wants a privacy and legal-operations-led platform, not an engineering-led one.</li><li>The buyer values a unified legal, e-discovery, and privacy platform.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Engineering-led and developer-centric.</li><li>Strong data-layer automation, but not an e-discovery-grade privilege-review environment.</li><li>IDC MarketScape Leader 2025: credible, acknowledge it. <span class="verify">VERIFY</span></li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Concede parity-or-advantage on automated data-layer execution and integration depth; do not fight there.</li><li>Win on review, privilege, defensibility, and employee DSRs.</li><li>Frame as privacy and legal-operations-led vs. engineering-led.</li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"Transcend automates execution at the data layer well. For an employee request full of privileged and third-party material, who reviews it, and how do you defend what was redacted?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Verify competitor capabilities and certifications before external use.</div>
+</div>
+
+<!-- DATAGRAIL -->
+<div class="page" id="page-datagrail">
+  <div class="hero">
+    <div class="hero-eyebrow">Direct Privacy Platform</div>
+    <h1>DataGrail <span class="accent">connector breadth, consumer focus</span></h1>
+    <p>Large connector library for data discovery. Do not compete on connector count. Win on persistent inventory linkage, native review, and employee DSRs.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">DG</div>
+        <div><h2>DataGrail</h2><div class="comp-sub">Connector-heavy DSR automation, data mapping, and consent.</div></div>
+        <span class="threat-pill threat-medium">MEDIUM THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>It is an employee or complex DSR.</li><li>The buyer needs defensible production and native review and redaction.</li><li>Legacy, unconnected, or M&amp;A data is in scope.</li><li>Persistent data-inventory linkage matters.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Connectors find data at request time and miss legacy, unconnected, and M&amp;A systems.</li><li>No native review or redaction.</li><li>No persistent data-inventory linkage.</li><li>Consumer-focused; weak on employee DSRs.</li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Do not compete on connector count; they have 2,000+.</li><li>Shift to review depth, persistent inventory linkage, and defensibility.</li><li>Lead with employee DSRs, where they are weakest.</li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"If personal data lives in a system your connectors do not reach, like a legacy HR archive or an acquired company's file share, how does it get found, reviewed, and accounted for in your response?"</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-orange"><strong>Trap to avoid:</strong> Connector count is their turf. Every minute spent there is a minute not spent on review, defensibility, and the hard cases.</div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Verify competitor capabilities before external use.</div>
+</div>
+
+<!-- NUIX -->
+<div class="page" id="page-nuix">
+  <div class="hero">
+    <div class="hero-eyebrow">EU Review &amp; Redaction</div>
+    <h1>Nuix <span class="accent">a real EU contender on review</span></h1>
+    <p>Genuine review and redaction strength from e-discovery and forensics heritage. Do not claim Nuix lacks review or redaction. Win on the full governed lifecycle.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">NX</div>
+        <div><h2>Nuix</h2><div class="comp-sub">E-discovery, forensics, investigations; dedicated Data Privacy solution for DSAR/FOI.</div></div>
+        <span class="threat-pill threat-medium">MEDIUM THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>The buyer needs the full governed lifecycle: multi-brand intake, identity verification, automated record creation, task and SLA orchestration, secure delivery, deletion, and audit.</li><li>The buyer wants one connected privacy, e-discovery, and legal-hold platform.</li><li>The need is intake-to-deletion orchestration, not a discovery-and-redaction engine.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Investigations and e-discovery led.</li><li>The privacy solution is a discovery-and-redaction engine, not a multi-brand DSR intake-to-deletion orchestrator.</li><li>Strongest in EU and public-sector FOI. <span class="verify">VERIFY</span></li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Do not claim Nuix lacks review or redaction; they have genuine strength here.</li><li>Differentiate on full-lifecycle orchestration and the governed end-to-end path.</li><li>Especially relevant in EU and FOI deals.</li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"Nuix is strong at processing and redacting large volumes. Who runs the rest of the request: the branded intake, identity verification, the backend records, deletion across systems, and the single audit trail?"</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-blue"><strong>EU note:</strong> Anchor on the governed lifecycle and defensible collection. Review and redaction in isolation is not a safe wedge against Nuix.</div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Recent addition to the field; verify capabilities and certifications before external use.</div>
+</div>
+
+<!-- PHASELAW -->
+<div class="page" id="page-phaselaw">
+  <div class="hero">
+    <div class="hero-eyebrow">EU Review &amp; Redaction</div>
+    <h1>Phaselaw <span class="accent">starts at document upload</span></h1>
+    <p>Purpose-built DSAR/FOI review and redaction, and it explicitly targets employee requests. Do not claim Exterro is the only platform that can review or redact. Win on the governed end-to-end lifecycle and defensible collection.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">PL</div>
+        <div><h2>Phaselaw</h2><div class="comp-sub">Purpose-built AI document review, redaction, and disclosure for DSARs and FOIs. UK/EU.</div></div>
+        <span class="threat-pill threat-medium">MEDIUM THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>The buyer needs the full governed lifecycle, not document-upload-onward.</li><li>The buyer needs e-discovery-grade, custodian-based collection for complex or employee DSRs.</li><li>Intake, identity verification, record creation, collection, and deletion all need to be owned in one place.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Starts at document upload: no multi-brand intake portal.</li><li>No identity verification, no automated backend record creation.</li><li>No connector-based collection, no deletion orchestration.</li><li>No legal-hold cross-reference.</li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Acknowledge they are a direct EU contender on review, redaction, and audit, and that they target employee DSARs.</li><li>Differentiate on the governed lifecycle and defensible custodian-based collection, not redaction alone.</li><li>SOC 2 Type II claimed. <span class="verify">VERIFY</span></li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"Phaselaw works once documents are uploaded. How do those documents get collected in the first place across HR, email, Slack, and SharePoint, and how is the rest of the request, intake through deletion, run and proven?"</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-blue"><strong>EU note:</strong> Phaselaw markets audit-ready logs and exemption tracking, so do not lead with the existence of an audit log. Lead with collection and the full lifecycle.</div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Recent addition to the field; verify capabilities and certifications before external use.</div>
+</div>
+
+<!-- WIREWHEEL -->
+<div class="page" id="page-wirewheel">
+  <div class="hero">
+    <div class="hero-eyebrow">Consolidating / Adjacent</div>
+    <h1>WireWheel / Osano <span class="accent">mid-consolidation</span></h1>
+    <p>Now part of the Osano platform. Strength in assessments, consent, and DSAR verification. Flag the acquisition and position on lifecycle governance and review depth.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">WW</div>
+        <div><h2>WireWheel (now part of Osano)</h2><div class="comp-sub">Privacy program management, DSAR, and consent; now the Osano platform.</div></div>
+        <span class="threat-pill threat-medium">MEDIUM THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>The buyer needs native e-discovery review and redaction and defensibility.</li><li>It is an employee or complex DSR.</li><li>The buyer wants a stable platform, not one mid-consolidation.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Now consolidated into Osano; evaluate the combined platform. <span class="verify">VERIFY</span></li><li>Strength in assessments, consent, and DSAR verification, not native review/redaction or e-discovery.</li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Flag the acquisition and the integration uncertainty.</li><li>Position on lifecycle governance and review depth.</li><li>Ask what they are actually buying for the next several years.</li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"With WireWheel now part of Osano, which platform are you actually buying for the next three years, and does it review and redact privileged material natively or hand it off?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Ownership recently changed; verify the combined platform's capabilities before external use.</div>
+</div>
+
+<!-- MIMECAST -->
+<div class="page" id="page-mimecast">
+  <div class="hero">
+    <div class="hero-eyebrow">Consolidating / Adjacent</div>
+    <h1>Mimecast <span class="accent">comms data, not the full lifecycle</span></h1>
+    <p>Strong on email and archived communications, narrow as a DSR platform. Do not over-frame Mimecast as a direct DSR competitor. If it surfaces, position it as adjacent.</p>
+  </div>
+  <div class="body">
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-initial">MC</div>
+        <div><h2>Mimecast</h2><div class="comp-sub">Email and communications security and archiving.</div></div>
+        <span class="threat-pill threat-low">LOW THREAT</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-grid">
+          <div class="comp-col col-us"><h4>Exterro DSR Manager Wins When...</h4><ul><li>Scope is broader than communications data.</li><li>The buyer needs multi-brand intake and the full DSR lifecycle.</li><li>Review, redaction, deletion, and audit are in scope.</li></ul></div>
+          <div class="comp-col col-them"><h4>Their Vulnerabilities</h4><ul><li>Comms and collaboration-data centric; not a full DSR platform.</li><li>No multi-brand intake.</li><li>Lacks broad enterprise source coverage and legal-hold integration.</li></ul></div>
+          <div class="comp-col col-trap"><h4>Positioning Approach</h4><ul><li>Do not over-frame Mimecast as a head-to-head DSR competitor.</li><li>If it appears, note it handles comms data, not the full lifecycle.</li><li>Position as adjacent, not a replacement target.</li></ul></div>
+        </div>
+        <div class="killer-q">
+          <div class="kq-label">Killer Question</div>
+          <p>"Mimecast is strong on email and archived comms. What handles the rest of the request: the intake across brands, the review and redaction, the deletion, and the audit trail?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Verify competitor capabilities before external use.</div>
+</div>
+
+<!-- PROOF POINTS -->
+<div class="page" id="page-proof">
+  <div class="hero">
+    <div class="hero-eyebrow">In the Field</div>
+    <h1>Proof <span class="accent">Points</span></h1>
+    <p>The evidence reps reach for to back the win frame. Verified facts stand on their own; targets are labeled and should not be presented as proven. Source everything before it goes in front of a customer.</p>
+  </div>
+  <div class="body">
+
+    <div class="sec-hdr"><h2>Who to Lead With (Internal Closed-Won Data)</h2><div class="bar"></div><div class="note">From analysis of Exterro's own closed-won DSR business: 87 deals across 47 unique accounts, verified in Salesforce.</div></div>
+
+    <div class="proof-grid">
+      <div class="proof-card"><div class="proof-big">83%</div><div class="proof-lbl">of won accounts include Legal</div><div class="proof-sub">Ahead of IT Security 64%, Compliance 60%, e-discovery 45%, Privacy 38%.</div></div>
+      <div class="proof-card"><div class="proof-big">29%</div><div class="proof-lbl">Legal is the primary champion</div><div class="proof-sub">More than any other function. Lead with Legal and Compliance.</div></div>
+      <div class="proof-card"><div class="proof-big">~70%</div><div class="proof-lbl">are the only customer in their industry</div><div class="proof-sub">Largest single sector (Insurance) is just 13%. Treat industry as an angle, not a gate.</div></div>
+    </div>
+
+    <div class="alert alert-purple"><strong>How to use it:</strong> Lead with Legal and Compliance; Privacy is real but the least-logged. Wins skew mid-market. The buying trigger is cost-per-request, not volume: one customer bought at only 5 to 6 DSARs per year because a single outsourced request cost roughly $20K. <span class="verify">Anecdotal, VERIFY</span></div>
+
+    <div class="sec-hdr"><h2>Proof by Audience</h2><div class="bar"></div></div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Proof Point</th><th>Status</th><th>Use With</th></tr></thead>
+        <tbody>
+          <tr><td>Immutable, cryptographically chained audit log (SHA-256 hash chain)</td><td>Verified capability</td><td>CPO/DPO and regulated-industry buyers, at the defensibility moment.</td></tr>
+          <tr><td>Native review and redaction with privilege handling in Vault, no export</td><td>Stated capability</td><td>CCO/Legal Counsel, on employee and complex DSRs.</td></tr>
+          <tr><td>Automated NCDS record creation within ~30 seconds of scoping</td><td>Capability; time saved not quantified</td><td>Privacy team and request managers buried in manual setup.</td></tr>
+          <tr><td>Multi-brand portals from one console</td><td>Stated capability</td><td>Holding companies and multi-brand teams.</td></tr>
+          <tr><td>Regulatory exposure: GDPR &euro;20M or 4% of revenue; CCPA $2,500 to $7,500 per violation</td><td>Regulatory fact</td><td>GC/CFO and economic buyers framing risk.</td></tr>
+          <tr><td>Legal is the dominant champion in closed-won (83% of accounts)</td><td>Internal, verified in Salesforce</td><td>Internal targeting and account planning.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-orange"><strong>Targets, not yet validated. Do not present as proven:</strong> roughly 50% reduction in DSR processing time, greater than 98% on-time SLA completion, and greater than 99% redaction accuracy are internal BRD targets, not customer-validated outcomes. Use them to frame the opportunity, never as a confirmed result. Market stats such as the $2.3M savings figure need primary-source verification before external use.</div>
+
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Verified facts may be used with confidence internally; confirm all figures and certifications before any customer-facing use.</div>
+</div>
+
+<!-- TALK TRACK & DEMO -->
+<div class="page" id="page-talktrack">
+  <div class="hero">
+    <div class="hero-eyebrow">In the Field</div>
+    <h1>Talk Track &amp; <span class="accent">Demo Flow</span></h1>
+    <p>How to run the conversation by buyer, and the demo sequence that lands the wedge. Lead with Legal and Compliance, where the closed-won data says you win.</p>
+  </div>
+  <div class="body">
+
+    <div class="sec-hdr"><h2>Talk Track by Buyer</h2><div class="bar"></div></div>
+
+    <div class="tab-row">
+      <div class="tab-btn active" onclick="showTab('p1')">CCO / Legal Counsel</div>
+      <div class="tab-btn" onclick="showTab('p2')">CPO / DPO</div>
+      <div class="tab-btn" onclick="showTab('p3')">GC / CFO (Economic)</div>
+    </div>
+
+    <div class="tab-panel active" id="tab-p1">
+      <div class="full-card">
+        <h3>CCO / Legal Counsel: <span class="accent">privilege and defensibility</span></h3>
+        <ul>
+          <li><strong>Lead:</strong> the risk of releasing privileged or third-party data, deleting data under legal hold, and manual-review exposure.</li>
+          <li><strong>Show:</strong> review and redaction stay native in Vault, with a human in the loop before any release.</li>
+          <li><strong>Build:</strong> privilege handling and chain-of-custody, captured in an immutable audit trail. If they also run Exterro Legal Hold, show how they cross-reference active holds before deletion within one platform.</li>
+          <li><strong>Close:</strong> <em>"If a regulator asked you to demonstrate exactly how a request was reviewed, redacted, and released, what could you produce today?"</em></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-p2">
+      <div class="full-card">
+        <h3>CPO / DPO: <span class="accent">one defensible program</span></h3>
+        <ul>
+          <li><strong>Lead:</strong> no single audit trail, fragmented intake, and the inability to prove process to a regulator.</li>
+          <li><strong>Show:</strong> one multi-brand portal, automated identity verification, and a single dashboard with real-time status across brands and jurisdictions.</li>
+          <li><strong>Build:</strong> one defensible, audit-ready program, not just intake automation, on an immutable, cryptographically chained log.</li>
+          <li><strong>Close:</strong> <em>"What would it be worth to run one defensible program across every brand and jurisdiction, instead of stitching tools together?"</em></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-p3">
+      <div class="full-card">
+        <h3>GC / CFO (Economic Buyer): <span class="accent">risk, cost, consolidation</span></h3>
+        <ul>
+          <li><strong>Lead:</strong> board-level risk, high outside-counsel and tooling costs, and lack of visibility into program health.</li>
+          <li><strong>Show:</strong> one platform that lowers risk and cost and consolidates vendors, extending a platform the team may already run for e-discovery or legal hold.</li>
+          <li><strong>Build:</strong> the cost is driven by complexity per request, not volume. A single complex or employee DSR reviewed manually carries real exposure.</li>
+          <li><strong>Close:</strong> <em>"If one mishandled employee request can cost more than a year of platform spend, what is the case for waiting?"</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec-hdr"><h2>Demo Flow</h2><div class="bar"></div><div class="note">The sequence that lands the wedge. End on defensibility.</div></div>
+
+    <div class="full-card">
+      <div class="track-step"><div class="track-num">1</div><div class="track-content"><h4>The scramble</h4><p>Open on the current state: DSRs arrive across brands with no consistent intake and manual backend setup. Name the pain before you show the fix.</p></div></div>
+      <div class="track-step"><div class="track-num">2</div><div class="track-content"><h4>Unified intake and verification</h4><p>A data subject submits on a branded portal; identity verification fires automatically the moment the request is submitted.</p></div></div>
+      <div class="track-step"><div class="track-num">3</div><div class="track-content"><h4>Automated scoping and NCDS</h4><p>On verification, data assets are scoped, backend records build automatically, and collection tasks go out, all in one session. <em>"No manual setup."</em></p></div></div>
+      <div class="track-step"><div class="track-num">4</div><div class="track-content"><h4>Native review and redaction</h4><p>Collected files open in Exterro Vault; automated and manual redaction and privilege review applied; files marked for release. <em>"Nothing is exported, and nothing is released until a reviewer approves it."</em></p></div></div>
+      <div class="track-step"><div class="track-num">5</div><div class="track-content"><h4>Production and secure delivery</h4><p>Production runs and documents are delivered securely to the requester; the whole release is logged.</p></div></div>
+      <div class="track-step"><div class="track-num">6</div><div class="track-content"><h4>Defensibility</h4><p>Close on the immutable audit log showing every action, actor, and timestamp. <em>"Months later, you can show a regulator exactly what went out and why."</em></p></div></div>
+    </div>
+
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Confirm feature scope per deal before demoing.</div>
+</div>
+
+<!-- LANDMINES & TRAPS -->
+<div class="page" id="page-landmines">
+  <div class="hero">
+    <div class="hero-eyebrow">In the Field</div>
+    <h1>Landmines &amp; <span class="accent">Traps</span></h1>
+    <p>Where you lose, the objections to anticipate, and the mistakes that kill deals. Know these before any competitive evaluation.</p>
+  </div>
+  <div class="body">
+
+    <div class="sec-hdr"><h2>Where We Can Lose, Know Your Gaps</h2><div class="bar"></div></div>
+
+    <div class="grid-2">
+      <div class="card red-top"><div class="card-icon">&#128268;</div><h3>The deal is decided on connector count</h3><p>DataGrail, Securiti, Transcend, and BigID are strong on integration breadth. <strong>Reframe to persistent inventory linkage, review depth, and the hard cases. Do not fight on count.</strong></p></div>
+      <div class="card red-top"><div class="card-icon">&#127465;</div><h3>EU deal decided on review/redaction alone</h3><p>Nuix and Phaselaw contest review and redaction directly in the EU. <strong>Shift the wedge to the full governed lifecycle and defensible custodian-based collection.</strong></p></div>
+      <div class="card red-top"><div class="card-icon">&#128202;</div><h3>High-volume, low-complexity consumer DSRs only</h3><p>If there are no complex or employee DSRs and no defensibility pressure, the wedge is thinner. <strong>Qualify for the hard ones and the cost-per-request trigger.</strong></p></div>
+      <div class="card red-top"><div class="card-icon">&#128274;</div><h3>Deeply entrenched incumbent at mid-cycle</h3><p>An incumbent like OneTrust with time left on the contract. <strong>Phase the case to renewal; start with the highest-risk request types where the gap is widest.</strong></p></div>
+    </div>
+
+    <div class="sec-hdr"><h2>Objections to Anticipate</h2><div class="bar"></div></div>
+
+    <div class="acc-item open">
+      <div class="acc-trigger" onclick="toggleAcc(this)"><span>"We already have OneTrust / a privacy tool."</span><span class="acc-chevron">&#8964;</span></div>
+      <div class="acc-body"><strong>Counter:</strong> OneTrust is a compliance-workflow layer that exports documents to external tools for review and creates backend records manually. Exterro Data Subject Rights Manager keeps review, redaction, and chain-of-custody native in Vault and auto-creates records. The defensibility and labor savings are the gap. Validate specifics per deal.</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-trigger" onclick="toggleAcc(this)"><span>"DataGrail already auto-connects to our systems."</span><span class="acc-chevron">&#8964;</span></div>
+      <div class="acc-body"><strong>Counter:</strong> Connectors find data at request time and miss legacy, unconnected, and M&amp;A systems. DataGrail also has no native review or redaction and no persistent data-inventory linkage. For employee DSRs and defensible production it falls short.</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-trigger" onclick="toggleAcc(this)"><span>"We don't get enough DSRs to justify a platform."</span><span class="acc-chevron">&#8964;</span></div>
+      <div class="acc-body"><strong>Counter:</strong> Cost is driven by complexity per request, not volume. A single complex or employee DSR reviewed manually carries real legal exposure and outside-counsel cost. The platform pays off on the hard ones, not the count.</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-trigger" onclick="toggleAcc(this)"><span>"Can we trust automated redaction?"</span><span class="acc-chevron">&#8964;</span></div>
+      <div class="acc-body"><strong>Counter:</strong> Auto-redaction is rule-based and always followed by human review in Vault. Nothing is produced until a reviewer marks it for release. Accuracy metric is an internal target; validate with Product.</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-trigger" onclick="toggleAcc(this)"><span>"Isn't this just intake automation?"</span><span class="acc-chevron">&#8964;</span></div>
+      <div class="acc-body"><strong>Counter:</strong> No. It is complete lifecycle orchestration through review, redaction, production, deletion, and audit, not a form-and-ticket front end.</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-trigger" onclick="toggleAcc(this)"><span>"We already own Exterro for e-discovery / legal hold."</span><span class="acc-chevron">&#8964;</span></div>
+      <div class="acc-body"><strong>Counter:</strong> That is the strongest fit. Exterro Data Subject Rights Manager extends the platform you already trust, reuses your Vault review and custodian-based collection for employee DSRs, and adds privacy without a new vendor. If they also run Legal Hold, they can cross-reference active holds before deletion within one platform.</div>
+    </div>
+
+    <div class="sec-hdr" style="margin-top:28px"><h2>Mistakes That Kill Deals</h2><div class="bar"></div></div>
+
+    <div class="grid-3">
+      <div class="card red-top"><div class="card-icon">&#128683;</div><h3>Claiming sole ownership of "automated redaction"</h3><p>OneTrust, Transcend, and BigID offer it, and Nuix and Phaselaw compete directly. Differentiate on the integrated e-discovery review environment, not redaction alone.</p></div>
+      <div class="card red-top"><div class="card-icon">&#128683;</div><h3>Relying on stale "they can't redact" claims</h3><p>The category moves fast. Do not lean on a claim that a competitor cannot redact or has no automation; verify per deal.</p></div>
+      <div class="card red-top"><div class="card-icon">&#128683;</div><h3>Competing on connector count</h3><p>That is DataGrail, Securiti, Transcend, and BigID's turf. Lead with inventory linkage, review depth, and defensibility instead.</p></div>
+      <div class="card red-top"><div class="card-icon">&#128683;</div><h3>Over-framing Mimecast as a direct competitor</h3><p>It is comms-data centric and narrow. Position it as adjacent, not a head-to-head DSR platform.</p></div>
+      <div class="card red-top"><div class="card-icon">&#128683;</div><h3>Claiming automated legal-hold blocking</h3><p>The cross-reference within one platform is real today; an automatic check or block on deletion is not something to claim.</p></div>
+      <div class="card red-top"><div class="card-icon">&#128683;</div><h3>Presenting targets as proven results</h3><p>The ~50% time reduction, greater than 98% SLA, and greater than 99% redaction accuracy are internal targets. Frame the opportunity, do not assert outcomes.</p></div>
+    </div>
+
+  </div>
+  <div class="page-footer"><strong>Internal Use Only.</strong> Competitive facts are point-in-time and consolidating. Refresh competitor intel and verify certifications per opportunity before external use.</div>
+</div>
+
+</main>
+
+<script>
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+function toggleAcc(el) {
+  el.parentElement.classList.toggle('open');
+}
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>

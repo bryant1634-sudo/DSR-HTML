@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exterro Data Subject Rights Manager — Explainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+
+:root {
+  --orange:        #F26C38;
+  --orange-dk:     #C8541E;
+  --orange-glow:   rgba(242,108,56,0.5);
+  --purple:        #352C5A;
+  --purple-dk:     #2A2148;
+  --purple-mid:    #4A3F72;
+  --white:         #FFFFFF;
+  --silver:        #6D6E70;
+  --green:         #64BD63;
+  --red:           #D64545;
+  --blue:          #64ADC6;
+  --bg-deep:       #1E1733;
+  --card:          rgba(255,255,255,0.06);
+  --card-border:   rgba(255,255,255,0.12);
+}
+
+html, body {
+  background: var(--bg-deep);
+  color: var(--white);
+  font-family: 'Lato', Arial, Calibri, sans-serif;
+  height: 100%;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Stage / Player Frame */
+.player {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(242,108,56,0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(100,173,198,0.15) 0%, transparent 50%),
+    linear-gradient(135deg, #1E1733 0%, #2A2148 50%, #1E1733 100%);
+  overflow: hidden;
+}
+
+.particle { position: absolute; border-radius: 50%; pointer-events: none; opacity: 0; }
+.p1 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(242,108,56,0.15), transparent 70%); top: -100px; right: -80px; }
+.p2 { width: 240px; height: 240px; background: radial-gradient(circle, rgba(100,173,198,0.12), transparent 70%); bottom: -60px; left: -60px; }
+.p3 { width: 180px; height: 180px; background: radial-gradient(circle, rgba(53,44,90,0.5), transparent 70%); top: 40%; left: 30%; }
+
+@keyframes drift {
+  0%,100% { transform: translate(0,0) scale(1); opacity: 0.6; }
+  50%     { transform: translate(40px,-30px) scale(1.1); opacity: 0.9; }
+}
+.particles-active .p1 { animation: drift 14s ease-in-out infinite; opacity: 1; }
+.particles-active .p2 { animation: drift 18s ease-in-out infinite reverse; opacity: 1; }
+.particles-active .p3 { animation: drift 22s ease-in-out infinite; opacity: 1; }
+
+.stage { position: relative; width: min(1100px, 95vw); height: min(620px, 85vh); z-index: 2; }
+
+.scene {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s;
+  padding: 40px;
+}
+.scene.active { opacity: 1; visibility: visible; }
+
+/* Brand badge */
+.brand-badge { position: absolute; top: 24px; left: 32px; font-size: 16px; font-weight: 900; letter-spacing: -0.3px; color: rgba(255,255,255,0.9); z-index: 10; display: flex; align-items: center; gap: 10px; }
+.brand-badge .x { color: var(--orange); }
+.brand-badge .pipe { width: 1px; height: 14px; background: rgba(255,255,255,0.2); }
+.brand-badge .label { font-size: 9.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+/* Progress bar */
+.progress-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.08); z-index: 5; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--orange), #FF8A5C); width: 0%; transition: width 0.1s linear; box-shadow: 0 0 12px var(--orange-glow); }
+
+/* Scene 1: Hook */
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 24px; opacity: 0; }
+.scene.active .eyebrow { animation: fadeUp 0.7s ease 0.1s forwards; }
+.headline { font-size: clamp(36px, 5vw, 56px); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; text-align: center; margin-bottom: 20px; opacity: 0; max-width: 900px; }
+.scene.active .headline { animation: fadeUp 0.8s ease 0.3s forwards; }
+.headline em { font-style: normal; color: var(--orange); }
+.sub { font-size: clamp(15px, 1.5vw, 18px); color: rgba(255,255,255,0.65); text-align: center; max-width: 660px; line-height: 1.55; opacity: 0; }
+.scene.active .sub { animation: fadeUp 0.7s ease 0.6s forwards; }
+
+/* Scene 2: Problem */
+.problem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; max-width: 820px; margin-top: 28px; }
+.problem-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; padding: 22px 24px; display: flex; align-items: flex-start; gap: 16px; opacity: 0; transform: translateY(20px); position: relative; overflow: hidden; }
+.problem-card::before { content:''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--orange); }
+.scene.active .problem-card { animation: fadeUp 0.5s ease forwards; }
+.scene.active .problem-card:nth-child(1) { animation-delay: 0.4s; }
+.scene.active .problem-card:nth-child(2) { animation-delay: 0.6s; }
+.scene.active .problem-card:nth-child(3) { animation-delay: 0.8s; }
+.scene.active .problem-card:nth-child(4) { animation-delay: 1.0s; }
+.pc-icon { width: 38px; height: 38px; border-radius: 9px; background: rgba(242,108,56,0.18); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+.pc-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 5px; color: var(--white); }
+.pc-text p { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+/* Scene 3: Cost */
+.cost-stage { text-align: center; }
+.cost-line1 { font-size: 17px; color: rgba(255,255,255,0.55); margin-bottom: 16px; opacity: 0; }
+.cost-stage.show .cost-line1 { animation: fadeUp 0.6s ease 0.1s forwards; }
+.cost-equation { display: flex; align-items: center; justify-content: center; gap: 14px; font-size: clamp(18px, 2.2vw, 24px); font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 28px; opacity: 0; flex-wrap: wrap; }
+.cost-stage.show .cost-equation { animation: fadeUp 0.6s ease 0.4s forwards; }
+.cost-equation .n { color: var(--orange); }
+.cost-equation .op { color: rgba(255,255,255,0.45); font-weight: 400; font-size: 0.8em; }
+.cost-big { font-size: clamp(80px, 12vw, 140px); font-weight: 900; line-height: 0.95; letter-spacing: -4px; background: linear-gradient(135deg, var(--orange) 0%, #FF8A5C 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 14px; opacity: 0; filter: drop-shadow(0 0 30px rgba(242,108,56,0.4)); }
+.cost-stage.show .cost-big { animation: bigPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards; }
+@keyframes bigPop { 0% { opacity:0; transform: scale(0.4); } 60% { opacity:1; transform: scale(1.1); } 100% { opacity:1; transform: scale(1); } }
+.cost-caption { font-size: clamp(18px, 2vw, 24px); font-weight: 700; color: var(--white); margin-bottom: 8px; opacity: 0; }
+.cost-stage.show .cost-caption { animation: fadeUp 0.6s ease 1.4s forwards; }
+.cost-tagline { font-size: 14px; color: rgba(255,255,255,0.5); font-style: italic; opacity: 0; max-width: 620px; margin: 0 auto; }
+.cost-stage.show .cost-tagline { animation: fadeUp 0.6s ease 1.7s forwards; }
+
+/* Scene 4: Shift */
+.shift-pivot { text-align: center; }
+.shift-line1 { font-size: clamp(26px, 3vw, 34px); font-weight: 300; color: rgba(255,255,255,0.55); margin-bottom: 12px; opacity: 0; text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 3px; max-width: 760px; }
+.scene.active .shift-line1 { animation: fadeUp 0.6s ease 0.2s forwards; }
+.shift-arrow { font-size: 32px; color: rgba(255,255,255,0.5); margin: 14px 0; opacity: 0; }
+.scene.active .shift-arrow { animation: fadeUp 0.5s ease 0.6s forwards; }
+.shift-line2 { font-size: clamp(40px, 5vw, 60px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; color: var(--white); opacity: 0; }
+.scene.active .shift-line2 { animation: fadeUp 0.7s ease 0.9s forwards; }
+.shift-line2 em { font-style: normal; background: linear-gradient(135deg, var(--orange), #FF8A5C); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Scene 5: Workflow */
+.workflow-title { font-size: clamp(26px, 3vw, 34px); font-weight: 900; text-align: center; margin-bottom: 8px; opacity: 0; }
+.workflow-sub { font-size: 15px; color: rgba(255,255,255,0.55); text-align: center; margin-bottom: 36px; opacity: 0; max-width: 720px; }
+.scene.active .workflow-title { animation: fadeUp 0.6s ease 0.1s forwards; }
+.scene.active .workflow-sub { animation: fadeUp 0.6s ease 0.3s forwards; }
+.workflow-track { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; width: 100%; max-width: 940px; position: relative; }
+.wf-step { display: flex; flex-direction: column; align-items: center; position: relative; opacity: 0; transform: translateY(20px); }
+.scene.active .wf-step { animation: fadeUp 0.45s ease forwards; }
+.scene.active .wf-step:nth-child(1) { animation-delay: 0.55s; }
+.scene.active .wf-step:nth-child(2) { animation-delay: 0.75s; }
+.scene.active .wf-step:nth-child(3) { animation-delay: 0.95s; }
+.scene.active .wf-step:nth-child(4) { animation-delay: 1.15s; }
+.scene.active .wf-step:nth-child(5) { animation-delay: 1.35s; }
+.scene.active .wf-step:nth-child(6) { animation-delay: 1.55s; }
+.wf-circle { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), var(--orange-dk)); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px; box-shadow: 0 6px 24px rgba(242,108,56,0.35); position: relative; }
+.wf-step.green-step .wf-circle { background: linear-gradient(135deg, var(--green), #4F9A4E); box-shadow: 0 6px 24px rgba(100,189,99,0.4); }
+.wf-num { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: var(--white); color: var(--purple); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-deep); }
+.wf-step.green-step .wf-num { color: var(--green); }
+.wf-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 4px; text-align: center; }
+.wf-step.green-step .wf-label { color: var(--green); }
+.wf-desc { font-size: 11.5px; color: rgba(255,255,255,0.55); text-align: center; line-height: 1.4; }
+.wf-divider { margin-top: 36px; font-size: 13px; color: rgba(255,255,255,0.55); text-align: center; font-style: italic; max-width: 760px; padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); opacity: 0; }
+.scene.active .wf-divider { animation: fadeUp 0.6s ease 1.8s forwards; }
+.wf-divider strong { color: var(--green); font-weight: 700; }
+
+/* Scene 6: Outcome */
+.outcome-stage { text-align: center; }
+.outcome-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 20px; opacity: 0; }
+.scene.active .outcome-eyebrow { animation: fadeUp 0.6s ease 0.1s forwards; }
+.outcome-title { font-size: clamp(34px, 4vw, 46px); font-weight: 900; letter-spacing: -1px; line-height: 1.1; margin-bottom: 36px; opacity: 0; }
+.scene.active .outcome-title { animation: fadeUp 0.7s ease 0.4s forwards; }
+.outcome-title em { font-style: normal; color: var(--orange); }
+.outcome-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 820px; width: 100%; }
+.oc-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; padding: 24px 20px; text-align: center; opacity: 0; transform: translateY(20px); }
+.scene.active .oc-card { animation: fadeUp 0.5s ease forwards; }
+.scene.active .oc-card:nth-child(1) { animation-delay: 0.7s; }
+.scene.active .oc-card:nth-child(2) { animation-delay: 0.85s; }
+.scene.active .oc-card:nth-child(3) { animation-delay: 1.0s; }
+.oc-num { font-size: 52px; font-weight: 900; letter-spacing: -2px; background: linear-gradient(135deg, var(--orange), #FF8A5C); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1; margin-bottom: 10px; }
+.oc-card.green-card .oc-num { background: linear-gradient(135deg, var(--green), #8FD98E); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.oc-label { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.oc-sub { font-size: 11.5px; color: rgba(255,255,255,0.55); line-height: 1.45; }
+
+/* Scene 7: CTA */
+.cta-stage { text-align: center; }
+.cta-title { font-size: clamp(38px, 5vw, 56px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 16px; opacity: 0; max-width: 880px; }
+.scene.active .cta-title { animation: fadeUp 0.7s ease 0.2s forwards; }
+.cta-title em { font-style: normal; background: linear-gradient(135deg, var(--orange), #FF8A5C); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.cta-sub { font-size: clamp(15px, 1.6vw, 18px); color: rgba(255,255,255,0.6); max-width: 620px; line-height: 1.6; margin-bottom: 36px; opacity: 0; }
+.scene.active .cta-sub { animation: fadeUp 0.6s ease 0.5s forwards; }
+.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; opacity: 0; }
+.scene.active .cta-buttons { animation: fadeUp 0.6s ease 0.9s forwards; }
+.cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 15px 28px; border-radius: 50px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; font-family: 'Lato', sans-serif; text-decoration: none; transition: all 0.2s cubic-bezier(0.4,0,0.2,1); }
+.cta-primary { background: linear-gradient(135deg, var(--orange), var(--orange-dk)); color: var(--white); box-shadow: 0 8px 24px rgba(242,108,56,0.4); }
+.cta-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(242,108,56,0.55); }
+.cta-ghost { background: rgba(255,255,255,0.08); color: var(--white); border: 1px solid rgba(255,255,255,0.15); }
+.cta-ghost:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+.cta-tagline { margin-top: 32px; font-size: 13px; color: rgba(255,255,255,0.45); font-style: italic; opacity: 0; max-width: 640px; }
+.scene.active .cta-tagline { animation: fadeUp 0.6s ease 1.3s forwards; }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+
+/* Controls */
+.controls { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; background: rgba(20,15,35,0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 50px; z-index: 20; opacity: 0; transition: opacity 0.3s; }
+.player:hover .controls, .controls.show { opacity: 1; }
+.ctrl-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); border: none; color: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; font-family: inherit; }
+.ctrl-btn:hover { background: var(--orange); }
+.ctrl-btn.play-btn { width: 44px; height: 44px; background: var(--orange); }
+.ctrl-btn.play-btn:hover { background: var(--orange-dk); }
+.scene-dots { display: flex; gap: 5px; align-items: center; margin: 0 8px; }
+.scene-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.25); transition: all 0.2s; cursor: pointer; }
+.scene-dot.active { background: var(--orange); width: 22px; border-radius: 4px; }
+.scene-dot:hover { background: rgba(255,255,255,0.5); }
+.time-display { font-size: 11px; color: rgba(255,255,255,0.5); font-variant-numeric: tabular-nums; margin: 0 8px; min-width: 70px; text-align: center; }
+.ctrl-btn.replay-btn { font-size: 11px; font-weight: 700; width: auto; padding: 0 14px; border-radius: 18px; }
+
+/* Start overlay */
+.start-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(30,23,51,0.85), rgba(42,33,72,0.85)); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 30; cursor: pointer; transition: opacity 0.6s; }
+.start-overlay.fade-out { opacity: 0; pointer-events: none; }
+.start-content { text-align: center; max-width: 620px; padding: 0 30px; }
+.start-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+.start-title { font-size: clamp(32px, 4.5vw, 48px); font-weight: 900; line-height: 1.1; letter-spacing: -1px; margin-bottom: 16px; }
+.start-title em { font-style: normal; color: var(--orange); }
+.start-sub { font-size: 15px; color: rgba(255,255,255,0.6); margin-bottom: 32px; line-height: 1.55; }
+.start-play { width: 86px; height: 86px; border-radius: 50%; background: var(--orange); border: none; color: var(--white); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px var(--orange-glow); transition: all 0.2s cubic-bezier(0.4,0,0.2,1); margin-bottom: 14px; }
+.start-play:hover { transform: scale(1.08); box-shadow: 0 18px 60px var(--orange-glow); }
+.start-play svg { margin-left: 4px; }
+.start-meta { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+.audio-note { position: absolute; top: 24px; right: 32px; font-size: 10px; color: rgba(255,255,255,0.4); font-weight: 500; letter-spacing: 0.5px; z-index: 10; }
+
+@media (max-width: 768px) {
+  .stage { width: 95vw; height: 80vh; }
+  .scene { padding: 24px; }
+  .problem-grid { grid-template-columns: 1fr; gap: 12px; }
+  .workflow-track { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .outcome-grid { grid-template-columns: 1fr; gap: 14px; }
+  .brand-badge .label { display: none; }
+}
+@media (max-width: 480px) { .workflow-track { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<div class="player" id="player">
+
+  <div class="particle p1"></div>
+  <div class="particle p2"></div>
+  <div class="particle p3"></div>
+
+  <div class="brand-badge">
+    <span>e<span class="x">x</span>terro<sup style="font-size:8px">&reg;</sup></span>
+    <span class="pipe"></span>
+    <span class="label">Data Subject Rights Manager</span>
+  </div>
+
+  <div class="audio-note">VISUAL &middot; About 70 sec</div>
+
+  <div class="stage">
+
+    <!-- Scene 1: Hook -->
+    <div class="scene" data-scene="1">
+      <div class="eyebrow">When a request comes in</div>
+      <h1 class="headline">The clock starts. So does <em>the risk</em>.</h1>
+      <p class="sub">Access, deletion, and opt-out demands arrive with hard regulatory deadlines, while personal data sits scattered across dozens of systems.</p>
+    </div>
+
+    <!-- Scene 2: Problem -->
+    <div class="scene" data-scene="2">
+      <div class="eyebrow">For most teams, it is a manual scramble</div>
+      <h2 class="headline" style="font-size:clamp(28px, 3.2vw, 38px)">Four places where the process breaks down.</h2>
+      <div class="problem-grid">
+        <div class="problem-card"><div class="pc-icon">&#128229;</div><div class="pc-text"><h4>Fragmented intake</h4><p>A different form and inbox for every brand, so requests are inconsistent and easy to lose.</p></div></div>
+        <div class="problem-card"><div class="pc-icon">&#9201;</div><div class="pc-text"><h4>Manual setup</h4><p>Backend records and data-source mappings built by hand for every single request.</p></div></div>
+        <div class="problem-card"><div class="pc-icon">&#128274;</div><div class="pc-text"><h4>Risky review</h4><p>Redaction in email and PDFs, where privileged, third-party, or sensitive data can slip out.</p></div></div>
+        <div class="problem-card"><div class="pc-icon">&#128203;</div><div class="pc-text"><h4>No audit trail</h4><p>No single record to show a regulator exactly how a request was handled.</p></div></div>
+      </div>
+    </div>
+
+    <!-- Scene 3: Cost -->
+    <div class="scene" data-scene="3">
+      <div class="cost-stage">
+        <div class="cost-line1">Miss a deadline or release the wrong data, and the exposure is statutory.</div>
+        <div class="cost-equation">
+          <span class="n">$2,500 to $7,500</span>
+          <span class="op">per CCPA/CPRA violation</span>
+        </div>
+        <div class="cost-big">&euro;20M</div>
+        <div class="cost-caption">or 4% of global revenue, the GDPR maximum.</div>
+        <div class="cost-tagline">And that is before the cost of manual review, outside counsel, and lost trust.</div>
+      </div>
+    </div>
+
+    <!-- Scene 4: Shift -->
+    <div class="scene" data-scene="4">
+      <div class="shift-pivot">
+        <div class="shift-line1">A manual scramble across mailboxes, PDFs, and spreadsheets.</div>
+        <div class="shift-arrow">&darr;</div>
+        <h2 class="shift-line2">One <em>defensible program</em>, end to end.</h2>
+      </div>
+    </div>
+
+    <!-- Scene 5: How it works -->
+    <div class="scene" data-scene="5">
+      <h2 class="workflow-title">The whole DSR lifecycle in one platform.</h2>
+      <p class="workflow-sub">Intake to audit, with review and redaction native in Exterro Vault. No export to a separate tool, and a reviewer approves before anything is released.</p>
+      <div class="workflow-track">
+        <div class="wf-step"><div class="wf-circle">&#128229;<div class="wf-num">1</div></div><div class="wf-label">Intake</div><div class="wf-desc">One branded portal for every request type and brand.</div></div>
+        <div class="wf-step"><div class="wf-circle">&#128273;<div class="wf-num">2</div></div><div class="wf-label">Verify</div><div class="wf-desc">Identity verification fires automatically on submission.</div></div>
+        <div class="wf-step"><div class="wf-circle">&#9881;<div class="wf-num">3</div></div><div class="wf-label">Scope</div><div class="wf-desc">Backend records build automatically; tasks get assigned.</div></div>
+        <div class="wf-step"><div class="wf-circle">&#128193;<div class="wf-num">4</div></div><div class="wf-label">Collect</div><div class="wf-desc">Data is collected into Exterro Vault for review.</div></div>
+        <div class="wf-step"><div class="wf-circle">&#9999;&#65039;<div class="wf-num">5</div></div><div class="wf-label">Redact</div><div class="wf-desc">Native review and redaction in Vault, nothing exported.</div></div>
+        <div class="wf-step green-step"><div class="wf-circle">&#9989;<div class="wf-num">6</div></div><div class="wf-label">Release</div><div class="wf-desc">Reviewer approves; secure delivery, then sealed in the audit log.</div></div>
+      </div>
+      <div class="wf-divider">Automation handles intake, record creation, and orchestration. <strong>A reviewer approves every redaction and release before anything goes out.</strong></div>
+    </div>
+
+    <!-- Scene 6: Outcome -->
+    <div class="scene" data-scene="6">
+      <div class="outcome-stage">
+        <div class="outcome-eyebrow">What that gives you</div>
+        <h2 class="outcome-title">Faster, consistent, and <em>defensible</em>.</h2>
+        <div class="outcome-grid">
+          <div class="oc-card"><div class="oc-num">1</div><div class="oc-label">One platform</div><div class="oc-sub">Intake, review, redaction, delivery, deletion, and audit in one place.</div></div>
+          <div class="oc-card"><div class="oc-num">0</div><div class="oc-label">Document exports</div><div class="oc-sub">Review and redaction stay native in Exterro Vault, never handed to an outside tool.</div></div>
+          <div class="oc-card green-card"><div class="oc-num">&#10003;</div><div class="oc-label">Every action logged</div><div class="oc-sub">Captured on an immutable, cryptographically chained audit trail built for examination.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 7: CTA -->
+    <div class="scene" data-scene="7">
+      <div class="cta-stage">
+        <h1 class="cta-title">Stop firefighting DSRs. Start running a <em>defensible program</em>.</h1>
+        <p class="cta-sub">See how DSR Manager takes a single request from intake through native review, redaction, and an audit trail you can hand to a regulator.</p>
+        <div class="cta-buttons">
+          <a href="#" class="cta-btn cta-primary" onclick="event.preventDefault();">
+            Schedule a Demo
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <button class="cta-btn cta-ghost" onclick="restart()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Watch Again
+          </button>
+        </div>
+        <div class="cta-tagline">Exterro Data Subject Rights Manager. The only DSAR platform with native e-discovery review and redaction built in.</div>
+      </div>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <!-- Start overlay -->
+  <div class="start-overlay" id="start-overlay">
+    <div class="start-content">
+      <div class="start-eyebrow">A 70-second look</div>
+      <h1 class="start-title">Every data subject request starts a clock, and a <em>risk</em>.</h1>
+      <p class="start-sub">See how Exterro DSR Manager turns a manual scramble into one defensible program, in seven short scenes.</p>
+      <button class="start-play" id="start-play" aria-label="Play">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 21 12 6 21 6 3"/></svg>
+      </button>
+      <div class="start-meta">No audio &middot; About 70 seconds &middot; Click anywhere to play</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls" id="controls">
+    <button class="ctrl-btn" id="prev-btn" aria-label="Previous scene"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><rect x="5" y="4" width="2" height="16"/></svg></button>
+    <button class="ctrl-btn play-btn" id="play-btn" aria-label="Play/Pause">
+      <svg id="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;margin-left:2px"><polygon points="6 3 21 12 6 21 6 3"/></svg>
+      <svg id="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+    </button>
+    <button class="ctrl-btn" id="next-btn" aria-label="Next scene"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><rect x="17" y="4" width="2" height="16"/></svg></button>
+    <div class="scene-dots" id="scene-dots"></div>
+    <div class="time-display" id="time-display">0:00 / 1:10</div>
+    <button class="ctrl-btn replay-btn" onclick="restart()">&#8635; Replay</button>
+  </div>
+
+</div>
+
+<script>
+/* Scene config: durations in ms */
+const scenes = [
+  { id: 1, duration: 5500,  name: 'Hook' },
+  { id: 2, duration: 9500,  name: 'Problem' },
+  { id: 3, duration: 10000, name: 'Cost' },
+  { id: 4, duration: 7000,  name: 'Shift' },
+  { id: 5, duration: 14000, name: 'How it works' },
+  { id: 6, duration: 10000, name: 'Outcome' },
+  { id: 7, duration: 11000, name: 'CTA' },
+];
+
+const totalDuration = scenes.reduce((sum, s) => sum + s.duration, 0);
+
+let currentScene = 0, isPlaying = false, sceneStartTime = 0, elapsedBeforeScene = 0, pauseStartTime = 0, totalPausedTime = 0, rafId = null;
+
+const sceneEls = document.querySelectorAll('.scene');
+const dotsContainer = document.getElementById('scene-dots');
+const progressFill = document.getElementById('progress-fill');
+const timeDisplay = document.getElementById('time-display');
+const playIcon = document.getElementById('play-icon');
+const pauseIcon = document.getElementById('pause-icon');
+const startOverlay = document.getElementById('start-overlay');
+const controls = document.getElementById('controls');
+const player = document.getElementById('player');
+
+scenes.forEach((s, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'scene-dot';
+  dot.title = s.name;
+  dot.onclick = () => jumpToScene(i);
+  dotsContainer.appendChild(dot);
+});
+
+function activateScene(idx) {
+  sceneEls.forEach(el => el.classList.remove('active'));
+  const target = sceneEls[idx];
+  void target.offsetWidth;
+  target.classList.add('active');
+  if (idx === 2) {
+    const cs = target.querySelector('.cost-stage');
+    if (cs) { cs.classList.remove('show'); void cs.offsetWidth; cs.classList.add('show'); }
+  }
+  document.querySelectorAll('.scene-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  currentScene = idx;
+  elapsedBeforeScene = scenes.slice(0, idx).reduce((s, sc) => s + sc.duration, 0);
+}
+
+function formatTime(ms) {
+  const totalSec = Math.floor(ms / 1000);
+  const min = Math.floor(totalSec / 60);
+  const sec = totalSec % 60;
+  return `${min}:${sec.toString().padStart(2, '0')}`;
+}
+
+function tick() {
+  if (!isPlaying) return;
+  const now = performance.now();
+  const sceneElapsed = now - sceneStartTime - totalPausedTime;
+  const scene = scenes[currentScene];
+  const overallElapsed = elapsedBeforeScene + sceneElapsed;
+  progressFill.style.width = Math.min(overallElapsed / totalDuration, 1) * 100 + '%';
+  timeDisplay.textContent = `${formatTime(overallElapsed)} / ${formatTime(totalDuration)}`;
+  if (sceneElapsed >= scene.duration) {
+    if (currentScene < scenes.length - 1) jumpToScene(currentScene + 1);
+    else { pause(); controls.classList.add('show'); }
+  }
+  rafId = requestAnimationFrame(tick);
+}
+
+function play() {
+  if (isPlaying) return;
+  isPlaying = true;
+  if (pauseStartTime > 0) { totalPausedTime += performance.now() - pauseStartTime; pauseStartTime = 0; }
+  else { sceneStartTime = performance.now(); totalPausedTime = 0; }
+  playIcon.style.display = 'none';
+  pauseIcon.style.display = 'block';
+  rafId = requestAnimationFrame(tick);
+}
+
+function pause() {
+  if (!isPlaying) return;
+  isPlaying = false;
+  pauseStartTime = performance.now();
+  playIcon.style.display = 'block';
+  pauseIcon.style.display = 'none';
+  if (rafId) cancelAnimationFrame(rafId);
+}
+
+function togglePlay() { if (isPlaying) pause(); else play(); }
+
+function jumpToScene(idx) {
+  if (idx < 0 || idx >= scenes.length) return;
+  activateScene(idx);
+  sceneStartTime = performance.now();
+  totalPausedTime = 0;
+  pauseStartTime = 0;
+  if (!isPlaying) {
+    progressFill.style.width = (elapsedBeforeScene / totalDuration * 100) + '%';
+    timeDisplay.textContent = `${formatTime(elapsedBeforeScene)} / ${formatTime(totalDuration)}`;
+  }
+}
+
+function restart() { pause(); jumpToScene(0); setTimeout(() => play(), 100); }
+
+function initialStart() {
+  startOverlay.classList.add('fade-out');
+  player.classList.add('particles-active');
+  activateScene(0);
+  setTimeout(() => play(), 400);
+  setTimeout(() => startOverlay.style.display = 'none', 800);
+}
+
+document.getElementById('start-play').onclick = initialStart;
+startOverlay.onclick = (e) => { if (e.target === startOverlay) initialStart(); };
+document.getElementById('play-btn').onclick = togglePlay;
+document.getElementById('prev-btn').onclick = () => jumpToScene(Math.max(0, currentScene - 1));
+document.getElementById('next-btn').onclick = () => jumpToScene(Math.min(scenes.length - 1, currentScene + 1));
+
+document.addEventListener('keydown', (e) => {
+  if (startOverlay.style.display !== 'none') {
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); initialStart(); }
+    return;
+  }
+  if (e.key === ' ')      { e.preventDefault(); togglePlay(); }
+  if (e.key === 'ArrowRight') jumpToScene(Math.min(scenes.length - 1, currentScene + 1));
+  if (e.key === 'ArrowLeft')  jumpToScene(Math.max(0, currentScene - 1));
+  if (e.key === 'r' || e.key === 'R') restart();
+});
+
+player.addEventListener('click', (e) => {
+  if (e.target === player || e.target.classList.contains('stage')) {
+    if (startOverlay.style.display !== 'none') return;
+    togglePlay();
+  }
+});
+</script>
+</body>
+</html>

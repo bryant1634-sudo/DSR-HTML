@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exterro DSR Manager · Outreach Sequence</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange:#F26C38;--orange-dk:#C8541E;--orange-lt:rgba(242,108,56,0.10);--orange-xl:rgba(242,108,56,0.05);
+  --purple:#352C5A;--purple-md:#4A3F72;--purple-lt:rgba(53,44,90,0.08);--purple-xl:rgba(53,44,90,0.04);
+  --charcoal:#2B2733;--silver:#6D6E70;--mid-gray:#E2E3E5;--lt-gray:#F1F1F2;--off-white:#F6F5F8;--white:#FFFFFF;
+  --blue:#64ADC6;--blue-dk:#2F6F86;--green:#64BD63;--red:#D64545;
+  --radius:10px;--radius-sm:7px;
+  --shadow:0 2px 12px rgba(53,44,90,0.09);--shadow-md:0 6px 24px rgba(53,44,90,0.13);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{font-family:'Lato',Arial,Calibri,sans-serif;background:var(--off-white);color:var(--charcoal);min-height:100vh}
+
+.top-header{background:var(--purple);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(53,44,90,0.28)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{font-size:20px;font-weight:900;color:var(--white);letter-spacing:-.3px}
+.logo .x{color:var(--orange)}
+.brand-sep{width:1px;height:18px;background:rgba(255,255,255,0.22)}
+.brand-label{font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,0.5)}
+.header-badge{background:rgba(242,108,56,0.22);border:1px solid rgba(242,108,56,0.4);color:#FFBB99;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+
+.shell{max-width:1220px;margin:0 auto;padding:36px 48px 80px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.shell{animation:fadeUp .35s ease both}
+
+.page-hdr{margin-bottom:30px}
+.page-eyebrow{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.page-title{font-size:32px;font-weight:900;color:var(--purple);line-height:1.1;margin-bottom:10px}
+.page-title .acc{color:var(--orange)}
+.page-sub{font-size:14px;color:var(--silver);line-height:1.7;max-width:680px}
+
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px}
+.stat-box{background:var(--white);border:1px solid var(--mid-gray);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--orange);box-shadow:var(--shadow)}
+.stat-box:nth-child(2){border-top-color:var(--purple-md)}
+.stat-box:nth-child(3){border-top-color:var(--blue)}
+.stat-box:nth-child(4){border-top-color:var(--green)}
+.stat-box:nth-child(5){border-top-color:var(--orange)}
+.sb-num{font-size:24px;font-weight:900;color:var(--orange);line-height:1;margin-bottom:3px}
+.stat-box:nth-child(2) .sb-num{color:var(--purple-md)}
+.stat-box:nth-child(3) .sb-num{color:var(--blue)}
+.stat-box:nth-child(4) .sb-num{color:var(--green)}
+.sb-lbl{font-size:10.5px;color:var(--silver);line-height:1.35}
+
+.overview-strip{background:var(--purple);border-radius:var(--radius);padding:20px 28px;margin-bottom:26px;display:flex;gap:0;overflow:hidden;position:relative;box-shadow:var(--shadow-md)}
+.overview-strip::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(242,108,56,0.1);pointer-events:none}
+.os-col{flex:1;padding:0 22px;border-right:1px solid rgba(255,255,255,0.1);position:relative;z-index:1}
+.os-col:first-child{padding-left:0}
+.os-col:last-child{border-right:none}
+.os-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:6px}
+.os-name{font-size:13px;font-weight:700;color:var(--white);margin-bottom:4px}
+.os-desc{font-size:11px;color:rgba(255,255,255,0.52);line-height:1.5}
+
+.full-timeline{background:var(--white);border:1px solid var(--mid-gray);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:24px}
+.ft-header{background:var(--off-white);border-bottom:1px solid var(--mid-gray);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.ft-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple)}
+.ft-sub{font-size:11px;color:var(--silver)}
+.ft-scroll{overflow-x:auto;padding:16px 20px 14px}
+.ft-track{display:flex;gap:6px;min-width:max-content;align-items:stretch}
+.ft-touch{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:all .15s;border-radius:8px;padding:8px 6px 8px;border:1.5px solid var(--lt-gray);min-width:64px;background:var(--white);position:relative}
+.ft-touch:hover{border-color:var(--orange);background:var(--orange-xl)}
+.ft-touch.active{border-color:var(--orange);background:var(--orange-lt)}
+.ft-touch.active .ft-ch-icon{background:var(--orange)}
+.ft-day{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:5px}
+.ft-ch-icon{width:28px;height:28px;border-radius:50%;background:var(--mid-gray);display:flex;align-items:center;justify-content:center;font-size:13px;margin-bottom:5px;transition:background .15s;flex-shrink:0}
+.ft-touch.active .ft-day{color:var(--orange-dk)}
+.ft-num{font-size:9px;color:var(--silver);font-weight:700}
+.ft-connector{width:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--mid-gray);font-size:10px;align-self:center;padding-top:4px}
+
+.seq-tabs{display:flex;gap:0;margin-bottom:24px;background:var(--white);border:1px solid var(--mid-gray);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);overflow-x:auto}
+.seq-tab{flex:0 0 auto;min-width:120px;padding:14px 18px;border-right:1px solid var(--mid-gray);cursor:pointer;transition:background .18s;position:relative}
+.seq-tab:last-child{border-right:none}
+.seq-tab:hover{background:var(--purple-xl)}
+.seq-tab.active{background:var(--purple-lt)}
+.seq-tab.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--orange)}
+.st-badge{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:4px}
+.st-dot{width:6px;height:6px;border-radius:50%;background:var(--orange)}
+.st-title{font-size:13px;font-weight:700;color:var(--purple);margin-bottom:2px;line-height:1.2}
+.st-day{font-size:10.5px;color:var(--silver);margin-bottom:5px}
+.st-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:20px}
+.tag-pain{background:rgba(214,69,69,0.10);color:#B23A3A}
+.tag-edu{background:rgba(100,173,198,0.12);color:var(--blue-dk)}
+.tag-risk{background:rgba(254,219,77,0.18);color:#8a6d00}
+.tag-platform{background:rgba(100,189,99,0.10);color:var(--green)}
+.tag-ai{background:var(--purple-lt);color:var(--purple-md)}
+.tag-break{background:var(--orange-lt);color:var(--orange-dk)}
+
+.controls-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.controls-row.last{margin-bottom:22px}
+.ctrl-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-right:4px;min-width:62px}
+.p-btn{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;border:1.5px solid var(--mid-gray);background:var(--white);color:var(--silver);cursor:pointer;transition:all .15s;font-family:'Lato',sans-serif;box-shadow:var(--shadow)}
+.p-btn:hover{border-color:var(--orange);color:var(--orange-dk)}
+.p-btn.active{background:var(--purple);border-color:var(--purple);color:var(--white)}
+.m-btn.active{background:var(--orange);border-color:var(--orange);color:var(--white)}
+.m-btn.active:hover{color:var(--white)}
+
+.main-grid{display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:start}
+
+.composer{background:var(--white);border:1px solid var(--mid-gray);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden}
+.composer-titlebar{background:var(--purple);padding:13px 20px;display:flex;align-items:center;justify-content:space-between}
+.ctb-dots{display:flex;gap:6px;align-items:center}
+.ctb-dot{width:10px;height:10px;border-radius:50%}
+.ctb-label{font-size:11px;color:rgba(255,255,255,0.4);margin-left:10px;letter-spacing:.3px}
+.copy-btn{background:rgba(242,108,56,0.22);border:1px solid rgba(242,108,56,0.4);color:#FFBB99;font-size:11px;font-weight:700;padding:5px 14px;border-radius:5px;cursor:pointer;transition:all .15s;font-family:'Lato',sans-serif;display:flex;align-items:center;gap:5px}
+.copy-btn:hover{background:rgba(242,108,56,0.32)}
+.copy-btn.copied{background:rgba(100,189,99,0.2);border-color:rgba(100,189,99,0.4);color:#8ee8b0}
+.email-meta-bar{border-bottom:1px solid var(--lt-gray)}
+.emb-row{display:flex;align-items:baseline;gap:14px;padding:9px 24px;border-bottom:1px solid var(--lt-gray);font-size:12px}
+.emb-row:last-child{border-bottom:none}
+.emb-field{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);min-width:64px;flex-shrink:0}
+.emb-value{color:var(--charcoal);line-height:1.4}
+.emb-ph{color:var(--orange);background:var(--orange-lt);border-radius:3px;padding:1px 6px;font-size:11px}
+.email-body-area{padding:26px 28px 22px;font-size:14px;color:var(--charcoal);line-height:1.85}
+.email-body-area p{margin-bottom:14px}
+.email-body-area p:last-child{margin-bottom:0}
+.ph{color:var(--orange);background:var(--orange-lt);border-radius:3px;padding:1px 6px;font-size:13px;font-weight:700}
+.email-body-area strong{color:var(--purple);font-weight:700}
+.bullet-list{margin:10px 0 14px 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+.bullet-list li{font-size:14px;color:var(--charcoal);padding-left:18px;position:relative;line-height:1.6}
+.bullet-list li::before{content:'\2192';position:absolute;left:0;color:var(--orange);font-weight:700}
+.email-body-area .sig{color:var(--silver);font-size:13px;line-height:1.7}
+.email-body-area .sig strong{color:var(--charcoal)}
+.trigger-note-line{font-size:13px;color:var(--purple-md);background:var(--purple-lt);border-left:3px solid var(--purple-md);padding:8px 14px;border-radius:0 6px 6px 0;margin-bottom:14px;line-height:1.55}
+.trigger-note-line .tn-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:3px}
+
+.channel-badge-bar{padding:10px 24px;border-bottom:1px solid var(--lt-gray);display:flex;align-items:center;gap:8px;background:var(--off-white)}
+.ch-badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:20px}
+.ch-email{background:var(--orange-lt);color:var(--orange-dk);border:1px solid rgba(242,108,56,0.2)}
+.ch-sep{color:var(--mid-gray);font-size:12px;margin:0 2px}
+.ch-goal{font-size:11px;color:var(--silver);margin-left:auto;font-style:italic}
+
+.subjects-block{margin:0 28px 24px;border:1px solid var(--mid-gray);border-radius:var(--radius);overflow:hidden;background:var(--white)}
+.sb-header{background:var(--off-white);padding:9px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--lt-gray)}
+.sbh-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);flex:1}
+.sbh-hint{font-size:10px;color:var(--silver)}
+.subj-list{display:flex;flex-direction:column}
+.subj-item{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--lt-gray);cursor:pointer;transition:background .14s;gap:10px}
+.subj-item:last-child{border-bottom:none}
+.subj-item:hover{background:var(--orange-xl)}
+.subj-item.active{background:var(--orange-lt)}
+.subj-text{font-size:13px;color:var(--charcoal);line-height:1.4;flex:1}
+.subj-item.active .subj-text{font-weight:700;color:var(--orange-dk)}
+.subj-copy-btn{font-size:10px;font-weight:700;color:var(--silver);background:var(--lt-gray);border:none;border-radius:4px;padding:3px 8px;cursor:pointer;font-family:'Lato',sans-serif;flex-shrink:0;transition:all .15s}
+.subj-copy-btn:hover{background:var(--orange);color:var(--white)}
+
+.asset-block{margin:0 28px 24px;border:1px dashed var(--mid-gray);border-radius:var(--radius);overflow:hidden;transition:border-color .2s}
+.asset-block:hover{border-color:var(--orange)}
+.asset-block-header{background:var(--off-white);padding:9px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--lt-gray)}
+.abh-icon{font-size:14px}
+.abh-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);flex:1}
+.abh-hint{font-size:10px;color:var(--silver)}
+.asset-selector{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px;background:var(--white)}
+.asset-opt{padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:700;border:1.5px solid var(--mid-gray);background:var(--white);color:var(--silver);cursor:pointer;transition:all .15s;font-family:'Lato',sans-serif}
+.asset-opt:hover{border-color:var(--purple);color:var(--purple)}
+.asset-opt.active{background:var(--purple);border-color:var(--purple);color:var(--white)}
+.asset-preview{padding:12px 14px;background:var(--purple-xl);border-top:1px solid var(--lt-gray);display:none}
+.asset-preview.show{display:block}
+.ap-row{display:flex;align-items:center;gap:10px}
+.ap-icon-box{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ap-name{font-size:12.5px;font-weight:700}
+.ap-meta{font-size:11px;color:var(--silver);margin-top:1px;font-weight:400}
+.ap-btn{margin-left:auto;background:var(--orange);color:var(--white);font-size:11px;font-weight:700;padding:5px 13px;border-radius:5px;border:none;cursor:pointer;font-family:'Lato',sans-serif;transition:background .15s;flex-shrink:0}
+.ap-btn:hover{background:var(--orange-dk)}
+.asset-ps{margin:10px 14px 0;font-size:12px;color:var(--purple-md);background:var(--purple-lt);padding:8px 12px;border-radius:6px;line-height:1.55;border:1px solid rgba(53,44,90,0.12)}
+.asset-ps .aps-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:3px}
+
+.right-panel{display:flex;flex-direction:column;gap:16px;position:sticky;top:76px}
+.rp-card{background:var(--white);border:1px solid var(--mid-gray);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.rpc-header{padding:11px 18px;border-bottom:1px solid var(--lt-gray);display:flex;align-items:center;gap:8px;background:var(--off-white)}
+.rpc-icon{font-size:14px}
+.rpc-title{font-size:12px;font-weight:700;color:var(--purple)}
+.rpc-body{padding:14px 18px}
+.timing-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--lt-gray);font-size:12px}
+.timing-row:last-child{border-bottom:none}
+.tr-label{color:var(--silver)}
+.tr-val{font-weight:700;font-size:11.5px}
+.tr-val.orange{color:var(--orange-dk)}
+.tr-val.purple{color:var(--purple)}
+.tr-val.green{color:var(--green)}
+.tr-val.blue{color:var(--blue-dk)}
+.coaching-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px}
+.coaching-list li{font-size:12px;color:var(--silver);line-height:1.55;padding-left:14px;position:relative}
+.coaching-list li::before{content:'\203A';position:absolute;left:0;color:var(--orange);font-weight:700}
+.coaching-list li.motion-note{color:var(--purple-md);font-weight:700}
+.coaching-list li.motion-note::before{content:'\25C6';font-size:9px;top:2px}
+.signal-grid{display:flex;flex-direction:column;gap:6px}
+.signal-item{display:flex;align-items:flex-start;gap:10px;padding:7px 10px;border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;border:1px solid var(--lt-gray);font-size:12px;color:var(--charcoal);line-height:1.45}
+.signal-item:hover{border-color:var(--orange);background:var(--orange-xl)}
+.signal-item.checked{border-color:var(--green);background:rgba(100,189,99,0.06);color:var(--silver);text-decoration:line-through}
+.si-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.si-chk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--mid-gray);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s;margin-left:auto}
+.signal-item.checked .si-chk{background:var(--green);border-color:var(--green);color:white}
+
+.phone-script{margin-top:16px}
+.ps-toggle{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--purple-md);cursor:pointer;padding:10px 18px;border-radius:var(--radius-sm);background:var(--purple-lt);border:none;width:100%;font-family:'Lato',sans-serif;transition:background .15s}
+.ps-toggle:hover{background:rgba(53,44,90,0.13)}
+.ps-toggle .ps-chevron{margin-left:auto;transition:transform .2s;font-size:14px}
+.ps-toggle.open .ps-chevron{transform:rotate(180deg)}
+.ps-body{display:none;border:1px solid var(--mid-gray);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);overflow:hidden}
+.ps-body.open{display:block}
+.ps-section{padding:12px 16px;border-bottom:1px solid var(--lt-gray)}
+.ps-section:last-child{border-bottom:none}
+.ps-section.motion{background:var(--orange-xl)}
+.ps-section-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.ps-text{font-size:12.5px;color:var(--charcoal);line-height:1.65}
+.ps-text .ps-ph{color:var(--orange);font-weight:700}
+.ps-if{margin-top:8px;padding:8px 10px;border-radius:6px;font-size:11.5px;color:var(--silver);line-height:1.55}
+.ps-if.yes{background:rgba(100,189,99,0.07);border-left:2px solid var(--green)}
+.ps-if.no{background:rgba(214,69,69,0.06);border-left:2px solid var(--red)}
+.ps-if-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px}
+.ps-if.yes .ps-if-label{color:var(--green)}
+.ps-if.no .ps-if-label{color:var(--red)}
+
+.li-panel{background:var(--white);border:1px solid var(--mid-gray);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-top:0}
+.li-header{background:rgba(10,102,194,0.07);padding:10px 16px;border-bottom:1px solid rgba(10,102,194,0.14);display:flex;align-items:center;gap:8px}
+.li-icon{font-size:15px}
+.li-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#0A66C2}
+.li-body{padding:14px 16px;font-size:13px;color:var(--charcoal);line-height:1.75}
+.li-note{font-size:11px;color:var(--silver);margin-top:8px;padding:7px 10px;background:var(--lt-gray);border-radius:6px;line-height:1.5}
+
+.bottom{margin-top:28px}
+.bs-hdr{margin-bottom:18px}
+.bs-hdr h2{font-size:20px;font-weight:900;color:var(--purple);margin-bottom:4px}
+.bs-bar{width:32px;height:3px;background:var(--orange);border-radius:2px;margin-top:6px}
+.bs-note{font-size:13px;color:var(--silver);margin-top:4px}
+.strat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
+.strat-card{background:var(--white);border:1px solid var(--mid-gray);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);border-top:3px solid var(--purple);position:relative;overflow:hidden}
+.strat-card:nth-child(2){border-top-color:var(--orange)}
+.strat-card:nth-child(3){border-top-color:var(--blue)}
+.sc-num{font-size:40px;font-weight:900;color:var(--purple);opacity:.07;position:absolute;top:10px;right:16px;line-height:1}
+.sc-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+.b1{background:var(--purple-lt);color:var(--purple)}.b2{background:var(--orange-lt);color:var(--orange-dk)}.b3{background:rgba(100,173,198,0.12);color:var(--blue-dk)}
+.sc-title{font-size:13.5px;font-weight:700;color:var(--purple);margin-bottom:8px;line-height:1.3}
+.sc-body{font-size:12px;color:var(--silver);line-height:1.65}
+.sc-body strong{color:var(--charcoal);font-weight:700}
+.tech-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.tt{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid}
+.tt-pain{background:rgba(214,69,69,0.08);color:#B23A3A;border-color:rgba(214,69,69,0.2)}
+.tt-edu{background:rgba(100,173,198,0.08);color:var(--blue-dk);border-color:rgba(100,173,198,0.25)}
+.tt-ai{background:var(--purple-lt);color:var(--purple-md);border-color:rgba(53,44,90,0.2)}
+.tt-platform{background:rgba(100,189,99,0.07);color:var(--green);border-color:rgba(100,189,99,0.2)}
+.tt-break{background:var(--orange-lt);color:var(--orange-dk);border-color:rgba(242,108,56,0.25)}
+.tt-asset{background:var(--purple-lt);color:var(--purple-md);border-color:rgba(53,44,90,0.2)}
+.dos-donts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:26px}
+.dd-card{background:var(--white);border:1px solid var(--mid-gray);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.dd-hdr{padding:11px 18px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.dd-hdr.green{background:rgba(100,189,99,0.07);color:var(--green);border-bottom:1px solid rgba(100,189,99,0.15)}
+.dd-hdr.red{background:rgba(214,69,69,0.06);color:#B23A3A;border-bottom:1px solid rgba(214,69,69,0.15)}
+.dd-body{padding:14px 18px}
+.dd-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+.dd-list li{font-size:12.5px;color:var(--silver);line-height:1.5;padding-left:18px;position:relative}
+.dd-list.do li::before{content:'\2713';position:absolute;left:0;color:var(--green);font-weight:700}
+.dd-list.dont li::before{content:'\2717';position:absolute;left:0;color:var(--red);font-weight:700}
+
+.footer-note{margin-top:30px;padding-top:16px;border-top:1px solid var(--mid-gray);font-size:11px;color:var(--silver);text-align:center;letter-spacing:.3px}
+
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--purple);color:var(--white);padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;opacity:0;transition:all .28s;pointer-events:none;z-index:200;box-shadow:var(--shadow-md)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:900px){
+  .shell{padding:24px 20px 60px}
+  .top-header{padding:0 20px}
+  .main-grid{grid-template-columns:1fr}
+  .right-panel{position:static}
+  .stats-row{grid-template-columns:repeat(3,1fr)}
+  .seq-tabs{overflow-x:auto}
+  .strat-grid{grid-template-columns:1fr}
+  .dos-donts{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="top-header">
+  <div class="brand">
+    <div class="logo">e<span class="x">x</span>terro<sup style="font-size:9px;vertical-align:super">&reg;</sup></div>
+    <div class="brand-sep"></div>
+    <div class="brand-label">DSR Manager &middot; Outreach Sequence</div>
+  </div>
+  <div class="header-badge">Internal &middot; Rep Use Only</div>
+</header>
+
+<div class="shell">
+
+<div class="page-hdr">
+  <div class="page-eyebrow">Outreach Sequence</div>
+  <div class="page-title">Exterro <span class="acc">DSR Manager</span></div>
+  <div class="page-sub">A multi-channel sequence for the privacy and legal buying committee: 6 emails, 4 calls, and 4 LinkedIn touches over two weeks. Toggle the motion (New Logo or Expansion) and the persona, pick a step, then copy and send. The frame stays constant: other tools automate intake and discovery; Exterro governs the whole DSR lifecycle in one platform.</div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="sb-num">6</div><div class="sb-lbl">Emails<br>in sequence</div></div>
+  <div class="stat-box"><div class="sb-num">4</div><div class="sb-lbl">Phone<br>touchpoints</div></div>
+  <div class="stat-box"><div class="sb-num">4</div><div class="sb-lbl">LinkedIn<br>touches</div></div>
+  <div class="stat-box"><div class="sb-num">14</div><div class="sb-lbl">Days<br>total duration</div></div>
+  <div class="stat-box"><div class="sb-num">14</div><div class="sb-lbl">Total<br>touchpoints</div></div>
+</div>
+
+<div class="overview-strip" id="overview-strip"></div>
+
+<div class="full-timeline">
+  <div class="ft-header">
+    <div class="ft-title">Full Touchpoint Map</div>
+    <div class="ft-sub">Click any touchpoint to jump to that step</div>
+  </div>
+  <div class="ft-scroll"><div class="ft-track" id="ft-track"></div></div>
+</div>
+
+<div class="seq-tabs" id="seq-tabs">
+  <div class="seq-tab active" onclick="setEmail(1,this)"><div class="st-badge"><span class="st-dot"></span>Email 1</div><div class="st-title">The DSR scramble</div><div class="st-day">Day 1</div><div class="st-tag tag-pain">Pain opener</div></div>
+  <div class="seq-tab" onclick="setEmail(2,this)"><div class="st-badge"><span class="st-dot"></span>Email 2</div><div class="st-title">Review without the export</div><div class="st-day">Day 4</div><div class="st-tag tag-edu">Solution intro</div></div>
+  <div class="seq-tab" onclick="setEmail(3,this)"><div class="st-badge"><span class="st-dot"></span>Email 3</div><div class="st-title">Prove it to a regulator</div><div class="st-day">Day 7</div><div class="st-tag tag-risk">Risk frame</div></div>
+  <div class="seq-tab" onclick="setEmail(4,this)"><div class="st-badge"><span class="st-dot"></span>Email 4</div><div class="st-title">One platform, full lifecycle</div><div class="st-day">Day 10</div><div class="st-tag tag-platform">Platform value</div></div>
+  <div class="seq-tab" onclick="setEmail(5,this)"><div class="st-badge"><span class="st-dot"></span>Email 5</div><div class="st-title">Built for the hard ones</div><div class="st-day">Day 12</div><div class="st-tag tag-ai">Differentiator</div></div>
+  <div class="seq-tab" onclick="setEmail(6,this)"><div class="st-badge"><span class="st-dot"></span>Email 6</div><div class="st-title">Closing the loop</div><div class="st-day">Day 14</div><div class="st-tag tag-break">Breakup</div></div>
+</div>
+
+<div class="controls-row">
+  <span class="ctrl-label">Motion:</span>
+  <button class="p-btn m-btn active" onclick="setMotion('new',this)">New Logo</button>
+  <button class="p-btn m-btn" onclick="setMotion('exp',this)">Expansion</button>
+</div>
+<div class="controls-row last">
+  <span class="ctrl-label">Persona:</span>
+  <button class="p-btn active" onclick="setPersona('p1',this)">Legal / Compliance</button>
+  <button class="p-btn" onclick="setPersona('p2',this)">Privacy (CPO/DPO)</button>
+  <button class="p-btn" onclick="setPersona('p3',this)">GC / CFO</button>
+  <button class="p-btn" onclick="setPersona('p4',this)">IT / Data Steward</button>
+</div>
+
+<div class="main-grid">
+  <div>
+    <div class="composer">
+      <div class="composer-titlebar">
+        <div style="display:flex;align-items:center">
+          <div class="ctb-dots">
+            <div class="ctb-dot" style="background:#FF5F57"></div>
+            <div class="ctb-dot" style="background:#FEBC2E"></div>
+            <div class="ctb-dot" style="background:#28C840"></div>
+          </div>
+          <span class="ctb-label" id="ct-label">email_01.txt</span>
+        </div>
+        <button class="copy-btn" id="copy-btn" onclick="copyEmail()">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 8V1h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Copy Email
+        </button>
+      </div>
+
+      <div class="channel-badge-bar" id="channel-bar">
+        <span class="ch-badge ch-email">&#9993;&#65039; Email</span>
+        <span class="ch-sep">&middot;</span>
+        <span class="ch-goal" id="ch-goal-text"></span>
+      </div>
+
+      <div class="email-meta-bar">
+        <div class="emb-row"><span class="emb-field">To</span><span class="emb-value"><span class="emb-ph">[First Name Last Name]</span> &lt;<span class="emb-ph">[email@company.com]</span>&gt;</span></div>
+        <div class="emb-row"><span class="emb-field">From</span><span class="emb-value"><span class="emb-ph">[Your Name]</span> &middot; Business Development, Exterro</span></div>
+        <div class="emb-row"><span class="emb-field">Subject</span><span class="emb-value" id="email-subject"></span></div>
+      </div>
+
+      <div class="email-body-area" id="email-body"></div>
+
+      <div class="subjects-block">
+        <div class="sb-header"><span class="abh-icon">&#9999;&#65039;</span><span class="sbh-label">Subject Line Options</span><span class="sbh-hint">Click to use &middot; Click copy to grab</span></div>
+        <div class="subj-list" id="subj-list"></div>
+      </div>
+
+      <div class="asset-block">
+        <div class="asset-block-header"><span class="abh-icon">&#128206;</span><span class="abh-label">Attach an Asset</span><span class="abh-hint" id="asset-count-hint"></span></div>
+        <div class="asset-selector" id="asset-selector"></div>
+        <div class="asset-preview show" id="asset-preview"></div>
+      </div>
+    </div>
+
+    <div class="phone-script" id="phone-script-wrap">
+      <button class="ps-toggle" id="ps-toggle" onclick="togglePhone()">
+        <span>&#128222;</span> <span id="ps-toggle-label">Phone Script</span>
+        <span class="ps-chevron">&#9662;</span>
+      </button>
+      <div class="ps-body" id="ps-body"></div>
+    </div>
+
+    <div id="li-wrap" style="display:none;margin-top:16px">
+      <div class="li-panel">
+        <div class="li-header"><span class="li-icon">&#128188;</span><span class="li-label" id="li-header-label">LinkedIn Touch</span></div>
+        <div class="li-body" id="li-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="rp-card">
+      <div class="rpc-header"><span class="rpc-icon">&#128197;</span><span class="rpc-title">Sequence Timing</span></div>
+      <div class="rpc-body">
+        <div class="timing-row"><span class="tr-label">This touchpoint</span><span class="tr-val orange" id="tp-day">Day 1</span></div>
+        <div class="timing-row"><span class="tr-label">Touch #</span><span class="tr-val purple" id="tp-num">1 of 14</span></div>
+        <div class="timing-row"><span class="tr-label">Motion</span><span class="tr-val green" id="tp-motion">New Logo</span></div>
+        <div class="timing-row"><span class="tr-label">Email goal</span><span class="tr-val" id="tp-goal" style="color:var(--charcoal);font-size:11.5px"></span></div>
+        <div class="timing-row"><span class="tr-label">Next touch</span><span class="tr-val orange" id="tp-next"></span></div>
+      </div>
+    </div>
+
+    <div class="rp-card">
+      <div class="rpc-header"><span class="rpc-icon">&#127919;</span><span class="rpc-title" id="coaching-title">Coaching Notes</span></div>
+      <div class="rpc-body"><ul class="coaching-list" id="coaching-list"></ul></div>
+    </div>
+
+    <div class="rp-card">
+      <div class="rpc-header"><span class="rpc-icon">&#128225;</span><span class="rpc-title">Buying Signals to Listen For</span></div>
+      <div class="rpc-body"><div class="signal-grid" id="signal-grid"></div></div>
+    </div>
+
+    <div class="rp-card">
+      <div class="rpc-header"><span class="rpc-icon">&#128172;</span><span class="rpc-title">Core Messaging Anchors</span></div>
+      <div class="rpc-body">
+        <ul class="coaching-list">
+          <li>The only DSR platform with native e-discovery review and redaction built in</li>
+          <li>Built for the hard ones: complex and employee DSRs</li>
+          <li>Defensible and audit-ready, on an immutable audit trail</li>
+          <li>Automate record creation; every task in one session</li>
+          <li>One console for every brand and jurisdiction</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom">
+  <div class="bs-hdr"><h2>Sequence Strategy</h2><div class="bs-bar"></div><div class="bs-note">How each phase builds on the last</div></div>
+  <div class="strat-grid">
+    <div class="strat-card"><span class="sc-num">1</span><span class="sc-badge b1">Phase 1 &middot; Days 1-5</span><div class="sc-title">Name the pain, earn the conversation</div><div class="sc-body">Emails 1 to 2, Calls 1 to 2, and the connection request. Open on the persona's specific pain, then introduce the native review and redaction wedge. <strong>Ask process questions before pitching: where do they review and redact today?</strong></div><div class="tech-tags"><span class="tt tt-pain">Pain</span><span class="tt tt-edu">Wedge</span><span class="tt tt-asset">Explainer</span></div></div>
+    <div class="strat-card"><span class="sc-num">2</span><span class="sc-badge b2">Phase 2 &middot; Days 6-11</span><div class="sc-title">Prove defensibility and platform value</div><div class="sc-body">Emails 3 to 4, Calls 3 to 4, and a LinkedIn message. Move from the wedge to risk and the full lifecycle. <strong>Get them to picture a regulator asking them to show exactly how a request was handled.</strong></div><div class="tech-tags"><span class="tt tt-ai">Defensibility</span><span class="tt tt-platform">Lifecycle</span><span class="tt tt-asset">Demo</span></div></div>
+    <div class="strat-card"><span class="sc-num">3</span><span class="sc-badge b3">Phase 3 &middot; Days 12-14</span><div class="sc-title">Differentiate, then close the loop</div><div class="sc-body">Emails 5 to 6 and a LinkedIn message. Land the e-discovery and employee-DSR wedge, then send the breakup. <strong>Send the breakup. It often pulls the highest reply rate of the sequence.</strong></div><div class="tech-tags"><span class="tt tt-ai">Wedge</span><span class="tt tt-break">Breakup</span><span class="tt tt-edu">Reply</span></div></div>
+  </div>
+
+  <div class="bs-hdr" style="margin-top:16px"><h2>Do's &amp; Don'ts</h2><div class="bs-bar"></div><div class="bs-note">What separates a response from a delete, and what keeps you inside the approved message</div></div>
+  <div class="dos-donts">
+    <div class="dd-card"><div class="dd-hdr green">&#10003; Do This</div><div class="dd-body"><ul class="dd-list do">
+      <li>Lead with Legal and Compliance; they are the champion in most won accounts</li>
+      <li>Name the persona's specific pain, not a generic value prop</li>
+      <li>Ask process questions first: how do they review and redact today?</li>
+      <li>Frame cost by complexity per request, not by volume</li>
+      <li>Keep "a reviewer approves before anything is released" in every automation claim</li>
+      <li>Send the breakup email; it often has the highest reply rate</li>
+    </ul></div></div>
+    <div class="dd-card"><div class="dd-hdr red">&#10007; Don't Do This</div><div class="dd-body"><ul class="dd-list dont">
+      <li>Lead with product features in the subject line</li>
+      <li>Claim the platform automatically checks or blocks deletion when a legal hold exists</li>
+      <li>Quote pricing or savings figures; none are approved</li>
+      <li>Present internal targets as proven customer outcomes</li>
+      <li>Send a wall of text; every email needs one clear ask</li>
+      <li>Skip the phone and LinkedIn touches; email alone rarely sets the meeting</li>
+    </ul></div></div>
+  </div>
+</div>
+
+<div class="footer-note">Internal use only. Pending Product validation. Refresh competitive intel per deal.</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+const PERSONAS = ['p1','p2','p3','p4'];
+const personaLabels = { p1:'Legal / Compliance', p2:'Privacy (CPO/DPO)', p3:'GC / CFO', p4:'IT / Data Steward' };
+const motionLabels = { new:'New Logo', exp:'Expansion' };
+
+const chIcons = { email:'\u2709\uFE0F', phone:'\uD83D\uDCDE', linkedin:'\uD83D\uDCBC' };
+
+const allTouches = [
+  {day:1, ch:'email', label:'E1', title:'The DSR scramble', email:1},
+  {day:2, ch:'phone', label:'C1', title:'Call 1'},
+  {day:3, ch:'linkedin', label:'Li', title:'Connection Request'},
+  {day:4, ch:'email', label:'E2', title:'Review without the export', email:2},
+  {day:5, ch:'phone', label:'C2', title:'Call 2'},
+  {day:6, ch:'linkedin', label:'Li', title:'LinkedIn Message'},
+  {day:7, ch:'email', label:'E3', title:'Prove it to a regulator', email:3},
+  {day:8, ch:'phone', label:'C3', title:'Call 3'},
+  {day:9, ch:'linkedin', label:'Li', title:'LinkedIn Message'},
+  {day:10,ch:'email', label:'E4', title:'One platform, full lifecycle', email:4},
+  {day:11,ch:'phone', label:'C4', title:'Call 4'},
+  {day:12,ch:'email', label:'E5', title:'Built for the hard ones', email:5},
+  {day:13,ch:'linkedin', label:'Li', title:'LinkedIn Message'},
+  {day:14,ch:'email', label:'E6', title:'Closing the loop', email:6},
+];
+
+const overview = {
+  new: [
+    {label:'Goal', name:'Set the first meeting', desc:'Open a net-new privacy or legal buyer and book a 20-minute intro.'},
+    {label:'Core Message', name:'Built for the hard ones', desc:'Native e-discovery review and redaction, on an immutable audit trail.'},
+    {label:'Primary CTA', name:'20-minute intro call', desc:'A short call to compare how they handle complex and employee DSRs.'},
+    {label:'Channels', name:'Email \u00b7 Phone \u00b7 LinkedIn', desc:'Email carries the message; calls and LinkedIn create the openings email alone will not.'},
+  ],
+  exp: [
+    {label:'Goal', name:'Open the privacy expansion', desc:'Start the DSR conversation inside an account that already runs Exterro.'},
+    {label:'Core Message', name:'The privacy module you already run', desc:'Same Vault review and custodian-based collection, extended to DSRs.'},
+    {label:'Primary CTA', name:'20-minute working session', desc:'Map their DSR volume to the platform the team already trusts.'},
+    {label:'Channels', name:'Email \u00b7 Phone \u00b7 LinkedIn', desc:'Lean on the existing relationship; loop in the account team early.'},
+  ],
+};
+
+/* ---- email scaffolding ---- */
+function mkBody(c){
+  return `<p>Hi <span class="ph">[First Name]</span>,</p>
+<p>${c.hook}</p>
+${c.trigger?`<div class="trigger-note-line"><span class="tn-label">\u26A1 Personalize this line</span>${c.trigger}</div>`:''}
+<p>${c.value}</p>
+${c.bullets?`<ul class="bullet-list">${c.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>`:''}
+<p>${c.ask}</p>
+<p class="sig">Best,<br><strong><span class="ph">[Your Name]</span></strong><br>Business Development, Exterro &middot; <span class="ph">[Phone]</span></p>`;
+}
+
+const emailMeta = {
+  1:{day:1, touchNum:1,  next:'Day 2 \u00b7 Phone',    goal:'Earn a reply by naming the persona\u2019s pain'},
+  2:{day:4, touchNum:4,  next:'Day 5 \u00b7 Phone',    goal:'Introduce the native review and redaction wedge'},
+  3:{day:7, touchNum:7,  next:'Day 8 \u00b7 Phone',    goal:'Frame regulatory risk and defensibility'},
+  4:{day:10,touchNum:10, next:'Day 11 \u00b7 Phone',   goal:'Show the full lifecycle in one platform'},
+  5:{day:12,touchNum:12, next:'Day 13 \u00b7 LinkedIn',goal:'Land the e-discovery and employee-DSR differentiator'},
+  6:{day:14,touchNum:14, next:'\u2014',               goal:'Close the loop and pull a final reply'},
+};
+
+const subjects = {
+  new:{
+    1:['How is [Company] handling complex DSRs?','The hard DSRs, not the easy ones','DSR fulfillment without the manual scramble'],
+    2:['Where do your DSRs get reviewed today?','Review and redaction without the export','The step most DSR tools hand off'],
+    3:['If a regulator asked, what could you show?','The DSRs that carry real exposure','Defensible, not just done'],
+    4:['From intake to audit, without the handoffs','One console for every brand and request','The whole DSR lifecycle in one place'],
+    5:['Built on e-discovery, not bolted on','Why employee DSRs break consumer tools','The hard ones are the point'],
+    6:['Should I close this out?','Closing the loop on DSRs','Last note from me'],
+  },
+  exp:{
+    1:['The privacy module of the Exterro you run','Extending Exterro into DSRs','Your Vault review, now for privacy requests'],
+    2:['No second review surface for DSRs','Same Vault, now for data subject requests','Reuse the review muscle you already have'],
+    3:['One audit trail across e-discovery and DSRs','The defensibility you already rely on, for privacy','Prove DSR handling the way you prove discovery'],
+    4:['Add privacy without adding a vendor','Extend the console you already run','DSRs on the platform you already trust'],
+    5:['Employee DSRs are e-discovery, you already win there','Phase out the privacy tool, start with the hard ones','Your e-discovery strength, applied to DSRs'],
+    6:['Should I close this out?','Closing the loop on DSR expansion','Last note from me'],
+  },
+};
+
+/* ---- email bodies: content[motion][email][persona] ---- */
+const content = {
+  new:{
+    1:{
+      p1:{hook:'Most legal teams tell me the risk in a data subject request is not the routine access request. It is the complex or employee one, where privileged and third-party data sits in email, Slack, and HR systems and review still happens in PDFs.',
+          trigger:'Reference a trigger: new state-law exposure, a new privacy or legal hire, or a recent employee matter.',
+          value:'Exterro DSR Manager keeps review and redaction inside our e-discovery engine, with a reviewer approving before anything is released. Nothing is exported to a separate tool.',
+          bullets:['Privilege and third-party review handled in Vault, not in email','Custodian-based collection for employee DSRs','Every action captured on an immutable audit trail'],
+          ask:'Worth 20 minutes to compare how your team handles the hard ones?'},
+      p2:{hook:'When a data subject request comes in, the clock starts. For a lot of privacy teams the problem is intake split across brands and mailboxes, with no single record to show a regulator how a request was handled.',
+          trigger:'Reference a trigger: multi-brand structure, new jurisdictions in scope, or a recent program review.',
+          value:'DSR Manager runs every request type and brand through one portal and captures every action on an immutable audit trail. You get one defensible program, not intake automation bolted onto manual review.',
+          bullets:['One multi-brand portal for access, deletion, correction, and opt-out','Automated identity verification and record creation','An examination-ready audit trail for every request'],
+          ask:'Open to a short call on making DSRs defensible end to end?'},
+      p3:{hook:'For most legal and privacy budgets, the expensive part of DSRs is not volume. It is the complex requests that get sent to outside counsel, and a tooling stack that still cannot prove process to a regulator.',
+          trigger:'Reference a trigger: board-level privacy focus, a vendor consolidation push, or rising outside-counsel spend.',
+          value:'DSR Manager consolidates intake, review, redaction, and audit in one platform, which lowers the cost and risk of the requests that actually carry exposure.',
+          bullets:['One platform instead of a tool that hands documents off for review','Lower exposure on complex and employee requests','Vendor and process consolidation'],
+          ask:'Worth a brief conversation on the cost and risk side of your DSR program?'},
+      p4:{hook:'Most data stewards I talk to lose time to the same thing: building backend records by hand for every request and chasing repeated uploads with no clear ownership.',
+          trigger:'Reference a trigger: a recent reorg, new systems in scope, or an overloaded privacy queue.',
+          value:'DSR Manager creates the backend records automatically and sends collection tasks with clear scope, so uploads happen inside the task instead of over email.',
+          bullets:['Backend records built automatically, no manual setup','Clear, scoped collection tasks per system','Uploads tracked inside the task'],
+          ask:'Open to 15 minutes on how this lands on IT and data owners?'},
+    },
+    2:{
+      p1:{hook:'Quick follow-up. The gap I see most often is that DSR tools stop at intake and ticketing, then export documents to a separate tool for review. That handoff is where privilege and third-party exposure creep in.',
+          trigger:'Tie this to their environment: how privileged or co-mingled data shows up in their employee DSRs.',
+          value:'With DSR Manager, collected files open directly in Exterro Vault for automated and manual redaction and privilege review. No export, and nothing is released until a reviewer approves it.',
+          bullets:['Native auto and manual redaction of PII, PHI, financial, and third-party data','Privilege review in the same environment as collection','A human in the loop before any release'],
+          ask:'Want to see the review and redaction step live?'},
+      p2:{hook:'Following up. Most privacy tools handle the front of the process well and then hand documents off for review somewhere else, which breaks the single record you need.',
+          trigger:'Reference the systems their personal data lives in: Microsoft 365, Google Workspace, Slack, Salesforce, HR.',
+          value:'DSR Manager handles intake, review, redaction, production, and deletion in one platform, all on one audit trail, instead of stitching a workflow tool to an outside review process.',
+          bullets:['One workflow from intake through deletion','Review and redaction native, with no external handoff','One audit trail across the whole request'],
+          ask:'Open to a 20-minute walkthrough of the end-to-end flow?'},
+      p3:{hook:'Following up. A lot of the DSR tooling spend goes to a layer that still exports documents elsewhere for review, which adds a second tool and a second point of risk.',
+          trigger:'Reference their current stack or the outside-counsel cost of manual review.',
+          value:'DSR Manager keeps review and redaction native, so you consolidate the workflow and drop the external review handoff that drives cost and exposure.',
+          bullets:['One platform instead of intake plus a separate review tool','Less manual review sent to outside counsel','One audit trail to prove the whole process'],
+          ask:'Worth comparing your current stack against a single-platform approach?'},
+      p4:{hook:'Following up on the collection side. When review happens in a separate tool, your team ends up re-exporting and re-uploading the same data more than once.',
+          trigger:'Reference how their stewards hand off data today and where it gets duplicated.',
+          value:'In DSR Manager, when a steward marks a task complete, collection flows straight into the review surface. No re-export, no second upload.',
+          bullets:['Collected data routes straight into Vault','No re-export between collection and review','Clear task status so nothing stalls'],
+          ask:'Want to see the collection-to-review handoff?'},
+    },
+    3:{
+      p1:{hook:'Different angle. The question that decides most regulatory examinations is simple: can you show exactly how a request was identified, reviewed, redacted, and released?',
+          trigger:'Reference a recent regulatory inquiry, audit, or examination in their sector.',
+          value:'Every action, transition, redaction, and release in DSR Manager is captured in an immutable, cryptographically chained audit log, with privilege and chain-of-custody handling, built for examination.',
+          bullets:['Documented, examination-ready proof of process','Privilege and chain-of-custody handling','Exemptions documented per jurisdiction'],
+          ask:'Useful to see a sample audit-trail export?'},
+      p2:{hook:'Different angle. Most teams can show that a request was completed. Far fewer can show exactly how it was handled if a regulator asks.',
+          trigger:'Reference a near-miss deadline or a recent audit request.',
+          value:'DSR Manager captures every step on an immutable, cryptographically chained audit log, so you can produce a defensible record for any request on demand.',
+          bullets:['One record per request, end to end','Immutable, examination-ready log','Real-time status across brands and jurisdictions'],
+          ask:'Want to walk through what that record looks like?'},
+      p3:{hook:'Different angle. The board-level question is not how many DSRs you process. It is whether you can prove the process held up if a regulator looks.',
+          trigger:'Reference board or audit-committee attention on privacy risk.',
+          value:'DSR Manager gives you a defensible, documented record for every request, which is what turns privacy from an open risk into a controlled capability.',
+          bullets:['Examination-ready documentation for every request','Lower exposure on the requests that carry it','Program-level visibility you can report up'],
+          ask:'Worth a short conversation on the risk story for your board?'},
+      p4:{hook:'Different angle. When the process lives in mailboxes and spreadsheets, your team spends the firefight reconstructing what happened after the fact.',
+          trigger:'Reference how status and ownership are tracked today.',
+          value:'DSR Manager logs every task and transition automatically, so the record builds itself instead of your team rebuilding it under deadline.',
+          bullets:['Automatic status and ownership tracking','No manual reconstruction after the fact','SLA reminders so nothing slips'],
+          ask:'Open to seeing how the task and status view works?'},
+    },
+    4:{
+      p1:{hook:'Stepping back to the whole picture. The hard cases get harder when intake, collection, review, and deletion each live in a different tool.',
+          trigger:'Reference the request types that stress their current process most.',
+          value:'DSR Manager runs the full lifecycle in one platform: multi-brand intake, identity verification, automated record creation, collection, native review and redaction, secure delivery, and deletion, all on one audit trail.',
+          bullets:['Review, redaction, and deletion in one governed workflow','Documented deletion, with exemptions recorded','One audit trail across every stage'],
+          ask:'Want the end-to-end walkthrough, start to finish?'},
+      p2:{hook:'Stepping back to the whole picture. Stitching point tools together is where consistency and defensibility break down.',
+          trigger:'Reference the number of systems or tools their DSR process touches today.',
+          value:'DSR Manager covers intake through deletion in one console, so the same defensible process runs across every brand, request type, and jurisdiction.',
+          bullets:['One console for every brand and jurisdiction','One workflow from intake to audit close','Consistent process, fully documented'],
+          ask:'Open to a full lifecycle demo?'},
+      p3:{hook:'Stepping back to the economics. Every separate tool in the DSR chain is another contract, another integration, and another point of risk.',
+          trigger:'Reference their consolidation goals or current vendor count.',
+          value:'DSR Manager consolidates the whole lifecycle into one platform, which lowers vendor overhead and removes the gaps between tools where risk hides.',
+          bullets:['Fewer vendors and contracts in the DSR chain','One platform to support and audit','Lower risk from fewer handoffs'],
+          ask:'Worth modeling this against your current stack?'},
+      p4:{hook:'Stepping back to the operational picture. Every tool boundary in the chain is another export, import, and place for data to go stale.',
+          trigger:'Reference where their process hands off between tools today.',
+          value:'DSR Manager runs collection, review, production, and deletion in one platform, so data moves through the lifecycle without leaving it.',
+          bullets:['No exports and re-imports between stages','Clear ownership at every step','Less IT involvement per request'],
+          ask:'Want to see how the stages connect operationally?'},
+    },
+    5:{
+      p1:{hook:'The sharpest reason teams pick us: DSR Manager was built on Exterro\u2019s e-discovery engine. Employee DSRs are essentially e-discovery, with privilege and third-party data in the mix.',
+          trigger:'Reference their employee-DSR volume or a recent privileged-data near-miss.',
+          value:'That means custodian-based collection, native review, and privilege handling for the requests that consumer-grade privacy tools were never built for. Refresh competitive specifics per deal.',
+          bullets:['E-discovery-grade, custodian-based collection','Native privilege review before release','The wedge competitors that stop at intake cannot match'],
+          ask:'Want to see the employee-DSR and privilege-review workflow?'},
+      p2:{hook:'The sharpest reason teams switch: most privacy tools automate intake and discovery, then stop. They do not review and redact natively, and they miss legacy and unconnected systems.',
+          trigger:'Reference the incumbent they may be re-evaluating at renewal.',
+          value:'DSR Manager governs the whole lifecycle with native review and redaction and persistent data-inventory linkage, so you are not exporting documents to a separate tool. Verify competitor specifics per deal.',
+          bullets:['Native review and redaction, no external handoff','Persistent inventory linkage, not scan-at-request-time','Strong on employee and complex DSRs'],
+          ask:'Worth a side-by-side against what you run today?'},
+      p3:{hook:'The sharpest reason this pays off: the requests that drive cost and risk are the complex and employee ones, and that is exactly where most tools fall short.',
+          trigger:'Reference outside-counsel spend on complex requests, or a renewal decision.',
+          value:'DSR Manager is built on e-discovery, so it handles the hard requests in-platform instead of routing them to manual review or outside counsel. Confirm specifics per deal.',
+          bullets:['Handles the requests that carry the most exposure','Reduces manual and outside review','Consolidates the spend into one platform'],
+          ask:'Worth a short conversation on where your DSR cost actually sits?'},
+      p4:{hook:'The practical reason this matters for your team: the hard requests, employee and complex DSRs, are where manual collection and review pile up.',
+          trigger:'Reference the systems employee DSRs touch in their environment.',
+          value:'DSR Manager reuses e-discovery-grade, custodian-based collection so the hard requests run as structured tasks instead of manual scavenger hunts.',
+          bullets:['Custodian-based collection across systems','Structured tasks, not manual hunting','Less rework on the hardest requests'],
+          ask:'Want to see how the hard requests are handled operationally?'},
+    },
+    6:{
+      p1:{hook:'I have reached out a few times about keeping DSR review, redaction, and defensibility native in one platform. I do not want to keep landing in your inbox if the timing is off.',
+          trigger:'Optional: reference the specific pain you opened with.',
+          value:'If the hard requests, employee and complex DSRs, are not a priority right now, no problem. If they are, a 20-minute look is worth it.',
+          ask:'Should I close this out, or is a short call worth it?'},
+      p2:{hook:'I have sent a few notes on running DSRs as one defensible program rather than intake automation plus manual review. I will stop here if it is not the right time.',
+          trigger:'Optional: reference the program pain you opened with.',
+          value:'If defensibility and cycle time are on your list this year, the conversation is quick. If not, I will get out of your inbox.',
+          ask:'Worth a short call, or should I close this out?'},
+      p3:{hook:'I have reached out about lowering the cost and risk of your DSR program through consolidation. I do not want to keep following up if it is not a priority.',
+          trigger:'Optional: reference the cost or risk angle you opened with.',
+          value:'If program risk and vendor consolidation are on the table, a brief conversation is worth it. If not, I will close this out.',
+          ask:'Should I follow up next quarter, or close this out now?'},
+      p4:{hook:'I have reached out about cutting the manual setup and re-uploads your team carries on every DSR. I will stop here if the timing is wrong.',
+          trigger:'Optional: reference the operational pain you opened with.',
+          value:'If the manual load is worth fixing, a 15-minute look is enough. If not, I will get out of your inbox.',
+          ask:'Worth a quick look, or should I close this out?'},
+    },
+  },
+  exp:{
+    1:{
+      p1:{hook:'Since [Company] already runs Exterro for e-discovery and legal hold, I wanted to flag DSR Manager. It reuses the same Vault review and custodian-based collection your team already knows, for access, deletion, and employee DSRs.',
+          trigger:'Reference their current Exterro footprint and the account team they work with.',
+          value:'Same review surface, same defensibility, extended to privacy. If you also run Exterro Legal Hold, your team can cross-reference active holds within the same platform before completing a deletion.',
+          bullets:['Privilege and redaction in the Vault you already use','Custodian-based collection for employee DSRs','Legal-hold cross-reference within one platform'],
+          ask:'Worth 20 minutes with your account team to look at the DSR fit?'},
+      p2:{hook:'Since [Company] already runs Exterro, I wanted to flag DSR Manager as the privacy extension of the platform you trust, rather than a separate tool with its own review process.',
+          trigger:'Reference their growing DSR volume or new jurisdictions in scope.',
+          value:'You get multi-brand intake, automated record creation, and native review on the same defensibility and audit trail your team already relies on.',
+          bullets:['One multi-brand portal on the Exterro platform','Automated identity verification and record creation','One audit trail across discovery and DSRs'],
+          ask:'Open to a short working session on extending into DSRs?'},
+      p3:{hook:'Since [Company] already owns Exterro, DSR Manager is the cleanest path to handle growing DSR volume without adding a vendor, a new review surface, or duplicated effort.',
+          trigger:'Reference their consolidation goals or the privacy tooling they may be considering.',
+          value:'It extends the platform you already pay for and support, which means lower cost and risk than standing up a separate privacy tool.',
+          bullets:['No new vendor, no new review surface','Lower cost than a standalone privacy tool','One platform to support and audit'],
+          ask:'Worth a brief conversation on the expansion economics?'},
+      p4:{hook:'Since your team already works in Exterro, DSR Manager runs on the same platform, so there is no new tool to learn and no separate review surface to maintain.',
+          trigger:'Reference the systems and workflows the team already uses in Exterro.',
+          value:'Collection tasks and automated records work the way your team already knows, now applied to data subject requests.',
+          bullets:['Same platform, no new tool to learn','Automated records and scoped collection tasks','Uploads tracked inside the task'],
+          ask:'Open to 15 minutes on how DSRs fit your current setup?'},
+    },
+    2:{
+      p1:{hook:'Quick follow-up. The reason this fit is strong: you already review and redact in Exterro Vault for discovery. DSR Manager routes DSR data into the exact same surface.',
+          trigger:'Reference how their team uses Vault review today.',
+          value:'No second review tool, no export, and the same privilege handling your team already trusts, now applied to access, deletion, and employee DSRs.',
+          bullets:['DSR data flows into the Vault you already use','No second review surface to learn or maintain','Same privilege and chain-of-custody handling'],
+          ask:'Want to see DSR review inside your existing Vault?'},
+      p2:{hook:'Following up. Most privacy tools would add a separate review process. DSR Manager reuses the one your team already runs.',
+          trigger:'Reference their current Exterro workflows.',
+          value:'Intake, review, redaction, production, and deletion happen on the same platform and audit trail your team already operates, so you add privacy without adding complexity.',
+          bullets:['One platform from intake to deletion','Review native in the Vault you already use','One audit trail across discovery and DSRs'],
+          ask:'Open to a short session mapping DSRs onto your current setup?'},
+      p3:{hook:'Following up. The cost case is simple: a standalone privacy tool means a second review surface and a second contract. Extending Exterro means neither.',
+          trigger:'Reference their vendor count or consolidation goals.',
+          value:'DSR Manager reuses the review and collection muscle you already pay for, so the expansion adds capability without adding tooling spend.',
+          bullets:['No second review tool to license','Reuses what you already operate','Consolidates DSRs into the platform you own'],
+          ask:'Worth modeling expansion against a standalone purchase?'},
+      p4:{hook:'Following up on the operational side. Because DSR data routes into the Vault your team already uses, there is no re-export and no parallel process to run.',
+          trigger:'Reference the collection workflows the team already runs in Exterro.',
+          value:'When a steward marks a collection task complete, the data flows into the same review surface your team knows. No new process.',
+          bullets:['Collection flows into your existing Vault','No re-export or parallel workflow','Same task experience your team already uses'],
+          ask:'Want to see the collection-to-review flow in your environment?'},
+    },
+    3:{
+      p1:{hook:'Different angle. You already use Exterro\u2019s audit trail to prove defensibility in discovery. DSR Manager extends that same record to privacy requests.',
+          trigger:'Reference a recent examination or audit where defensibility mattered.',
+          value:'Every DSR action, redaction, and release lands on the same immutable, cryptographically chained log your team already relies on, so privacy requests are examination-ready by default.',
+          bullets:['Same defensibility standard as your discovery work','Immutable, examination-ready DSR record','Privilege and chain-of-custody handling'],
+          ask:'Useful to see a DSR audit-trail export?'},
+      p2:{hook:'Different angle. The defensibility your team already trusts for discovery is exactly what most privacy programs are missing.',
+          trigger:'Reference a near-miss deadline or audit request on the privacy side.',
+          value:'DSR Manager captures every DSR step on the same immutable audit trail, so you can prove exactly how every request was handled, the same way you already do for discovery.',
+          bullets:['One defensibility standard across discovery and DSRs','Examination-ready record per request','Real-time status across brands and jurisdictions'],
+          ask:'Want to walk through what that DSR record looks like?'},
+      p3:{hook:'Different angle. Privacy risk is the gap most boards worry about, and you already have the defensibility engine in-house.',
+          trigger:'Reference board or audit-committee attention on privacy.',
+          value:'Extending Exterro to DSRs puts privacy on the same documented, examination-ready footing as your discovery program, with no new platform to stand up.',
+          bullets:['Privacy on the same proven defensibility footing','Lower exposure on the requests that carry it','One reporting story across discovery and DSRs'],
+          ask:'Worth a short conversation on the combined risk story?'},
+      p4:{hook:'Different angle. The DSR record builds itself on the same log your team already works with, instead of being reconstructed by hand under deadline.',
+          trigger:'Reference how status is tracked across their current Exterro work.',
+          value:'DSR Manager logs every task and transition automatically on the audit trail your team already knows, so nothing has to be rebuilt after the fact.',
+          bullets:['Automatic status and ownership tracking','Same audit log your team already uses','SLA reminders so nothing slips'],
+          ask:'Open to seeing the DSR task and status view?'},
+    },
+    4:{
+      p1:{hook:'Stepping back. Today you may run discovery in Exterro and DSRs somewhere else. That split is where consistency and defensibility leak.',
+          trigger:'Reference the tools their DSR process touches outside Exterro.',
+          value:'DSR Manager runs the full DSR lifecycle, intake through deletion, on the platform you already operate, so discovery and privacy share one governed process and one audit trail.',
+          bullets:['One governed workflow across discovery and DSRs','Documented deletion, with exemptions recorded','One audit trail, no tool boundaries'],
+          ask:'Want the end-to-end DSR walkthrough on your platform?'},
+      p2:{hook:'Stepping back. Adding a separate DSR tool means a second process to keep consistent. Extending Exterro means one.',
+          trigger:'Reference how many tools their privacy process touches today.',
+          value:'DSR Manager covers intake through deletion in the console your team already runs, so the same defensible process applies across every brand and jurisdiction.',
+          bullets:['One console for every brand and jurisdiction','One workflow from intake to audit close','No parallel privacy process to maintain'],
+          ask:'Open to a full lifecycle demo in your environment?'},
+      p3:{hook:'Stepping back to the economics. A standalone DSR tool adds a contract, an integration, and a second review surface. Extending Exterro adds none of those.',
+          trigger:'Reference their consolidation goals or current contract renewals.',
+          value:'DSR Manager folds the whole DSR lifecycle into the platform you already own, which lowers vendor overhead and closes the gaps between tools where risk hides.',
+          bullets:['No new contract or integration','One platform to support and audit','Lower risk from fewer handoffs'],
+          ask:'Worth modeling expansion against a standalone purchase?'},
+      p4:{hook:'Stepping back to operations. Running DSRs outside Exterro means another export, import, and place for data to go stale.',
+          trigger:'Reference where their current DSR process hands off between tools.',
+          value:'DSR Manager runs collection, review, production, and deletion on the platform your team already uses, so data moves through the lifecycle without leaving it.',
+          bullets:['No exports and re-imports between tools','Clear ownership at every step','Less IT involvement per request'],
+          ask:'Want to see how the stages connect in your setup?'},
+    },
+    5:{
+      p1:{hook:'The strongest reason this fits you specifically: employee DSRs are essentially e-discovery, and that is already your team\u2019s strength in Exterro.',
+          trigger:'Reference their employee-DSR volume or a privileged-data concern.',
+          value:'DSR Manager reuses your custodian-based collection and Vault privilege review for the hardest requests, so you are not standing up a separate, weaker process for them.',
+          bullets:['Employee DSRs handled with your e-discovery muscle','Privilege review in the Vault you already use','Legal-hold cross-reference within one platform'],
+          ask:'Want to see the employee-DSR and privilege workflow on your platform?'},
+      p2:{hook:'The strongest reason to expand now: if you are re-evaluating a standalone privacy tool, you already own the engine that does the part those tools cannot.',
+          trigger:'Reference the incumbent privacy tool they may be re-evaluating.',
+          value:'You can phase a migration, starting with the highest-risk request types, employee and complex DSRs, where the gap is widest, all on the platform you already run.',
+          bullets:['Phase the migration, start with the hard ones','Native review and redaction you already operate','No new platform to stand up'],
+          ask:'Worth mapping a phased move off your current tool?'},
+      p3:{hook:'The strongest reason this pays off: the complex and employee requests that drive your DSR cost are exactly what you already handle well in Exterro.',
+          trigger:'Reference outside-counsel spend on complex requests or a renewal decision.',
+          value:'Extending Exterro to DSRs keeps those high-cost requests in-platform instead of routing them to manual or outside review, with no new vendor.',
+          bullets:['Keep high-cost requests in the platform you own','Reduce manual and outside review','Consolidate spend, do not add to it'],
+          ask:'Worth a short conversation on where your DSR cost sits?'},
+      p4:{hook:'The practical reason this fits: the hard requests, employee and complex DSRs, run on the same custodian-based collection your team already uses for discovery.',
+          trigger:'Reference the systems employee DSRs touch in their environment.',
+          value:'No new collection process for the hard ones. DSR Manager reuses the structured, custodian-based approach your team already knows.',
+          bullets:['Custodian-based collection your team already runs','Structured tasks, not manual hunting','Less rework on the hardest requests'],
+          ask:'Want to see how the hard requests run on your platform?'},
+    },
+    6:{
+      p1:{hook:'I have reached out a few times about extending the Exterro you already run into DSRs, reusing your Vault review for the hard requests. I do not want to keep landing in your inbox if the timing is off.',
+          trigger:'Optional: reference their current Exterro footprint.',
+          value:'If employee and complex DSRs are a near-term priority, a 20-minute look with your account team is worth it. If not, no problem.',
+          ask:'Should I close this out, or loop in your account team for a short call?'},
+      p2:{hook:'I have sent a few notes on adding privacy to the Exterro platform you already operate. I will stop here if it is not the right time.',
+          trigger:'Optional: reference their growing DSR volume.',
+          value:'If extending into DSRs is on your list this year, the conversation is quick. If not, I will get out of your inbox.',
+          ask:'Worth a short working session, or should I close this out?'},
+      p3:{hook:'I have reached out about handling DSRs on the platform you already own, without adding a vendor. I do not want to keep following up if it is not a priority.',
+          trigger:'Optional: reference the consolidation angle you opened with.',
+          value:'If the expansion economics are worth a look, a brief conversation is enough. If not, I will close this out.',
+          ask:'Should I follow up next quarter, or close this out now?'},
+      p4:{hook:'I have reached out about running DSRs on the Exterro platform your team already uses, with no new tool to learn. I will stop here if the timing is wrong.',
+          trigger:'Optional: reference the operational pain you opened with.',
+          value:'If it is worth a quick look at the fit, 15 minutes is enough. If not, I will get out of your inbox.',
+          ask:'Worth a quick look, or should I close this out?'},
+    },
+  },
+};
+
+/* ---- coaching: motion lead note + persona notes per email ---- */
+const motionCoaching = {
+  new:{1:'New logo: open cold on the pain, do not pitch features.',2:'New logo: anchor on where they review and redact today.',3:'New logo: make the regulator question concrete.',4:'New logo: contrast one platform against their stitched-together stack.',5:'New logo: lead with the e-discovery and employee-DSR wedge.',6:'New logo: the breakup often pulls the best reply, keep it short.'},
+  exp:{1:'Expansion: lead with the existing Exterro relationship and loop in the account team.',2:'Expansion: anchor on the Vault review they already use.',3:'Expansion: extend their proven discovery defensibility to privacy.',4:'Expansion: frame it as no new vendor, no new review surface.',5:'Expansion: employee DSRs are e-discovery, their existing strength.',6:'Expansion: the breakup often pulls the best reply, keep it short.'},
+};
+const coaching = {
+  1:{p1:['Ask how they handle privileged and third-party data in employee DSRs before pitching.','Keep the wedge to native review and redaction; do not over-claim.','One ask only: a short call.'],
+     p2:['Lead with the audit-trail gap; it is the clearest pain for this buyer.','Avoid "we already have a privacy tool" by naming the review handoff gap.','Keep it to one clear ask.'],
+     p3:['Frame cost by complexity per request, not volume.','Tie to board-level risk and vendor consolidation.','Keep the email short and executive.'],
+     p4:['Speak to manual setup and re-uploads, not legal concepts.','Promise less burden, not another tool to learn.','One concrete ask.']},
+  2:{p1:['The handoff to an external review tool is the exposure; make that the point.','Always pair automation with "a reviewer approves before release."','Offer to show the review step live.'],
+     p2:['Contrast one workflow against intake plus separate review.','Name the systems their data lives in to make it concrete.','Offer the end-to-end walkthrough.'],
+     p3:['Frame the second review tool as a second point of cost and risk.','Keep it about consolidation, not features.','Offer a stack comparison.'],
+     p4:['Lead with no re-export, no second upload.','Show the collection-to-review handoff.','Keep the ask operational.']},
+  3:{p1:['Make the examination question concrete: can you show how a request was handled?','Offer a sample audit-trail export.','Document-exemptions language resonates here.'],
+     p2:['Separate "completed" from "defensible"; that gap is the hook.','Reference a near-miss deadline if you know one.','Offer to walk through the record.'],
+     p3:['Tie defensibility to the board risk story.','Position privacy as a controlled capability, not an open risk.','Keep it short and senior.'],
+     p4:['Lead with no manual reconstruction after the fact.','Show automatic status and ownership tracking.','Mention SLA reminders.']},
+  4:{p1:['Frame point tools as where consistency and defensibility break.','Highlight documented deletion with recorded exemptions.','Offer the end-to-end walkthrough.'],
+     p2:['One console for every brand and jurisdiction is the line for this buyer.','Reference how many tools their process touches.','Offer a full lifecycle demo.'],
+     p3:['Lead with vendor and contract consolidation.','Quantify nothing you cannot support; keep it qualitative.','Offer to model against their stack.'],
+     p4:['Lead with no exports and re-imports between stages.','Less IT involvement per request lands here.','Keep the ask operational.']},
+  5:{p1:['Employee DSRs are e-discovery; that is the wedge for this buyer.','Add the per-deal verify note when naming competitor gaps.','Offer the employee-DSR and privilege workflow.'],
+     p2:['Lead with the category frame: most tools automate intake and discovery, then stop.','Name an incumbent only if you know they use it; verify specifics per deal.','Offer a side-by-side.'],
+     p3:['Tie the wedge to where DSR cost actually sits: the hard requests.','Keep competitor claims defensible and per-deal.','Offer a short cost conversation.'],
+     p4:['Frame the hard requests as structured tasks, not manual hunting.','Speak to custodian-based collection in plain terms.','Offer an operational walkthrough.']},
+  6:{p1:['Keep it short; the breakup pulls replies because it is low-pressure.','Reference the original pain in one line if you can.','Give a clean yes/no ask.'],
+     p2:['Do not re-pitch; just offer the door.','One line on defensibility or cycle time, then the ask.','Make it easy to say "not now."'],
+     p3:['Offer a next-quarter follow-up as the easy out.','Keep it executive and brief.','One clean ask.'],
+     p4:['Keep it light and operational.','Offer a quick look or a clean close.','No wall of text.']},
+};
+
+const buyingSignals = {
+  p1:[{icon:'\u2696\uFE0F',text:'Mentions privileged or third-party data in DSRs'},{icon:'\uD83D\uDEA8',text:'Worried about over-disclosure or spoliation'},{icon:'\uD83D\uDCC4',text:'Reviews and redacts in PDFs or email today'},{icon:'\uD83D\uDC65',text:'Handles employee DSRs manually'},{icon:'\uD83D\uDD04',text:'Re-evaluating an incumbent at renewal'}],
+  p2:[{icon:'\uD83D\uDCDC',text:'Cannot produce a single audit trail for a request'},{icon:'\uD83D\uDCEC',text:'Intake split across brands and mailboxes'},{icon:'\u23F1\uFE0F',text:'Missed or nearly missed a response deadline'},{icon:'\uD83C\uDF0D',text:'Adding new jurisdictions or state laws'},{icon:'\uD83D\uDEE0\uFE0F',text:'Says "we already have a privacy tool"'}],
+  p3:[{icon:'\uD83D\uDCB8',text:'High outside-counsel spend on complex requests'},{icon:'\uD83C\uDFDB\uFE0F',text:'Board or audit committee asking about privacy risk'},{icon:'\uD83E\uDDF1',text:'Pushing vendor consolidation'},{icon:'\uD83D\uDD0D',text:'No visibility into program health'},{icon:'\u2753',text:'Asks "is this need-to-have right now?"'}],
+  p4:[{icon:'\u2699\uFE0F',text:'Building backend records by hand'},{icon:'\uD83D\uDD01',text:'Repeated uploads and unclear ownership'},{icon:'\uD83D\uDDC2\uFE0F',text:'Data spread across M365, Google, Slack, Salesforce'},{icon:'\uD83D\uDCE5',text:'Privacy queue overloading IT'},{icon:'\uD83D\uDE45',text:'Says "not another tool to learn"'}],
+};
+
+/* ---- assets ---- */
+const allAssets = {
+  brief:{icon:'\uD83D\uDCC4',label:'Solution Brief',meta:'2-page overview',color:'var(--blue-dk)',bg:'rgba(100,173,198,0.1)',ps:{
+    p1:'P.S. A 2-page overview of how review and redaction stay native in Vault: [link].',
+    p2:'P.S. A 2-page overview of the end-to-end defensible program: [link].',
+    p3:'P.S. A short overview of how the platform consolidates the DSR stack: [link].',
+    p4:'P.S. A 2-page overview of how automated records and collection tasks work: [link].'}},
+  explainer:{icon:'\u25B6\uFE0F',label:'Explainer',meta:'Short interactive walkthrough',color:'var(--orange-dk)',bg:'rgba(242,108,56,0.15)',ps:{
+    p1:'P.S. A short walkthrough of the privilege and redaction step: [link].',
+    p2:'P.S. A short walkthrough of the full DSR lifecycle: [link].',
+    p3:'P.S. A short walkthrough of the platform, end to end: [link].',
+    p4:'P.S. A short walkthrough of automated records and collection tasks: [link].'}},
+  demo:{icon:'\uD83D\uDDA5\uFE0F',label:'Interactive Demo',meta:'Self-guided product tour',color:'var(--purple)',bg:'var(--purple-lt)',ps:{
+    p1:'P.S. A self-guided tour you can click through, review and redaction included: [link].',
+    p2:'P.S. A self-guided tour of intake through audit: [link].',
+    p3:'P.S. A self-guided tour of the platform: [link].',
+    p4:'P.S. A self-guided tour of the collection and task experience: [link].'}},
+  assessment:{icon:'\uD83D\uDCCB',label:'DSR Readiness Check',meta:'5-minute self-assessment',color:'var(--green)',bg:'rgba(100,189,99,0.1)',ps:{
+    p1:'P.S. A 5-minute DSR readiness check focused on review and defensibility: [link].',
+    p2:'P.S. A 5-minute DSR program readiness check: [link].',
+    p3:'P.S. A 5-minute check on program risk and cost exposure: [link].',
+    p4:'P.S. A 5-minute check on collection and process overhead: [link].'}},
+};
+const assetsPerEmail = { 1:['explainer','demo','assessment'], 2:['explainer','demo','brief'], 3:['brief','assessment','demo'], 4:['brief','demo','explainer'], 5:['demo','explainer','brief'], 6:['brief','assessment','explainer'] };
+
+/* ---- phone scripts: calls map to emails 1-4 ---- */
+function call(vm, openers, yes, no){
+  const live = {};
+  PERSONAS.forEach(p => { live[p] = {opener:openers[p], yes, no}; });
+  return { voicemail:vm, live };
+}
+const phoneScripts = {
+  1: call(
+    {p1:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. I sent a note about handling privileged and third-party data in complex DSRs. A quick call is faster than email. I will try you again.',
+     p2:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. I reached out about running DSRs as one defensible program across your brands. I will follow up by email.',
+     p3:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. I reached out about the cost and risk side of complex DSRs. I will send a short note.',
+     p4:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. I reached out about cutting the manual setup on every DSR. I will follow up by email.'},
+    {p1:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, I will be quick. When a complex or employee DSR comes in, where does your team review and redact the documents today?',
+     p2:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: if a regulator asked you to show how a DSR was handled end to end, what could you produce today?',
+     p3:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick question: how much of your DSR cost today is the complex requests that go to outside counsel?',
+     p4:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: how much time does your team spend setting up backend records for a single DSR?'},
+    'That is exactly the gap we close. DSR Manager keeps review and redaction native with a reviewer approving before release. Could I grab 20 minutes this week to show you?',
+    'No problem. Can I send a 2-minute overview so it is there when the next hard request lands?'
+  ),
+  2: call(
+    {p1:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on review and redaction staying native, with no export. I will try you again.',
+     p2:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on running the whole DSR lifecycle in one platform. I will send a note.',
+     p3:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on consolidating the DSR stack. I will follow up by email.',
+     p4:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on routing collection straight into review. I will try again.'},
+    {p1:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: when you redact a DSR today, does that happen in the same tool that collected the data, or a separate one?',
+     p2:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: how many separate tools does a single DSR touch from intake to delivery today?',
+     p3:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: are you paying for a separate review tool on top of your DSR intake tool?',
+     p4:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: how often does your team re-export and re-upload the same data during a DSR?'},
+    'That is the handoff we remove. Collected data opens directly in our review surface, no export. Worth 20 minutes to see it?',
+    'Understood. I will send a short walkthrough you can watch when it is useful.'
+  ),
+  3: call(
+    {p1:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on defensibility and the audit trail. I will try you again.',
+     p2:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on proving exactly how a request was handled. I will send a note.',
+     p3:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on the board-level risk story. I will follow up by email.',
+     p4:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on automatic status tracking. I will try again.'},
+    {p1:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: if you had to hand a regulator the full history of a DSR, how long would that take to assemble today?',
+     p2:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: can you produce a complete, defensible record for any request on demand right now?',
+     p3:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: is privacy risk something your board is asking about this year?',
+     p4:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: when something goes wrong on a DSR, how much time goes into reconstructing what happened?'},
+    'That is exactly what the immutable audit trail solves. Could I show you a sample export on a quick call?',
+    'No problem. I will send a short example of what that record looks like.'
+  ),
+  4: call(
+    {p1:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on running the full lifecycle in one platform. I will try you again.',
+     p2:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on one console for every brand and jurisdiction. I will send a note.',
+     p3:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on vendor consolidation. I will follow up by email.',
+     p4:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro, following up on fewer tool boundaries per request. I will try again.'},
+    {p1:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: how many tools does a DSR pass through between intake and deletion today?',
+     p2:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: do all your brands and jurisdictions run the same DSR process, or different ones?',
+     p3:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: is consolidating privacy and discovery tooling on your list this year?',
+     p4:'Hi <span class="ps-ph">[First Name]</span>, <span class="ps-ph">[Your Name]</span> from Exterro. Quick one: how much IT time does a single DSR pull in today?'},
+    'That is the case for one platform. Could I walk you through the full lifecycle on a quick call?',
+    'Understood. I will send a short end-to-end walkthrough.'
+  ),
+};
+const callForEmail = {1:1,2:2,3:3,4:4,5:null,6:null};
+const callNumLabel = {1:1,2:2,3:3,4:4};
+
+/* ---- LinkedIn: motion-aware, day-keyed ---- */
+const linkedinMessages = {
+  new:{
+    day3:{message:'Hi <span class="ph">[First Name]</span>, I work with privacy and legal teams on how they handle data subject requests, especially the complex and employee ones. Would like to connect.',note:'Goal is an accepted connection, no pitch. Keep it one line.'},
+    day8:{message:'Thanks for connecting, <span class="ph">[First Name]</span>. No agenda here. A lot of teams I talk to are rethinking how they review and redact DSRs. Happy to share what is working if it is ever useful.',note:'Stay visible, do not pitch. Create an opening.'},
+    day13:{message:'<span class="ph">[First Name]</span>, quick one: when a complex DSR comes in, does your team review and redact in the same place it collects the data, or a separate tool? Curious how you are set up.',note:'Aim for a reply, not a calendar invite. A real question works better than a CTA.'},
+    day22:{message:'<span class="ph">[First Name]</span>, last thought: the teams that get DSRs under control usually fix the hard ones first, employee and complex requests. Worth comparing notes if that is on your radar.',note:'Conversational, tied to the wedge. Low pressure.'},
+  },
+  exp:{
+    day3:{message:'Hi <span class="ph">[First Name]</span>, I support [Company] on the Exterro platform and work on the privacy side, DSR Manager specifically. Would like to connect.',note:'Lead with the existing relationship. Loop in the account team if you have not.'},
+    day8:{message:'Thanks for connecting, <span class="ph">[First Name]</span>. Since your team already runs Exterro, I wanted to be a resource on the DSR side. Happy to share how other Exterro accounts extend into privacy if useful.',note:'Reinforce that this is an extension, not a new tool.'},
+    day13:{message:'<span class="ph">[First Name]</span>, quick one: are DSRs handled inside Exterro today, or in a separate tool? Curious how the team is set up.',note:'Aim for a reply. The split between tools is the opening.'},
+    day22:{message:'<span class="ph">[First Name]</span>, last thought: employee DSRs are basically e-discovery, which is already your team\u2019s strength in Exterro. Worth a quick look if DSR volume is growing.',note:'Tie to their existing strength. Low pressure.'},
+  },
+};
+const liDayForEmail = {1:'day3',2:'day8',3:'day13',5:'day22'};
+
+/* ============ STATE ============ */
+let cE = 1, cMotion = 'new', cP = 'p1', cA = 'explainer', cPhoneOpen = false;
+
+/* ============ RENDER ============ */
+function render(){
+  const personaName = personaLabels[cP];
+  const meta = emailMeta[cE];
+
+  document.getElementById('ct-label').textContent = `email_0${cE}_${cMotion}_${cP}.txt`;
+  document.getElementById('ch-goal-text').textContent = `Day ${meta.day} \u00b7 Goal: ${meta.goal}`;
+  document.getElementById('email-subject').textContent = subjects[cMotion][cE][0];
+  document.getElementById('email-body').innerHTML = mkBody(content[cMotion][cE][cP]);
+
+  document.getElementById('tp-day').textContent = `Day ${meta.day}`;
+  document.getElementById('tp-num').textContent = `${meta.touchNum} of 14`;
+  document.getElementById('tp-motion').textContent = motionLabels[cMotion];
+  document.getElementById('tp-goal').textContent = meta.goal;
+  document.getElementById('tp-next').textContent = meta.next;
+
+  document.getElementById('coaching-title').textContent = `Coaching Notes \u2014 ${personaName}`;
+  const notes = [`<li class="motion-note">${motionCoaching[cMotion][cE]}</li>`].concat(coaching[cE][cP].map(c=>`<li>${c}</li>`));
+  document.getElementById('coaching-list').innerHTML = notes.join('');
+
+  document.getElementById('signal-grid').innerHTML = buyingSignals[cP].map(s=>`
+    <div class="signal-item" onclick="toggleSig(this)">
+      <span class="si-icon">${s.icon}</span><span>${s.text}</span><div class="si-chk"></div>
+    </div>`).join('');
+
+  renderOverview();
+  renderSubjects();
+  renderAssets();
+  renderPhone();
+  renderLinkedIn();
+  renderTimeline();
+
+  const btn = document.getElementById('copy-btn');
+  btn.classList.remove('copied');
+  btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 8V1h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Copy Email';
+}
+
+function renderOverview(){
+  document.getElementById('overview-strip').innerHTML = overview[cMotion].map(c=>`
+    <div class="os-col"><div class="os-label">${c.label}</div><div class="os-name">${c.name}</div><div class="os-desc">${c.desc}</div></div>`).join('');
+}
+
+function renderSubjects(){
+  const list = subjects[cMotion][cE];
+  document.getElementById('subj-list').innerHTML = list.map((s,i)=>`
+    <div class="subj-item${i===0?' active':''}" onclick="selectSubject(this, '${s.replace(/'/g,"\\'")}')">
+      <span class="subj-text">${s}</span>
+      <button class="subj-copy-btn" onclick="event.stopPropagation();copyText('${s.replace(/'/g,"\\'")}','Subject line copied')">Copy</button>
+    </div>`).join('');
+}
+
+function renderAssets(){
+  const available = assetsPerEmail[cE];
+  if(!available.includes(cA)) cA = available[0];
+  document.getElementById('asset-count-hint').textContent = `${available.length} options available \u2014 click to switch`;
+  document.getElementById('asset-selector').innerHTML = available.map(k=>{
+    const a = allAssets[k];
+    return `<button class="asset-opt${k===cA?' active':''}" onclick="setAsset('${k}',this)" title="${a.meta}"><span style="margin-right:5px">${a.icon}</span>${a.label}</button>`;
+  }).join('');
+  renderAssetPreview();
+}
+
+function renderAssetPreview(){
+  const a = allAssets[cA];
+  document.getElementById('asset-preview').innerHTML = `
+    <div class="ap-row">
+      <div class="ap-icon-box" style="background:${a.bg}"><span>${a.icon}</span></div>
+      <div><div class="ap-name" style="color:${a.color}">${a.label}</div><div class="ap-meta">${a.meta}</div></div>
+      <button class="ap-btn" onclick="copyText(allAssets['${cA}'].ps['${cP}'],'Asset P.S. copied')">Copy P.S.</button>
+    </div>
+    <div class="asset-ps"><span class="aps-label">P.S. Line \u2014 append to email</span>${a.ps[cP]}</div>`;
+}
+
+function renderPhone(){
+  const callN = callForEmail[cE];
+  const wrap = document.getElementById('phone-script-wrap');
+  if(!callN){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  const ps = phoneScripts[callN];
+  const voicemail = ps.voicemail[cP];
+  const live = ps.live[cP];
+  let html = '';
+  if(cMotion==='exp'){
+    html += `<div class="ps-section motion"><div class="ps-section-label">\u25C6 Expansion opener</div><div class="ps-text">Open by referencing their existing Exterro use, then ask the question below. Example: "Since your team already runs Exterro, I wanted to ask..."</div></div>`;
+  }
+  html += `<div class="ps-section"><div class="ps-section-label">\uD83D\uDCDE Voicemail Script</div><div class="ps-text">${voicemail}</div></div>`;
+  html += `<div class="ps-section">
+      <div class="ps-section-label">\uD83C\uDFA4 Live Call Opener</div>
+      <div class="ps-text">${live.opener}</div>
+      <div class="ps-if yes"><span class="ps-if-label">\u2713 If interested or engaged</span>${live.yes}</div>
+      <div class="ps-if no"><span class="ps-if-label">\u2717 If not interested</span>${live.no}</div>
+    </div>`;
+  document.getElementById('ps-toggle-label').textContent = `Phone Script \u2014 Call ${callNumLabel[callN]}`;
+  const body = document.getElementById('ps-body');
+  body.innerHTML = html;
+  const toggle = document.getElementById('ps-toggle');
+  if(cPhoneOpen){ body.classList.add('open'); toggle.classList.add('open'); }
+  else { body.classList.remove('open'); toggle.classList.remove('open'); }
+}
+
+function renderLinkedIn(){
+  const wrap = document.getElementById('li-wrap');
+  const dayKey = liDayForEmail[cE];
+  if(!dayKey){ wrap.style.display='none'; return; }
+  const li = linkedinMessages[cMotion][dayKey];
+  wrap.style.display='block';
+  const dayLabels = {day3:'Day 3 \u00b7 Connection Request',day8:'Day 6 \u00b7 LinkedIn Message',day13:'Day 9 \u00b7 LinkedIn Message',day22:'Day 13 \u00b7 LinkedIn Message'};
+  document.getElementById('li-header-label').textContent = dayLabels[dayKey];
+  document.getElementById('li-body').innerHTML = `<div>${li.message}</div><div class="li-note">\uD83D\uDCCC BDR Note: ${li.note}</div>`;
+}
+
+function renderTimeline(){
+  document.getElementById('ft-track').innerHTML = allTouches.map((t,i)=>{
+    const isActive = t.email && t.email===cE;
+    return `
+      <div class="ft-touch${isActive?' active':''}" onclick="${t.email?`setEmailFromTimeline(${t.email})`:'void(0)'}" title="${t.title}">
+        <div class="ft-day">Day ${t.day}</div>
+        <div class="ft-ch-icon">${chIcons[t.ch]}</div>
+        <div class="ft-num">${t.label}</div>
+      </div>
+      ${i<allTouches.length-1?'<div class="ft-connector">\u00b7</div>':''}`;
+  }).join('');
+}
+
+/* ============ HANDLERS ============ */
+function setEmail(n,el){ cE=n; cPhoneOpen=false; document.querySelectorAll('.seq-tab').forEach(s=>s.classList.remove('active')); el.classList.add('active'); render(); }
+function setEmailFromTimeline(n){ cE=n; cPhoneOpen=false; document.querySelectorAll('.seq-tab').forEach((s,i)=>s.classList.toggle('active', i===n-1)); render(); document.querySelector('.seq-tabs').scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function setMotion(m,el){ cMotion=m; document.querySelectorAll('.m-btn').forEach(b=>b.classList.remove('active')); el.classList.add('active'); render(); }
+function setPersona(p,el){ cP=p; document.querySelectorAll('.controls-row.last .p-btn').forEach(b=>b.classList.remove('active')); el.classList.add('active'); render(); }
+function setAsset(a,el){ cA=a; document.querySelectorAll('.asset-opt').forEach(o=>o.classList.remove('active')); el.classList.add('active'); renderAssetPreview(); }
+function selectSubject(el,subj){ document.querySelectorAll('.subj-item').forEach(s=>s.classList.remove('active')); el.classList.add('active'); document.getElementById('email-subject').textContent = subj; }
+function togglePhone(){ const body=document.getElementById('ps-body'); const toggle=document.getElementById('ps-toggle'); cPhoneOpen=!cPhoneOpen; body.classList.toggle('open',cPhoneOpen); toggle.classList.toggle('open',cPhoneOpen); }
+function toggleSig(el){ el.classList.toggle('checked'); el.querySelector('.si-chk').textContent = el.classList.contains('checked')?'\u2713':''; }
+
+function copyEmail(){
+  const subject = document.getElementById('email-subject').textContent;
+  const bodyEl = document.getElementById('email-body').cloneNode(true);
+  bodyEl.querySelectorAll('.ph,.emb-ph,.trigger-note-line').forEach(n=>{
+    const txt = n.classList.contains('trigger-note-line') ? '' : n.textContent;
+    n.parentNode.replaceChild(document.createTextNode(txt), n);
+  });
+  const assetPs = allAssets[cA].ps[cP];
+  const plain = `Subject: ${subject}\n\n${(bodyEl.innerText||bodyEl.textContent).trim()}\n\n${assetPs}`;
+  navigator.clipboard.writeText(plain).then(()=>{
+    const btn=document.getElementById('copy-btn');
+    btn.classList.add('copied');
+    btn.textContent='\u2713 Copied';
+    showToast('Email + P.S. copied to clipboard');
+    setTimeout(()=>{ render(); },3000);
+  });
+}
+function copyText(text,msg){ navigator.clipboard.writeText(text).then(()=>showToast(msg||'Copied')); }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent='\u2713  '+msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2400); }
+
+render();
+</script>
+</body>
+</html>
