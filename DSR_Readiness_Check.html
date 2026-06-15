@@ -1,0 +1,1336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Subject Rights Readiness Check</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+
+  :root{
+    --purple:#352C5A;
+    --ink:#2B2733;
+    --orange:#F26C38;
+    --gray:#F1F1F2;
+    --silver:#6D6E70;
+    --blue:#64ADC6;
+    --yellow:#FEDB4D;
+    --sky:#6DCEEC;
+    --green:#64BD63;
+    --lavender:#8F88C1;
+    --white:#FFFFFF;
+    --line:#E2E1E6;
+    --radius:12px;
+    --shadow:0 6px 24px rgba(53,44,90,0.10);
+    --shadow-sm:0 2px 8px rgba(53,44,90,0.08);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Lato',Arial,Calibri,sans-serif;
+    color:var(--ink);
+    background:var(--gray);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-align:left;
+  }
+
+  .wrap{
+    max-width:780px;
+    margin:0 auto;
+    padding:28px 20px 64px;
+  }
+
+  .card{
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+
+  /* Header band */
+  .topbar{
+    background:var(--purple);
+    color:var(--white);
+    padding:22px 28px;
+  }
+  .topbar .eyebrow{
+    font-size:12px;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--sky);
+    margin:0 0 6px;
+  }
+  .topbar h1{
+    font-size:21px;
+    font-weight:900;
+    margin:0;
+    line-height:1.25;
+  }
+
+  /* Progress */
+  .progress-shell{
+    background:var(--purple);
+    padding:0 28px 18px;
+  }
+  .progress-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:rgba(255,255,255,0.85);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.4px;
+    margin-bottom:8px;
+  }
+  .progress-track{
+    height:6px;
+    background:rgba(255,255,255,0.18);
+    border-radius:99px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:var(--orange);
+    border-radius:99px;
+    transition:width .35s ease;
+  }
+
+  .body{padding:30px 28px;}
+
+  h2{
+    font-size:22px;
+    font-weight:900;
+    color:var(--purple);
+    margin:0 0 6px;
+    line-height:1.25;
+  }
+  h3{
+    font-size:16px;
+    font-weight:700;
+    color:var(--purple);
+    margin:0 0 4px;
+  }
+  p{margin:0 0 14px;}
+  .lead{font-size:16px;}
+  .muted{color:var(--silver);}
+  .small{font-size:13px;}
+
+  .dim-eyebrow{
+    font-size:12px;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--orange);
+    margin:0 0 8px;
+  }
+
+  /* Intro list */
+  .measures{
+    list-style:none;
+    padding:0;
+    margin:14px 0 20px;
+    display:grid;
+    gap:8px;
+  }
+  .measures li{
+    position:relative;
+    padding:10px 12px 10px 38px;
+    background:var(--gray);
+    border-radius:8px;
+    font-size:14px;
+    font-weight:700;
+    color:var(--purple);
+  }
+  .measures li::before{
+    content:"";
+    position:absolute;
+    left:14px; top:50%;
+    width:8px;height:8px;
+    margin-top:-4px;
+    border-radius:50%;
+    background:var(--orange);
+  }
+
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    margin:0 0 18px;
+    font-size:13px;
+    color:var(--silver);
+    font-weight:700;
+  }
+  .meta-row span{display:inline-flex;align-items:center;gap:7px;}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);}
+
+  /* Jurisdiction picker */
+  .field-label{
+    font-size:14px;
+    font-weight:700;
+    color:var(--purple);
+    margin:18px 0 4px;
+  }
+  .field-hint{font-size:13px;color:var(--silver);margin:0 0 10px;}
+  .chip-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .chip{
+    border:1.5px solid var(--line);
+    background:var(--white);
+    border-radius:10px;
+    padding:12px 14px;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink);
+    cursor:pointer;
+    text-align:left;
+    transition:border-color .15s,background .15s,box-shadow .15s;
+  }
+  .chip:hover{border-color:var(--lavender);}
+  .chip[aria-pressed="true"]{
+    border-color:var(--orange);
+    background:#FDF2EC;
+    box-shadow:var(--shadow-sm);
+  }
+
+  /* Disclaimer */
+  .disclaimer{
+    border-left:3px solid var(--blue);
+    background:var(--gray);
+    padding:12px 16px;
+    border-radius:0 8px 8px 0;
+    font-size:13px;
+    color:var(--silver);
+    margin:18px 0;
+  }
+  .disclaimer strong{color:var(--purple);}
+
+  /* Questions */
+  .q{margin:0 0 26px;}
+  .q:last-of-type{margin-bottom:8px;}
+  .q-text{
+    font-size:16px;
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 12px;
+  }
+  .q-num{color:var(--silver);font-weight:900;margin-right:6px;}
+  .opts{display:grid;gap:8px;}
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    cursor:pointer;
+    font-size:14px;
+    line-height:1.4;
+    transition:border-color .15s,background .15s;
+  }
+  .opt:hover{border-color:var(--lavender);background:#FAFAFB;}
+  .opt .mark{
+    flex:0 0 auto;
+    width:18px;height:18px;
+    border-radius:50%;
+    border:2px solid var(--silver);
+    margin-top:1px;
+    position:relative;
+    transition:border-color .15s;
+  }
+  .opt[aria-checked="true"]{
+    border-color:var(--orange);
+    background:#FDF2EC;
+  }
+  .opt[aria-checked="true"] .mark{border-color:var(--orange);}
+  .opt[aria-checked="true"] .mark::after{
+    content:"";
+    position:absolute;
+    inset:3px;
+    border-radius:50%;
+    background:var(--orange);
+  }
+
+  /* Nav buttons */
+  .nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-top:26px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .btn{
+    font-family:inherit;
+    font-size:15px;
+    font-weight:700;
+    border-radius:10px;
+    padding:13px 26px;
+    cursor:pointer;
+    border:1.5px solid transparent;
+    transition:transform .08s ease,opacity .15s,background .15s;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--orange);color:var(--white);}
+  .btn-primary:hover{background:#e25f2c;}
+  .btn-primary:disabled{background:#F4C3AC;cursor:not-allowed;}
+  .btn-secondary{
+    background:var(--white);
+    color:var(--purple);
+    border-color:var(--purple);
+  }
+  .btn-secondary:hover{background:var(--gray);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--silver);
+    border:none;
+    padding:13px 8px;
+    font-weight:700;
+  }
+  .btn-ghost:hover{color:var(--purple);}
+  .answered-note{font-size:13px;color:var(--silver);font-weight:700;}
+
+  /* ===== Results ===== */
+  .tier-band{
+    padding:30px 28px;
+    color:var(--white);
+    text-align:left;
+  }
+  .tier-band .eyebrow{
+    font-size:12px;letter-spacing:1.4px;text-transform:uppercase;
+    font-weight:700;opacity:.85;margin:0 0 8px;
+  }
+  .tier-band .tier-name{
+    font-size:34px;font-weight:900;margin:0 0 4px;line-height:1.1;
+  }
+  .tier-band .tier-score{font-size:15px;font-weight:700;opacity:.92;margin:0 0 10px;}
+  .tier-band .tier-desc{font-size:15px;line-height:1.5;margin:0;max-width:60ch;opacity:.96;}
+
+  .results-section{padding:28px;}
+  .results-section + .results-section{border-top:1px solid var(--line);}
+  .section-title{
+    font-size:18px;font-weight:900;color:var(--purple);margin:0 0 4px;
+  }
+  .section-sub{font-size:14px;color:var(--silver);margin:0 0 20px;}
+
+  /* Dimension bars */
+  .bar-row{margin:0 0 16px;}
+  .bar-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:6px;gap:12px;
+  }
+  .bar-name{font-size:14px;font-weight:700;color:var(--ink);}
+  .bar-label{font-size:12px;font-weight:700;letter-spacing:.3px;}
+  .bar-track{
+    height:12px;background:var(--gray);border-radius:99px;overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;width:0%;border-radius:99px;
+    transition:width .8s cubic-bezier(.2,.7,.2,1);
+  }
+
+  /* Gap cards */
+  .gap{
+    border:1px solid var(--line);
+    border-left:4px solid var(--orange);
+    border-radius:10px;
+    padding:18px 20px;
+    margin:0 0 14px;
+    background:var(--white);
+  }
+  .gap-top{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;
+  }
+  .gap-rank{
+    flex:0 0 auto;
+    width:26px;height:26px;border-radius:50%;
+    background:var(--purple);color:var(--white);
+    font-size:13px;font-weight:900;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .gap-name{font-size:16px;font-weight:900;color:var(--purple);}
+  .gap-tag{
+    margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.4px;
+    text-transform:uppercase;padding:3px 9px;border-radius:99px;color:var(--ink);
+  }
+  .gap h4{font-size:13px;font-weight:900;color:var(--silver);
+    text-transform:uppercase;letter-spacing:.6px;margin:14px 0 4px;}
+  .gap p{font-size:14px;margin:0;line-height:1.5;}
+
+  .strong-note{
+    background:#EEF7EE;border-left:4px solid var(--green);
+    border-radius:0 8px 8px 0;padding:16px 18px;margin:0 0 18px;font-size:14px;
+  }
+  .strong-note strong{color:#3f8f3e;}
+
+  /* Closing CTA */
+  .closing{
+    background:var(--gray);
+    border-radius:12px;
+    padding:22px 24px;
+    margin-top:6px;
+  }
+  .closing-line{font-size:17px;font-weight:900;color:var(--purple);margin:0 0 4px;}
+  .closing-sub{font-size:14px;color:var(--silver);margin:0;}
+
+  .results-foot{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:12px;padding:22px 28px;border-top:1px solid var(--line);
+  }
+  .foot-actions{display:flex;gap:12px;flex-wrap:wrap;}
+
+  /* Print / Save as PDF */
+  .print-only{display:none;}
+  .print-header{padding:24px 28px 4px;}
+  .print-header h2{font-size:20px;color:var(--purple);margin:0 0 2px;}
+  .print-header .ph-date{font-size:12px;font-weight:700;color:var(--silver);}
+
+  @media print{
+    body{background:#FFFFFF;}
+    .wrap{max-width:none;margin:0;padding:0;}
+    .card{box-shadow:none;border-radius:0;}
+    .no-print{display:none !important;}
+    .print-only{display:block;}
+    .results-foot{border-top:none;padding-top:8px;}
+    .results-section,.gap,.bar-row,.pf-grid,.pf-mix,.tier-band{break-inside:avoid;}
+    .footer-note{margin-top:10px;}
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    @page{ margin:14mm; }
+  }
+
+  .footer-note{
+    text-align:center;font-size:12px;color:var(--silver);margin:18px 4px 0;line-height:1.5;
+  }
+
+  /* ===== Profile screen controls ===== */
+  .chip-sm{padding:10px 12px;font-size:13px;}
+  .chip-row-3{grid-template-columns:1fr 1fr 1fr;}
+
+  .swatch{
+    display:inline-block;width:11px;height:11px;border-radius:3px;
+    margin-right:7px;vertical-align:middle;flex:0 0 auto;
+  }
+
+  .sliders{display:grid;gap:16px;margin-top:4px;}
+  .slider-row{}
+  .slider-head{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;
+  }
+  .slider-name{font-size:14px;font-weight:700;color:var(--ink);display:flex;align-items:center;}
+  .slider-val{font-size:14px;font-weight:900;color:var(--purple);min-width:42px;text-align:right;}
+  .rng{
+    -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;
+    background:var(--gray);outline:none;cursor:pointer;
+  }
+  .rng::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;
+    background:var(--orange);border:3px solid var(--white);box-shadow:var(--shadow-sm);cursor:pointer;
+  }
+  .rng::-moz-range-thumb{
+    width:22px;height:22px;border-radius:50%;background:var(--orange);
+    border:3px solid var(--white);box-shadow:var(--shadow-sm);cursor:pointer;
+  }
+  .rng:focus-visible{box-shadow:0 0 0 3px rgba(100,173,198,0.5);}
+  .mix-total{
+    margin-top:12px;font-size:13px;font-weight:700;color:var(--silver);
+    background:var(--gray);border-radius:8px;padding:9px 12px;
+  }
+
+  .rank-list{list-style:none;counter-reset:none;padding:0;margin:6px 0 0;display:grid;gap:8px;}
+  .rank-item{
+    display:flex;align-items:center;gap:12px;
+    border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--white);
+  }
+  .rank-num{
+    flex:0 0 auto;width:24px;height:24px;border-radius:50%;
+    background:var(--purple);color:var(--white);font-size:13px;font-weight:900;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .rank-label{flex:1 1 auto;font-size:14px;font-weight:700;color:var(--ink);display:flex;align-items:center;}
+  .rank-ctrls{flex:0 0 auto;display:flex;gap:6px;}
+  .rank-btn{
+    width:32px;height:32px;border-radius:8px;border:1.5px solid var(--line);
+    background:var(--white);color:var(--purple);font-size:15px;font-weight:900;cursor:pointer;
+    line-height:1;transition:background .12s,border-color .12s;
+  }
+  .rank-btn:hover:not(:disabled){background:var(--gray);border-color:var(--lavender);}
+  .rank-btn:disabled{opacity:.35;cursor:not-allowed;}
+
+  /* ===== Results profile panel ===== */
+  .pf-grid{display:grid;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+  .pf-row{
+    display:flex;justify-content:space-between;align-items:center;gap:14px;
+    padding:12px 16px;font-size:14px;
+  }
+  .pf-row:nth-child(odd){background:var(--gray);}
+  .pf-k{color:var(--silver);font-weight:700;}
+  .pf-v{color:var(--purple);font-weight:900;text-align:right;}
+  .pf-mix{margin-bottom:18px;}
+  .pf-bar{
+    display:flex;width:100%;height:22px;border-radius:6px;overflow:hidden;background:var(--gray);
+  }
+  .pf-seg{height:100%;}
+  .pf-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;}
+  .pf-leg{font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;}
+  .pf-ranks{display:flex;flex-wrap:wrap;gap:8px;}
+  .pf-rank{
+    font-size:13px;font-weight:700;color:var(--ink);background:var(--gray);
+    border-radius:99px;padding:6px 12px;display:flex;align-items:center;
+  }
+
+  @media (max-width:560px){
+    .wrap{padding:16px 12px 48px;}
+    .body{padding:22px 18px;}
+    .topbar,.progress-shell{padding-left:18px;padding-right:18px;}
+    .tier-band,.results-section,.results-foot{padding-left:18px;padding-right:18px;}
+    .chip-row{grid-template-columns:1fr;}
+    .tier-band .tier-name{font-size:28px;}
+    .nav{flex-wrap:wrap;}
+    .btn{flex:1 1 auto;text-align:center;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" id="app" role="region" aria-live="polite"></div>
+  <p class="footer-note">
+    Educational self-assessment. Not a compliance determination and not legal advice.
+    Privacy requirements vary by jurisdiction and change over time. Confirm what applies to your organization with qualified counsel.
+  </p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Content model ---------- */
+  // Each option index maps to a maturity score: 0,1,2,3.
+  var DIMENSIONS = [
+    {
+      id:"intake", name:"Request intake", weight:1.0,
+      intro:"How people reach you to make a request, and how reliably you capture it.",
+      questions:[
+        { id:"intake1", text:"How can individuals submit a data subject request to your organization?",
+          options:[
+            "No defined channel; requests arrive wherever they happen to land",
+            "One channel exists, but it isn't clearly published or easy to find",
+            "One or more published channels, handled manually",
+            "Multiple accessible, published channels with automatic acknowledgment and logging"
+          ]},
+        { id:"intake2", text:"When a request comes in, how reliably is it captured and acknowledged?",
+          options:[
+            "We may not notice a request arrived",
+            "Captured manually; acknowledgment is inconsistent",
+            "Captured and acknowledged manually, but consistently",
+            "Captured and acknowledged automatically, with the receipt date recorded"
+          ]}
+      ],
+      recommendation:"Offer at least two clearly published submission channels (for example a web form plus an email or phone option), make them easy to find on your site and in your privacy notice, and acknowledge every request automatically so the clock starts on a known date.",
+      why:"Many privacy laws require you to accept requests through accessible channels and to acknowledge receipt. A single, hard-to-find channel leads to requests you never knew arrived, which is how deadlines get missed before the work even starts."
+    },
+    {
+      id:"identity", name:"Identity verification", weight:1.0,
+      intro:"Confirming who is asking before any data changes hands.",
+      questions:[
+        { id:"id1", text:"How do you verify the identity of the person making a request?",
+          options:[
+            "No verification step",
+            "Informal or inconsistent verification",
+            "Documented manual verification before any data is disclosed",
+            "Documented verification scaled to the sensitivity of the request, applied consistently"
+          ]},
+        { id:"id2", text:"How do you handle requests made by an authorized agent on someone's behalf?",
+          options:[
+            "No defined approach",
+            "Handled case by case",
+            "Documented process, applied manually",
+            "Documented process with the agent's authority confirmed and recorded"
+          ]}
+      ],
+      recommendation:"Put a documented identity verification step in front of any disclosure, scaled to how sensitive the request is, and apply it consistently across request types and authorized agents.",
+      why:"Releasing data to the wrong person is itself a data breach. A defined verification step protects you from handing personal data to bad actors and shows you took reasonable steps if the handling is ever questioned."
+    },
+    {
+      id:"discovery", name:"Data discovery and mapping", weight:1.5,
+      intro:"Knowing where personal data actually lives across your systems.",
+      questions:[
+        { id:"disc1", text:"Do you know where personal data lives across your systems?",
+          options:[
+            "No current inventory",
+            "Partial or outdated inventory",
+            "Inventory covers major systems, maintained manually",
+            "Current map across systems including SaaS apps, files, and backups, kept up to date"
+          ]},
+        { id:"disc2", text:"When a request comes in, how do you locate that individual's data?",
+          options:[
+            "Manual search, system by system, with no guarantee it's complete",
+            "Manual, but guided by a checklist or inventory",
+            "Partially automated discovery across key systems",
+            "Automated discovery that locates an individual's data across systems on demand"
+          ]},
+        { id:"disc3", text:"How well do you account for data in less obvious places (backups, archives, shadow IT, unstructured files)?",
+          options:[
+            "Not accounted for",
+            "Aware of it, but no process",
+            "Partially covered",
+            "Covered and included in discovery"
+          ]}
+      ],
+      recommendation:"Maintain a current map of where personal data lives, including SaaS apps, databases, file shares, and backups, and connect it to a process that can locate one individual's data on demand.",
+      why:"You cannot fulfill an access or deletion request for data you can't find. Unmapped and shadow data is the most common reason requests come back incomplete or run past their deadline."
+    },
+    {
+      id:"fulfillment", name:"Fulfillment workflow", weight:1.5,
+      intro:"How you actually carry out each request type, start to finish.",
+      questions:[
+        { id:"ful1", text:"How do you handle the different request types (access, correction, deletion, portability, opt-out)?",
+          options:[
+            "Ad hoc, with no defined steps",
+            "Some informal steps, inconsistent across types",
+            "Defined steps for common types, run manually",
+            "A repeatable workflow for each type, with owners and handoffs"
+          ]},
+        { id:"ful2", text:"Are roles and owners clear for moving a request through to completion?",
+          options:[
+            "No clear owners",
+            "One person holds it informally",
+            "Owners defined for the main steps",
+            "Owners and handoffs defined and tracked end to end"
+          ]},
+        { id:"ful3", text:"How consistent is the outcome from one request to the next?",
+          options:[
+            "Varies widely",
+            "Somewhat consistent",
+            "Mostly consistent for common cases",
+            "Consistent and repeatable across request types"
+          ]},
+        { id:"ful4", text:"For access requests, how do you review and redact what you return (removing third-party data, privileged content, or exempt information)?",
+          options:[
+            "We don't review or redact before returning data",
+            "Manual, ad hoc review by whoever is available",
+            "A defined manual review and redaction process with assigned reviewers",
+            "A structured, repeatable process with a defensible record of what was redacted and why"
+          ]}
+      ],
+      recommendation:"Build a repeatable workflow that handles each request type (access, correction, deletion, portability, opt-out) with defined steps, owners, and handoffs. For access requests, that includes a consistent review and redaction step so third-party data, privileged content, and exempt information don't go out by mistake.",
+      why:"Each request type carries different obligations, and ad hoc handling produces inconsistent outcomes, skipped steps, and no clean way to prove a request was completed correctly. Access requests carry extra exposure: returning a document without removing other people's data or privileged content can create a new problem while solving the original one."
+    },
+    {
+      id:"timelines", name:"Response timelines and SLA tracking", weight:1.5,
+      intro:"Tracking every request against its legal deadline.",
+      questions:[
+        { id:"tl1", text:"How do you track each request against its legal deadline?",
+          options:[
+            "We don't track deadlines",
+            "Tracked informally, by calendar or memory",
+            "Tracked manually in a shared tracker",
+            "Tracked automatically from the receipt date, with reminders"
+          ]},
+        { id:"tl2", text:"Do you account for different deadlines across the jurisdictions you operate in?",
+          options:[
+            "No",
+            "Aware of it, but not built into the process",
+            "Handled manually per request",
+            "Built into tracking and tuned to the applicable requirements"
+          ]},
+        { id:"tl3", text:"How often do requests approach or pass their deadline without warning?",
+          options:[
+            "Often, or we wouldn't know",
+            "Sometimes",
+            "Rarely; we catch most in time",
+            "We have clear visibility into what's due and rarely miss"
+          ]}
+      ],
+      recommendation:"Track every request against its deadline from the date of receipt, with automated reminders and visibility into what's coming due. Build in the different windows across jurisdictions.",
+      why:"Timelines vary. GDPR is generally about one month; many US state laws use 45 days, with extensions to 90 in some cases. A missed deadline is one of the most visible and enforceable failures, and manual tracking doesn't hold up as volume grows."
+    },
+    {
+      id:"thirdparty", name:"Third-party and processor coordination", weight:1.0,
+      intro:"Pushing deletion, correction, and opt-out instructions to the vendors that hold your data.",
+      questions:[
+        { id:"tp1", text:"Do you know which vendors and processors hold personal data on your behalf?",
+          options:[
+            "No",
+            "A partial list",
+            "A maintained list of key processors",
+            "A current list, tied to your request process"
+          ]},
+        { id:"tp2", text:"When you must delete, correct, or stop processing data, how do you propagate that to third parties?",
+          options:[
+            "We don't",
+            "Ad hoc, when we remember",
+            "Manual notification to known processors",
+            "A defined method to instruct processors and confirm completion"
+          ]}
+      ],
+      recommendation:"Keep a current list of the vendors and processors that hold personal data for you, and a defined method to send deletion, correction, and opt-out instructions to them and confirm they acted on it.",
+      why:"Your obligations follow the data. If a processor keeps data you were asked to delete, the exposure is still yours, and \u201cwe forgot to tell the vendor\u201d is not a defense."
+    },
+    {
+      id:"exceptions", name:"Exception handling", weight:1.0,
+      intro:"Knowing when you can lawfully decline, delay, or partially fulfill a request.",
+      questions:[
+        { id:"ex1", text:"How do you handle requests that conflict with a legal hold or active litigation?",
+          options:[
+            "No defined approach",
+            "Case by case, with no record",
+            "A documented approach, applied manually",
+            "A documented approach, with each exception and its basis recorded"
+          ]},
+        { id:"ex2", text:"Do you have a defined basis for declining, delaying, or partially fulfilling a request (fraud, exemptions)?",
+          options:[
+            "No",
+            "Informal judgment calls",
+            "Documented criteria",
+            "Documented criteria, with a recorded reason each time"
+          ]}
+      ],
+      recommendation:"Document when and how you can lawfully decline, delay, or partially fulfill a request (legal hold, active litigation, fraud, regulatory exemptions), and require a recorded reason every time you do.",
+      why:"Not every request must be fulfilled in full, but every exception needs a defensible basis. Inconsistent or undocumented exceptions are hard to defend and easy to challenge."
+    },
+    {
+      id:"records", name:"Recordkeeping and auditability", weight:1.5,
+      intro:"Defensible proof of how each request was handled.",
+      questions:[
+        { id:"rec1", text:"What record do you keep of how each request was handled?",
+          options:[
+            "Little or none",
+            "Scattered emails and notes",
+            "A manual log of key details",
+            "A complete, time-stamped record of what was asked, who handled it, and what was done"
+          ]},
+        { id:"rec2", text:"Could you produce proof of how a specific request was handled if a regulator or individual challenged it?",
+          options:[
+            "No",
+            "Only by reconstructing it",
+            "With some effort",
+            "Yes, on demand"
+          ]},
+        { id:"rec3", text:"How reliably are these records retained over time?",
+          options:[
+            "Not retained deliberately",
+            "Retained inconsistently",
+            "Retained for a defined period, manually",
+            "Retained per policy, in reliable storage"
+          ]}
+      ],
+      recommendation:"Keep a complete, time-stamped record for each request: what was asked, who handled it, what was done, and when. Store it so you can produce it on demand and retain it per a defined policy.",
+      why:"If a regulator or an individual challenges how you handled a request, the record is your proof. Without it, even correct handling can look like noncompliance."
+    },
+    {
+      id:"reporting", name:"Reporting and metrics", weight:0.75,
+      intro:"Seeing volume, timing, and trends so the program can be managed.",
+      questions:[
+        { id:"rep1", text:"Do you track request volume and types over time?",
+          options:[
+            "No",
+            "Occasionally",
+            "Tracked manually",
+            "Tracked automatically and reviewed"
+          ]},
+        { id:"rep2", text:"Can you report on time-to-completion and on-time rate?",
+          options:[
+            "No",
+            "Roughly, if asked",
+            "Manually compiled",
+            "Available on demand and reviewed regularly"
+          ]}
+      ],
+      recommendation:"Track request volume, types, time-to-completion, and on-time rate so you can spot bottlenecks early and show the program is working.",
+      why:"Metrics turn a reactive process into a managed one, and they give leadership and regulators evidence the program is under control."
+    }
+  ];
+
+  var TIERS = [
+    { name:"Reactive",  min:0,  max:39,  color:"#F26C38",
+      desc:"Requests are handled as they come, mostly by hand and mostly under pressure. The biggest risk here is the requests you don't know about and the deadlines you can't see coming. The fastest wins are reliable intake, a basic deadline tracker, and a record of what you did." },
+    { name:"Developing", min:40, max:64, color:"#FEDB4D",
+      desc:"You have pieces of a process, but they're uneven and lean on specific people. You can handle the common cases; the exposure is in the edges, the volume, and the proof. Tightening discovery, workflow, and recordkeeping is what moves you up." },
+    { name:"Managed",   min:65, max:84, color:"#6DCEEC",
+      desc:"You run a defined, repeatable process and can mostly show your work. You meet deadlines and keep records. The opportunity now is automation and coverage: closing the last gaps in discovery, third-party coordination, and exception handling so nothing depends on heroics." },
+    { name:"Optimized", min:85, max:100, color:"#64BD63",
+      desc:"Your program is consistent, largely automated, and defensible end to end. You can locate data, meet timelines across jurisdictions, coordinate with processors, and produce proof on demand. Focus on maintaining coverage as systems and rules change." }
+  ];
+
+  var JURISDICTIONS = [
+    { id:"eu",       label:"European Union (GDPR)" },
+    { id:"ca",       label:"California (CCPA/CPRA)" },
+    { id:"us-other", label:"Other US states" },
+    { id:"multi",    label:"Multiple jurisdictions" }
+  ];
+
+  var JURIS_NOTE = {
+    "eu":"You indicated operations in the EU, where GDPR generally sets a one-month response window and broad rights to access, correction, and erasure. Confirm the specifics that apply to you with counsel.",
+    "ca":"You indicated operations in California, where the CCPA/CPRA framework sets its own timelines (commonly 45 days, with an extension available) and its own set of rights. Confirm the specifics that apply to you with counsel.",
+    "us-other":"You indicated US state operations beyond California. State privacy laws differ on timelines, rights, and which businesses they cover. Confirm which ones apply to you with counsel.",
+    "multi":"You indicated operations across multiple jurisdictions, which means overlapping and sometimes conflicting timelines and rights. A single process tuned to the strictest requirement you face is usually easier to run and defend than several. Confirm the specifics with counsel.",
+    "":"Privacy requirements differ by where you operate, and the response windows and rights are not the same across regions. Confirm what applies to your organization with counsel."
+  };
+
+  var DISCLAIMER = '<strong>This is an educational self-assessment, not a compliance determination or legal advice.</strong> Requirements vary by jurisdiction and change over time. Use the results to find where to focus, then confirm what applies to your organization with qualified counsel.';
+
+  /* ---------- Profile (descriptive context, NOT scored) ---------- */
+  var VOLUME_OPTIONS = [
+    "Fewer than 10",
+    "10 to 50",
+    "50 to 250",
+    "250 to 1,000",
+    "More than 1,000",
+    "Not sure / we don't track"
+  ];
+  // Request-type categories used by both the mix sliders and the difficulty ranking.
+  var REQUEST_TYPES = [
+    { id:"employee", label:"Employee access",        color:"#8F88C1" },
+    { id:"consumer", label:"Consumer access",        color:"#64ADC6" },
+    { id:"deletion", label:"Deletion / erasure",     color:"#F26C38" },
+    { id:"optout",   label:"Opt-out / do-not-sell",  color:"#FEDB4D" },
+    { id:"other",    label:"Correction / portability", color:"#64BD63" }
+  ];
+  var DOCS_OPTIONS = [
+    "Under 50",
+    "50 to 500",
+    "500 to 5,000",
+    "Over 5,000",
+    "Varies / not sure"
+  ];
+  var REVIEW_TIME_OPTIONS = [
+    "Under a day",
+    "1 to 3 days",
+    "About a week",
+    "More than a week",
+    "Varies / not sure"
+  ];
+
+  /* ---------- State ---------- */
+  var state = {
+    screen:"intro",   // "intro" | "profile" | dimIndex (0..n-1) | "results"
+    answers:{},       // questionId -> 0..3  (scored)
+    jurisdiction:"",
+    profile:{         // descriptive context, never feeds the score
+      volume:null,        // index into VOLUME_OPTIONS
+      mix:{},             // typeId -> 0..100
+      docs:null,          // index into DOCS_OPTIONS
+      reviewTime:null,    // index into REVIEW_TIME_OPTIONS
+      ranking:REQUEST_TYPES.map(function(t){ return t.id; }) // ordered hardest -> easiest
+    }
+  };
+
+  var app = document.getElementById("app");
+
+  /* ---------- Helpers ---------- */
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });}
+
+  function tierFor(score){
+    for(var i=0;i<TIERS.length;i++){ if(score>=TIERS[i].min && score<=TIERS[i].max) return TIERS[i]; }
+    return TIERS[0];
+  }
+
+  function dimScore(dim){
+    var max = dim.questions.length*3, sum=0;
+    for(var i=0;i<dim.questions.length;i++){
+      var v = state.answers[dim.questions[i].id];
+      sum += (typeof v==="number"?v:0);
+    }
+    return Math.round((sum/max)*100);
+  }
+
+  function overallScore(){
+    var totW=0, acc=0;
+    for(var i=0;i<DIMENSIONS.length;i++){
+      var w=DIMENSIONS[i].weight;
+      acc += dimScore(DIMENSIONS[i])*w;
+      totW += w;
+    }
+    return Math.round(acc/totW);
+  }
+
+  function dimAnswered(dim){
+    for(var i=0;i<dim.questions.length;i++){
+      if(typeof state.answers[dim.questions[i].id] !== "number") return false;
+    }
+    return true;
+  }
+
+  function typeById(id){
+    for(var i=0;i<REQUEST_TYPES.length;i++){ if(REQUEST_TYPES[i].id===id) return REQUEST_TYPES[i]; }
+    return REQUEST_TYPES[0];
+  }
+
+  /* ---------- Renderers ---------- */
+  function render(){
+    if(state.screen==="intro") return renderIntro();
+    if(state.screen==="profile") return renderProfile();
+    if(state.screen==="results") return renderResults();
+    return renderDimension(state.screen);
+  }
+
+  function renderIntro(){
+    var chips = JURISDICTIONS.map(function(j){
+      var on = state.jurisdiction===j.id;
+      return '<button type="button" class="chip" role="button" aria-pressed="'+(on?"true":"false")+
+        '" data-juris="'+j.id+'">'+esc(j.label)+'</button>';
+    }).join("");
+
+    app.innerHTML =
+      '<div class="topbar">'+
+        '<p class="eyebrow">Privacy Program Self-Assessment</p>'+
+        '<h1>Data Subject Rights Readiness Check</h1>'+
+      '</div>'+
+      '<div class="body">'+
+        '<p class="lead">See how ready your organization is to handle data subject requests, access, correction, deletion, portability, and opt-out, against GDPR and major US state privacy laws.</p>'+
+        '<p class="muted small" style="font-weight:700;margin-bottom:6px;">This check looks at nine parts of a request program:</p>'+
+        '<ul class="measures">'+
+          DIMENSIONS.map(function(d){ return '<li>'+esc(d.name)+'</li>'; }).join("")+
+        '</ul>'+
+        '<div class="meta-row">'+
+          '<span><span class="dot"></span>About 6 minutes</span>'+
+          '<span><span class="dot"></span>'+DIMENSIONS.length+' areas</span>'+
+          '<span><span class="dot"></span>No sign-up, no email required</span>'+
+        '</div>'+
+        '<div class="disclaimer">'+DISCLAIMER+'</div>'+
+        '<p class="field-label">Where does your organization operate? (optional)</p>'+
+        '<p class="field-hint">This only tailors the closing summary. It does not change the questions.</p>'+
+        '<div class="chip-row">'+chips+'</div>'+
+        '<div class="nav" style="justify-content:flex-end;">'+
+          '<button type="button" class="btn btn-primary" id="start">Start the check</button>'+
+        '</div>'+
+      '</div>';
+
+    // jurisdiction chips
+    Array.prototype.forEach.call(app.querySelectorAll(".chip"), function(btn){
+      btn.addEventListener("click", function(){
+        var id = btn.getAttribute("data-juris");
+        state.jurisdiction = (state.jurisdiction===id) ? "" : id;
+        renderIntro();
+      });
+    });
+    app.querySelector("#start").addEventListener("click", function(){
+      state.screen = "profile"; render(); scrollTop();
+    });
+  }
+
+  function renderProfile(){
+    var p = state.profile;
+
+    // Volume chips
+    var volChips = VOLUME_OPTIONS.map(function(o,i){
+      var on = p.volume===i;
+      return '<button type="button" class="chip" aria-pressed="'+(on?"true":"false")+'" data-vol="'+i+'">'+esc(o)+'</button>';
+    }).join("");
+
+    // Mix sliders
+    var total = 0;
+    REQUEST_TYPES.forEach(function(t){ total += (p.mix[t.id]||0); });
+    var sliders = REQUEST_TYPES.map(function(t){
+      var v = p.mix[t.id]||0;
+      return '<div class="slider-row">'+
+        '<div class="slider-head"><span class="slider-name"><span class="swatch" style="background:'+t.color+'"></span>'+esc(t.label)+'</span>'+
+          '<span class="slider-val" data-val="'+t.id+'">'+v+'%</span></div>'+
+        '<input type="range" min="0" max="100" step="5" value="'+v+'" class="rng" data-type="'+t.id+'" aria-label="'+esc(t.label)+' share of monthly volume">'+
+      '</div>';
+    }).join("");
+
+    // Sizing chips
+    var docChips = DOCS_OPTIONS.map(function(o,i){
+      var on = p.docs===i;
+      return '<button type="button" class="chip chip-sm" aria-pressed="'+(on?"true":"false")+'" data-docs="'+i+'">'+esc(o)+'</button>';
+    }).join("");
+    var timeChips = REVIEW_TIME_OPTIONS.map(function(o,i){
+      var on = p.reviewTime===i;
+      return '<button type="button" class="chip chip-sm" aria-pressed="'+(on?"true":"false")+'" data-time="'+i+'">'+esc(o)+'</button>';
+    }).join("");
+
+    // Ranking list
+    var rankItems = p.ranking.map(function(id,i){
+      var t = typeById(id);
+      return '<li class="rank-item" data-id="'+id+'">'+
+        '<span class="rank-num">'+(i+1)+'</span>'+
+        '<span class="rank-label"><span class="swatch" style="background:'+t.color+'"></span>'+esc(t.label)+'</span>'+
+        '<span class="rank-ctrls">'+
+          '<button type="button" class="rank-btn" data-move="up" data-id="'+id+'" aria-label="Move '+esc(t.label)+' up" '+(i===0?"disabled":"")+'>\u2191</button>'+
+          '<button type="button" class="rank-btn" data-move="down" data-id="'+id+'" aria-label="Move '+esc(t.label)+' down" '+(i===p.ranking.length-1?"disabled":"")+'>\u2193</button>'+
+        '</span>'+
+      '</li>';
+    }).join("");
+
+    app.innerHTML =
+      '<div class="topbar">'+
+        '<p class="eyebrow">Readiness Check</p>'+
+        '<h1>Data Subject Rights Readiness Check</h1>'+
+      '</div>'+
+      '<div class="progress-shell">'+
+        '<div class="progress-meta"><span>Quick profile</span><span>Optional, not scored</span></div>'+
+        '<div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>'+
+      '</div>'+
+      '<div class="body">'+
+        '<p class="dim-eyebrow">A quick profile to start</p>'+
+        '<h2>Tell us about your request volume and mix</h2>'+
+        '<p class="muted small" style="margin-bottom:22px;">This is context, not part of your score. It tailors your results. Skip anything you don\u2019t know.</p>'+
+
+        '<p class="field-label">About how many requests do you receive and process per month?</p>'+
+        '<div class="chip-row">'+volChips+'</div>'+
+
+        '<p class="field-label" style="margin-top:24px;">Roughly what share of that monthly volume is each type?</p>'+
+        '<p class="field-hint">Slide each one. They don\u2019t need to add up to exactly 100. We\u2019ll normalize the picture for you.</p>'+
+        '<div class="sliders">'+sliders+'</div>'+
+        '<div class="mix-total" data-total>'+(total>0?('Total so far: '+total+'%'):'Move a slider to estimate your mix')+'</div>'+
+
+        '<p class="field-label" style="margin-top:24px;">Sizing a typical access request</p>'+
+        '<p class="field-hint" style="margin-bottom:6px;">Documents that need review and redaction per access request</p>'+
+        '<div class="chip-row chip-row-3">'+docChips+'</div>'+
+        '<p class="field-hint" style="margin:14px 0 6px;">Typical time to complete review and redaction for one access request</p>'+
+        '<div class="chip-row chip-row-3">'+timeChips+'</div>'+
+
+        '<p class="field-label" style="margin-top:24px;">Which request types are hardest for you to fulfill?</p>'+
+        '<p class="field-hint">Order them from hardest (1) to easiest. Use the arrows.</p>'+
+        '<ol class="rank-list">'+rankItems+'</ol>'+
+
+        '<div class="nav">'+
+          '<button type="button" class="btn-ghost" id="back">\u2190 Back</button>'+
+          '<button type="button" class="btn btn-primary" id="next">Start the questions \u2192</button>'+
+        '</div>'+
+      '</div>';
+
+    // Volume
+    Array.prototype.forEach.call(app.querySelectorAll("[data-vol]"), function(b){
+      b.addEventListener("click", function(){
+        var i = parseInt(b.getAttribute("data-vol"),10);
+        p.volume = (p.volume===i)?null:i; renderProfile();
+      });
+    });
+    // Sizing
+    Array.prototype.forEach.call(app.querySelectorAll("[data-docs]"), function(b){
+      b.addEventListener("click", function(){
+        var i = parseInt(b.getAttribute("data-docs"),10);
+        p.docs = (p.docs===i)?null:i; renderProfile();
+      });
+    });
+    Array.prototype.forEach.call(app.querySelectorAll("[data-time]"), function(b){
+      b.addEventListener("click", function(){
+        var i = parseInt(b.getAttribute("data-time"),10);
+        p.reviewTime = (p.reviewTime===i)?null:i; renderProfile();
+      });
+    });
+    // Sliders update live without full re-render (keeps focus on the thumb)
+    Array.prototype.forEach.call(app.querySelectorAll(".rng"), function(r){
+      r.addEventListener("input", function(){
+        var id = r.getAttribute("data-type");
+        p.mix[id] = parseInt(r.value,10);
+        var valEl = app.querySelector('[data-val="'+id+'"]');
+        if(valEl) valEl.textContent = p.mix[id]+"%";
+        var t=0; REQUEST_TYPES.forEach(function(x){ t += (p.mix[x.id]||0); });
+        var totEl = app.querySelector("[data-total]");
+        if(totEl) totEl.textContent = t>0 ? ("Total so far: "+t+"%") : "Move a slider to estimate your mix";
+      });
+    });
+    // Ranking
+    Array.prototype.forEach.call(app.querySelectorAll(".rank-btn"), function(b){
+      b.addEventListener("click", function(){
+        if(b.disabled) return;
+        var id = b.getAttribute("data-id");
+        var dir = b.getAttribute("data-move");
+        var idx = p.ranking.indexOf(id);
+        var swap = dir==="up" ? idx-1 : idx+1;
+        if(swap<0 || swap>=p.ranking.length) return;
+        var tmp = p.ranking[swap]; p.ranking[swap]=p.ranking[idx]; p.ranking[idx]=tmp;
+        renderProfile();
+      });
+    });
+
+    app.querySelector("#back").addEventListener("click", function(){
+      state.screen="intro"; render(); scrollTop();
+    });
+    app.querySelector("#next").addEventListener("click", function(){
+      state.screen=0; render(); scrollTop();
+    });
+  }
+
+  function renderDimension(idx){
+    var dim = DIMENSIONS[idx];
+    var pct = Math.round(((idx+1)/(DIMENSIONS.length+1))*100);
+
+    var qHtml = dim.questions.map(function(q,qi){
+      var opts = q.options.map(function(opt,oi){
+        var checked = state.answers[q.id]===oi;
+        return '<div class="opt" role="radio" tabindex="0" aria-checked="'+(checked?"true":"false")+
+          '" data-q="'+q.id+'" data-v="'+oi+'">'+
+          '<span class="mark" aria-hidden="true"></span><span>'+esc(opt)+'</span></div>';
+      }).join("");
+      return '<div class="q">'+
+        '<p class="q-text"><span class="q-num">'+(qi+1)+'.</span>'+esc(q.text)+'</p>'+
+        '<div class="opts" role="radiogroup" aria-label="'+esc(q.text)+'">'+opts+'</div>'+
+      '</div>';
+    }).join("");
+
+    var answered = dimAnswered(dim);
+    var lastDim = idx===DIMENSIONS.length-1;
+
+    app.innerHTML =
+      '<div class="topbar">'+
+        '<p class="eyebrow">Readiness Check</p>'+
+        '<h1>Data Subject Rights Readiness Check</h1>'+
+      '</div>'+
+      '<div class="progress-shell">'+
+        '<div class="progress-meta"><span>Area '+(idx+1)+' of '+DIMENSIONS.length+'</span><span>'+pct+'% complete</span></div>'+
+        '<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>'+
+      '</div>'+
+      '<div class="body">'+
+        '<p class="dim-eyebrow">'+esc(dim.name)+'</p>'+
+        '<h2>'+esc(dim.intro)+'</h2>'+
+        '<p class="muted small" style="margin-bottom:22px;">Pick the option that best describes how things work today.</p>'+
+        qHtml+
+        '<div class="nav">'+
+          '<button type="button" class="btn-ghost" id="back">'+(idx===0?"\u2190 Back to profile":"\u2190 Back")+'</button>'+
+          (answered?'':'<span class="answered-note">Answer all '+dim.questions.length+' to continue</span>')+
+          '<button type="button" class="btn btn-primary" id="next" '+(answered?"":"disabled")+'>'+
+            (lastDim?"See my results":"Next area \u2192")+'</button>'+
+        '</div>'+
+      '</div>';
+
+    function choose(el){
+      var qid = el.getAttribute("data-q");
+      var v = parseInt(el.getAttribute("data-v"),10);
+      state.answers[qid]=v;
+      renderDimension(idx); // re-render to update selection + enable next
+    }
+    Array.prototype.forEach.call(app.querySelectorAll(".opt"), function(el){
+      el.addEventListener("click", function(){ choose(el); });
+      el.addEventListener("keydown", function(e){
+        if(e.key===" "||e.key==="Enter"){ e.preventDefault(); choose(el); }
+      });
+    });
+
+    app.querySelector("#back").addEventListener("click", function(){
+      if(idx===0){ state.screen="profile"; } else { state.screen=idx-1; }
+      render(); scrollTop();
+    });
+    var nextBtn = app.querySelector("#next");
+    nextBtn.addEventListener("click", function(){
+      if(nextBtn.disabled) return;
+      if(lastDim){ state.screen="results"; } else { state.screen=idx+1; }
+      render(); scrollTop();
+    });
+  }
+
+  function renderResults(){
+    var score = overallScore();
+    var tier = tierFor(score);
+
+    // Per-dimension breakdown
+    var bars = DIMENSIONS.map(function(d){
+      var p = dimScore(d);
+      var t = tierFor(p);
+      return { name:d.name, pct:p, label:t.name, color:t.color };
+    });
+
+    var barsHtml = bars.map(function(b){
+      return '<div class="bar-row">'+
+        '<div class="bar-head"><span class="bar-name">'+esc(b.name)+'</span>'+
+          '<span class="bar-label" style="color:'+b.color+'">'+esc(b.label)+'</span></div>'+
+        '<div class="bar-track"><div class="bar-fill" data-w="'+b.pct+'" style="background:'+b.color+'"></div></div>'+
+      '</div>';
+    }).join("");
+
+    // Gaps: dimensions below "Managed" (65), ranked by (shortfall * weight)
+    var gaps = DIMENSIONS.map(function(d){
+      var p = dimScore(d);
+      return { dim:d, pct:p, priority:(100-p)*d.weight };
+    }).filter(function(g){ return g.pct < 65; })
+      .sort(function(a,b){ return b.priority - a.priority; })
+      .slice(0,5);
+
+    var strongNote = "";
+    var gapsHtml = "";
+
+    if(gaps.length===0){
+      // Strong across the board: surface the two lowest as maintenance areas.
+      strongNote = '<div class="strong-note"><strong>No major gaps stood out.</strong> '+
+        'Your answers point to a defined, defensible program across all nine areas. The cards below show where to keep your attention as systems and rules change.</div>';
+      var maint = DIMENSIONS.map(function(d){ return {dim:d, pct:dimScore(d)}; })
+        .sort(function(a,b){ return a.pct - b.pct; }).slice(0,2);
+      gapsHtml = maint.map(function(g,i){ return gapCard(g,i,true); }).join("");
+    } else {
+      gapsHtml = gaps.map(function(g,i){ return gapCard(g,i,false); }).join("");
+    }
+
+    var jNote = JURIS_NOTE[state.jurisdiction] || JURIS_NOTE[""];
+    var profileHtml = buildProfilePanel();
+    var today = new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+
+    app.innerHTML =
+      '<div class="print-only print-header">'+
+        '<h2>Data Subject Rights Readiness Check</h2>'+
+        '<span class="ph-date">Results summary \u00b7 '+esc(today)+'</span>'+
+      '</div>'+
+      '<div class="tier-band" style="background:'+tier.color+(tier.name==="Developing"?";color:#2B2733":";color:#FFFFFF")+'">'+
+        '<p class="eyebrow">Your readiness tier</p>'+
+        '<p class="tier-name">'+esc(tier.name)+'</p>'+
+        '<p class="tier-score">Overall readiness score: '+score+' / 100</p>'+
+        '<p class="tier-desc">'+esc(tier.desc)+'</p>'+
+      '</div>'+
+
+      '<div class="results-section">'+
+        '<p class="section-title">Where you\u2019re strong, where you\u2019re exposed</p>'+
+        '<p class="section-sub">Each area scored on the same Reactive to Optimized scale. Longer bars are stronger.</p>'+
+        barsHtml+
+      '</div>'+
+
+      profileHtml+
+
+      '<div class="results-section">'+
+        '<p class="section-title">'+(gaps.length===0?"Areas to keep sharp":"Your top priorities")+'</p>'+
+        '<p class="section-sub">'+(gaps.length===0
+            ?"Ranked from lowest score. These are maintenance, not gaps."
+            :"Ranked by risk, the highest-impact areas first. Each one includes what good looks like and why it matters.")+'</p>'+
+        strongNote+
+        gapsHtml+
+      '</div>'+
+
+      '<div class="results-section">'+
+        '<p class="section-title">A note on your jurisdictions</p>'+
+        '<p class="section-sub" style="margin-bottom:0;">'+esc(jNote)+'</p>'+
+      '</div>'+
+
+      '<div class="results-section">'+
+        '<div class="closing">'+
+          '<p class="closing-line">Contact your Exterro Account Executive to talk through your gaps.</p>'+
+          '<p class="closing-sub">No pressure either way. The recommendations above stand on their own.</p>'+
+        '</div>'+
+        '<div class="disclaimer" style="margin-top:18px;">'+DISCLAIMER+'</div>'+
+      '</div>'+
+
+      '<div class="results-foot">'+
+        '<div class="no-print foot-actions">'+
+          '<button type="button" class="btn btn-primary" id="download">Download PDF</button>'+
+          '<button type="button" class="btn btn-secondary" id="restart">Start over</button>'+
+        '</div>'+
+        '<span class="small muted">Nothing you entered was saved or sent.</span>'+
+      '</div>';
+
+    // Animate bars after paint
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        Array.prototype.forEach.call(app.querySelectorAll(".bar-fill"), function(el){
+          el.style.width = el.getAttribute("data-w")+"%";
+        });
+      });
+    });
+
+    app.querySelector("#restart").addEventListener("click", function(){
+      state.answers={}; state.jurisdiction=""; state.screen="intro";
+      state.profile={ volume:null, mix:{}, docs:null, reviewTime:null,
+        ranking:REQUEST_TYPES.map(function(t){ return t.id; }) };
+      render(); scrollTop();
+    });
+
+    var dl = app.querySelector("#download");
+    if(dl) dl.addEventListener("click", function(){
+      // Bars animate via inline width, which is already applied by print time.
+      try{ window.print(); }catch(e){}
+    });
+  }
+
+  function buildProfilePanel(){
+    var p = state.profile;
+    var hasVolume = p.volume!==null;
+    var mixTotal = 0; REQUEST_TYPES.forEach(function(t){ mixTotal += (p.mix[t.id]||0); });
+    var hasMix = mixTotal>0;
+    var hasDocs = p.docs!==null;
+    var hasTime = p.reviewTime!==null;
+    // ranking only counts as "provided" if the user changed it from the default order
+    var defaultOrder = REQUEST_TYPES.map(function(t){ return t.id; }).join(",");
+    var hasRank = p.ranking.join(",")!==defaultOrder;
+
+    if(!hasVolume && !hasMix && !hasDocs && !hasTime && !hasRank) return "";
+
+    var rows = "";
+
+    if(hasVolume){
+      rows += '<div class="pf-row"><span class="pf-k">Monthly request volume</span>'+
+        '<span class="pf-v">'+esc(VOLUME_OPTIONS[p.volume])+'</span></div>';
+    }
+
+    var mixHtml = "";
+    if(hasMix){
+      // normalize to 100% for a clean stacked bar
+      var seg = REQUEST_TYPES.map(function(t){
+        var raw = p.mix[t.id]||0;
+        return { label:t.label, color:t.color, pct: Math.round((raw/mixTotal)*100) };
+      }).filter(function(s){ return s.pct>0; });
+      var bar = seg.map(function(s){
+        return '<span class="pf-seg" style="width:'+s.pct+'%;background:'+s.color+'" title="'+esc(s.label)+' '+s.pct+'%"></span>';
+      }).join("");
+      var legend = seg.map(function(s){
+        return '<span class="pf-leg"><span class="swatch" style="background:'+s.color+'"></span>'+esc(s.label)+' '+s.pct+'%</span>';
+      }).join("");
+      mixHtml = '<div class="pf-mix">'+
+        '<span class="pf-k" style="display:block;margin-bottom:6px;">Estimated request mix</span>'+
+        '<div class="pf-bar">'+bar+'</div>'+
+        '<div class="pf-legend">'+legend+'</div>'+
+      '</div>';
+    }
+
+    if(hasDocs){
+      rows += '<div class="pf-row"><span class="pf-k">Documents to review per access request</span>'+
+        '<span class="pf-v">'+esc(DOCS_OPTIONS[p.docs])+'</span></div>';
+    }
+    if(hasTime){
+      rows += '<div class="pf-row"><span class="pf-k">Time to review and redact one access request</span>'+
+        '<span class="pf-v">'+esc(REVIEW_TIME_OPTIONS[p.reviewTime])+'</span></div>';
+    }
+
+    var rankHtml = "";
+    if(hasRank){
+      var top = p.ranking.slice(0,3).map(function(id,i){
+        var t = typeById(id);
+        return '<span class="pf-rank"><span class="swatch" style="background:'+t.color+'"></span>'+(i+1)+'. '+esc(t.label)+'</span>';
+      }).join("");
+      rankHtml = '<div class="pf-mix"><span class="pf-k" style="display:block;margin-bottom:6px;">Hardest request types to fulfill</span>'+
+        '<div class="pf-ranks">'+top+'</div></div>';
+    }
+
+    return '<div class="results-section">'+
+      '<p class="section-title">Your request profile</p>'+
+      '<p class="section-sub">The context you shared up front. This does not affect your score; it just frames where the effort is going.</p>'+
+      (rows?'<div class="pf-grid">'+rows+'</div>':'')+
+      mixHtml+
+      rankHtml+
+    '</div>';
+  }
+
+  function gapCard(g, i, maintenance){
+    var t = tierFor(g.pct);
+    var tagBg = t.color;
+    var tagText = (t.name==="Developing"||t.name==="Optimized") ? "#2B2733" : "#FFFFFF";
+    return '<div class="gap"'+(maintenance?' style="border-left-color:'+t.color+'"':'')+'>'+
+      '<div class="gap-top">'+
+        '<span class="gap-rank">'+(i+1)+'</span>'+
+        '<span class="gap-name">'+esc(g.dim.name)+'</span>'+
+        '<span class="gap-tag" style="background:'+tagBg+';color:'+tagText+'">'+esc(t.name)+' \u00b7 '+g.pct+'/100</span>'+
+      '</div>'+
+      '<h4>What good looks like</h4>'+
+      '<p>'+esc(g.dim.recommendation)+'</p>'+
+      '<h4>Why this matters</h4>'+
+      '<p>'+esc(g.dim.why)+'</p>'+
+    '</div>';
+  }
+
+  function scrollTop(){
+    try{ window.scrollTo({top:0,behavior:"smooth"}); }catch(e){ window.scrollTo(0,0); }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
